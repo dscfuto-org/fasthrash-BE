@@ -1,0 +1,27 @@
+{
+  "name": "fasthrash-be",
+  "version": "1.0.0",
+  "description": "GDSC FUTO Backend repository for Google Solution Challenge 2023",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/dscfuto-org/fasthrash-BE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dscfuto-org/fasthrash-BE/issues"
+  },
+  "homepage": "https://github.com/dscfuto-org/fasthrash-BE#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.9.0",
+    "nodemon": "^2.0.20"
+  }
+}
