@@ -1,4 +1,4 @@
-# NodeJS ExpressJS MongoDB Ready-to-use API Project Structure
+# Fasthrash
 
 ```bash
  GDSC FUTO Backend repository for Google Solution Challenge 2023
