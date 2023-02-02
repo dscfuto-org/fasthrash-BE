@@ -45,7 +45,7 @@ app.use(cors());
 
 //Route Prefixes
 app.use('/', indexRouter);
-app.use('/api/', apiRouter);
+app.use('/api', apiRouter);
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {

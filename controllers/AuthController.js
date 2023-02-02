@@ -7,6 +7,7 @@ const apiResponse = require('../helpers/apiResponse');
 // const utility = require('../helpers/utility');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { fn } = require('moment/moment');
 // const mailer = require("../helpers/mailer");
 // const { constants } = require('../helpers/constants');
 
@@ -380,3 +381,16 @@ exports.loginOrg = [
     }
   },
 ];
+
+
+exports.userDelete = (req, res, next) => {
+
+  db.collection('username').findOneAndDelete({username: req.body.username}, 
+    (err, result) => {
+      if (err) return res.send(500, err)
+      console.log('got deleted');
+      res.redirect('/');
+    })
+
+}
+

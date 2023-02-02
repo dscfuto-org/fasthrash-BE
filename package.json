@@ -9,7 +9,7 @@
     "lint": "eslint --fix --config .eslintrc.json \"**/*.js\""
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.1.0",
     "codacy-coverage": "^3.4.0",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
@@ -32,5 +32,20 @@
     "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
     "nyc": "^14.1.1"
-  }
+  },
+  "description": "```\r  GDSC FUTO Backend repository for Google Solution Challenge 2023\r ```",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dscfuto-org/fasthrash-BE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dscfuto-org/fasthrash-BE/issues"
+  },
+  "homepage": "https://github.com/dscfuto-org/fasthrash-BE#readme"
 }
