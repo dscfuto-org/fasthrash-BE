@@ -45,7 +45,7 @@ app.use(cors());
 
 //Route Prefixes
 app.use('/', indexRouter);
-app.use('/api', apiRouter);
+app.use('/api/', apiRouter);
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {
@@ -56,6 +56,11 @@ app.use((err, req, res) => {
   if (err.name == 'UnauthorizedError') {
     return apiResponse.unauthorizedResponse(res, err.message);
   }
+});
+
+// eslint-disable-next-line no-unused-vars
+app.listen(process.env.PORT, (req, res) => {
+  console.log(`Server listening on PORT: ${process.env.PORT}`);
 });
 
 module.exports = app;
