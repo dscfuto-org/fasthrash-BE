@@ -1,8 +1,9 @@
 const express = require('express');
-const { route } = require('./auth');
 const router = express.Router();
-const userController = require('../controllers/userController')
-const app = express();
+const userController = require('../controllers/userController');
 
-router.route('/alert').post(userController.createAlert)
-router.route('/alert/:id').patch(userController.getAlert).delete(userController.deleteAlert)
+router.post('/', userController.createAlert);
+router.patch('/:id', userController.getAlert);
+router.delete('/:id', userController.deleteAlert);
+
+module.exports = router;
