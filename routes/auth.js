@@ -1,13 +1,13 @@
 const express = require('express');
 const AuthController = require('../controllers/AuthController');
+const { verifyUser } = require('../middlewares/verifyUser');
 
 const router = express.Router();
-
 
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);
 router.post('/org/register', AuthController.registerOrg);
 router.post('/org/login', AuthController.loginOrg);
-router.delete('/delete/:username', AuthController.userDelete);
+router.delete('/delete/:userID', verifyUser, AuthController.userDelete);
 
 module.exports = router;
