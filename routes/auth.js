@@ -9,6 +9,6 @@ router.post('/login', AuthController.login);
 router.post('/org/register', AuthController.registerOrg);
 router.post('/org/login', AuthController.loginOrg);
 router.delete('/delete/:userID', verifyUser, AuthController.userDelete);
-router.delete(['/logout', '/org/logout'], AuthController.logout);
+router.post(['/logout', '/org/logout'], AuthController.logout);
 
 module.exports = router;

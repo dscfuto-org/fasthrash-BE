@@ -40,10 +40,9 @@ exports.register = [
     .withMessage('Last name has non-alphanumeric characters.'),
   body('location')
     .isLength({ min: 4 })
-    .trim()
     .withMessage('Location must be provided')
-    .isAlphanumeric()
-    .withMessage('Location has non-alphanumeric characters'),
+    .isArray()
+    .withMessage('Location is not an array of coordinates'),
   body('email')
     .isLength({ min: 1 })
     .trim()
@@ -123,10 +122,10 @@ exports.registerOrg = [
     .withMessage('Business name has non-alphanumeric characters.'),
   body('location')
     .isLength({ min: 1 })
-    .trim()
+    // .trim()
     .withMessage('Location must be specified.')
-    .isAlphanumeric()
-    .withMessage('Location has non-alphanumeric characters.'),
+    .isArray()
+    .withMessage('Location is not an array of coordinates'),
   body('size')
     .isLength({ min: 1 })
     .trim()
