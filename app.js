@@ -7,6 +7,8 @@ const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
 const apiResponse = require('./helpers/apiResponse');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -43,9 +45,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 //To allow cross-origin requests
 app.use(cors());
 
+// necessary code for setting up api route documentation
+
 //Route Prefixes
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {
