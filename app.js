@@ -10,7 +10,6 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
 const mongoose = require('mongoose');
@@ -51,7 +50,7 @@ app.use(cors());
 //Route Prefixes
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
-app.use('/api-docs/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {
@@ -68,7 +67,5 @@ app.use((err, req, res) => {
 app.listen(process.env.PORT, (req, res) => {
   console.log(`Server listening on PORT: ${process.env.PORT}`);
 });
-
-
 
 module.exports = app;

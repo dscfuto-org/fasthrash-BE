@@ -1,65 +1,49 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "Solution Challenge: Fasthrash",
-      "description": "API documentation for FASTHRASH"
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Solution Challenge: Fastrash",
+    "description": "API documentation for FASTRASH"
+  },
+  "host": "fastrash-1337.ew.r.appspot.com",
+  "basePath": "/",
+  "schemes": ["https"],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "description": "User and Collector registration",
+        "responses": {}
+      }
     },
-    "host": "https://fastrash-1337.ew.r.appspot.com",
-    "basePath": "/",
-    "schemes": [
-      "https"
-    ],
-    "paths": {
-      "/api/auth/register": {
-        "post": {
-          "description": "User and Collector registration",
-          "responses": {
-            
-          }
-        }
-      },
-      "/api/auth/login": {
-        "post": {
-          "description": "User and Collector login",
-          "responses": {
-            
-          }
-        }
-      },
-      "/api/auth/delete": {
-        "delete": {
-          "description": "User and Organisation account deletion",
-          "responses": {
-            
-          }
-        }
-      },
-      "/api/auth/org/delete": {
-        "delete": {
-          "description": "Collector account deletion",
-          "responses": {
-            
-          }
-        }
-      },
-      "/api/auth/org/register": {
-        "post": {
-          "description": "Organization registration",
-          "responses": {
-            
-          }
-        }
-      },
-      "/api/auth/org/login": {
-        "post": {
-          "description": "Organization login",
-          "responses": {
-            
-          }
-        }
+    "/api/auth/login": {
+      "post": {
+        "description": "User and Collector login",
+        "responses": {}
+      }
+    },
+    "/api/auth/delete": {
+      "delete": {
+        "description": "User and Organisation account deletion",
+        "responses": {}
+      }
+    },
+    "/api/auth/org/delete": {
+      "delete": {
+        "description": "Collector account deletion",
+        "responses": {}
+      }
+    },
+    "/api/auth/org/register": {
+      "post": {
+        "description": "Organization registration",
+        "responses": {}
+      }
+    },
+    "/api/auth/org/login": {
+      "post": {
+        "description": "Organization login",
+        "responses": {}
       }
     }
-    
   }
-  
+}
