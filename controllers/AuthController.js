@@ -142,6 +142,7 @@ exports.login = async (req, res) => {
           );
           return res.status(200).json({
             message: 'Authorization successful',
+            id: users[0]._id,
             token: token,
           });
         }
@@ -190,6 +191,7 @@ exports.loginOrg = async (req, res) => {
           );
           return res.status(200).json({
             message: 'Authorization successful',
+            id: users[0]._id,
             token: token,
           });
         }
@@ -210,13 +212,11 @@ exports.userDelete = async (req, res) => {
     .exec()
     // eslint-disable-next-line no-unused-vars
     .then((response) =>
-      res
-        .status(200)
-        .json({
-          message: `${
-            user.role.charAt(0).toUpperCase() + user.role.slice(1)
-          } deleted successfully!`,
-        })
+      res.status(200).json({
+        message: `${
+          user.role.charAt(0).toUpperCase() + user.role.slice(1)
+        } deleted successfully!`,
+      })
     )
     .catch((err) => {
       res.status(500).json({ error: err });
