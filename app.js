@@ -5,8 +5,9 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
 const apiResponse = require('./helpers/apiResponse');
+const userRoutes = require('./routes/userRoutes')
 const cors = require('cors');
-require('dotenv').config();
+require('dotenv').config({path: './cofig.env'});
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -16,11 +17,12 @@ mongoose
   .connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     //don't show the log when it is test
-    if (process.env.NODE_ENV !== 'test') {
-      console.log('Connected to %s', MONGODB_URL);
-      console.log('App is running ... \n');
-      console.log('Press CTRL + C to stop the process. \n');
-    }
+    // if (process.env.NODE_ENV !== 'test') {
+    //   console.log('Connected to %s', MONGODB_URL);
+    //   console.log('App is running ... \n');
+    //   console.log('Press CTRL + C to stop the process. \n');
+    // }
+    console.log('DAtabase connected successfully')
   })
   .catch((err) => {
     console.error('App starting error:', err.message);
@@ -46,6 +48,8 @@ app.use(cors());
 //Route Prefixes
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
+app.use('/alerts',userRoutes)
+app.use('/alerts/id',userRoutes)
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {
