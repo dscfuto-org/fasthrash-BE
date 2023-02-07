@@ -62,6 +62,6 @@ typings/
 
 #vs code configurations
 .vscode/
-
 package-lock.json
+storage-keys.json
 storage-keys.json
