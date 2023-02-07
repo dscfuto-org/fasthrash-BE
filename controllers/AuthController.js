@@ -5,7 +5,7 @@ const OrgModel = require('../models/OrgModel');
 //helper file to prepare responses.
 // const apiResponse = require('../helpers/apiResponse');
 // const utility = require('../helpers/utility');
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // const { fn } = require('moment/moment');
 // const mailer = require("../helpers/mailer");

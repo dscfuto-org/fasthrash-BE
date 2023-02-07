@@ -5,7 +5,6 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
 const apiResponse = require('./helpers/apiResponse');
-const userRoutes = require('./routes/userRoutes')
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
@@ -23,7 +22,7 @@ mongoose
     //   console.log('App is running ... \n');
     //   console.log('Press CTRL + C to stop the process. \n');
     // }
-    console.log('DAtabase connected successfully')
+    console.log('MongoDB database connection established successfully!');
   })
   .catch((err) => {
     console.error('App starting error:', err.message);
