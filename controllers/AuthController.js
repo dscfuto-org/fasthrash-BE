@@ -133,13 +133,16 @@ exports.login = async (req, res) => {
               email: users[0].email,
               userID: users[0]._id,
             },
-            process.env.JWT_SECRET,
+            users[0].role === 'user'
+              ? process.env.JWT_SECRET_USER
+              : process.env.JWT_SECRET_COLLECTOR,
             {
               expiresIn: process.env.JWT_TIMEOUT_DURATION,
             }
           );
           return res.status(200).json({
             message: 'Authorization successful',
+            id: users[0]._id,
             token: token,
           });
         }
@@ -181,13 +184,14 @@ exports.loginOrg = async (req, res) => {
               email: users[0].email,
               userID: users[0]._id,
             },
-            process.env.JWT_SECRET,
+            process.env.JWT_SECRET_ORGANIZATION,
             {
               expiresIn: process.env.JWT_TIMEOUT_DURATION,
             }
           );
           return res.status(200).json({
             message: 'Authorization successful',
+            id: users[0]._id,
             token: token,
           });
         }
@@ -203,11 +207,16 @@ exports.loginOrg = async (req, res) => {
 };
 
 exports.userDelete = async (req, res) => {
+  const user = await UserModel.findOne({ _id: req.params.userID });
   await UserModel.deleteOne({ _id: req.params.userID })
     .exec()
     // eslint-disable-next-line no-unused-vars
     .then((response) =>
-      res.status(200).json({ message: 'User deleted successfully!' })
+      res.status(200).json({
+        message: `${
+          user.role.charAt(0).toUpperCase() + user.role.slice(1)
+        } deleted successfully!`,
+      })
     )
     .catch((err) => {
       res.status(500).json({ error: err });

@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "41cfbf1f-6e56-4bed-8aa5-889682438fd7",
+		"name": "Solution Challenge: Fasthrash",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "User registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"location\": \"100.12, 69.21\",\r\n    \"email\": \"test@test.com\",\r\n    \"phoneNumber\": \"08123456789\",\r\n    \"password\": \"supersecurepwd\",\r\n    \"role\": \"user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/register",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@test.com\",\r\n    \"password\": \"supersecurepwd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/login",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User account deletion",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/delete/",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"delete",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Collector registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"location\": \"100.12, 69.21\",\r\n    \"email\": \"test@testing.com\",\r\n    \"phoneNumber\": \"08123456789\",\r\n    \"password\": \"supersecurepwd\",\r\n    \"role\": \"collector\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/register",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Collector login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@testing.com\",\r\n    \"password\": \"supersecurepwd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/login",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Collector account deletion",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/org/delete/",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"org",
+								"delete",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Organization registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"businessName\": \"Google\",\r\n    \"location\": \"121.32, 44.12\",\r\n    \"size\": \"Large\",\r\n    \"yearsOfOperation\": 25,\r\n    \"email\": \"dera@google.com\",\r\n    \"password\": \"supersecureadminpwd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/org/register",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"org",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Organization login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dera@google.com\",\r\n    \"password\": \"supersecureadminpwd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/org/login",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"org",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Organization account deletion",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/delete/",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"auth",
+								"delete",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Alerts",
+			"item": []
+		},
+		{
+			"name": "Fastrash API",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNlb0Bnb29nbGUuY29tIiwidXNlcklEIjoiNjNkZDBhZTZjYjVlZTMzN2QwYTExODIwIiwiaWF0IjoxNjc1NDMyMTIwLCJleHAiOjE2NzU0MzkzMjB9.D3fnHZ24U9skQbvEhXyX2blcRO9JMJew1CJV1PjCZIA",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "https://fastrash-1337.ew.r.appspot.com/",
+					"protocol": "https",
+					"host": [
+						"fastrash-1337",
+						"ew",
+						"r",
+						"appspot",
+						"com"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
