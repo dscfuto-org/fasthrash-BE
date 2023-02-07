@@ -50,7 +50,7 @@
       "post": {
         "tags": ["Authentication"],
         "summary": "Route for User and Collector Login",
-        "description": "User and Collector login",        
+        "description": "User and Collector login",
         "parameters": [
           {
             "name": "User and Collector",
@@ -184,7 +184,14 @@
       }
     },
     "userCreate": {
-      "required": ["firstName", "lastName", "location", "email", "phoneNumber", "password"],
+      "required": [
+        "firstName",
+        "lastName",
+        "location",
+        "email",
+        "phoneNumber",
+        "password"
+      ],
       "properties": {
         "firstName": {
           "type": "string",
@@ -224,7 +231,14 @@
       }
     },
     "orgCreate": {
-      "required": ["businessName", "location", "size", "yearsOfOperation", "email", "password"],
+      "required": [
+        "businessName",
+        "location",
+        "size",
+        "yearsOfOperation",
+        "email",
+        "password"
+      ],
       "properties": {
         "businessName": {
           "type": "string",
@@ -275,6 +289,5 @@
         }
       }
     }
-    
   }
 }
