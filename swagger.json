@@ -10,11 +10,11 @@
   "tags": [
     {
       "name": "Authentication",
-      "description": "Routes for Authentication API"
+      "description": "Routes for the Authentication API"
     },
     {
       "name": "Alerts",
-      "description": "Routes for Alerts API"
+      "description": "Routes for the Alerts API"
     }
   ],
   "schemes": ["https"],
@@ -24,13 +24,13 @@
     "/api/auth/register": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "Register a User or Collector",
+        "summary": "Register a user or collector",
         "description": "User and Collector registration",
         "parameters": [
           {
             "name": "User and Collector",
             "in": "body",
-            "description": "User and Collector that we want to create",
+            "description": "User/Collector you wish to create",
             "schema": {
               "$ref": "#/definitions/userCreate"
             }
@@ -63,7 +63,7 @@
         ],
         "responses": {
           "201": {
-            "description": "User In successfully"
+            "description": "User logged in successfully"
           },
           "500": {
             "description": "Server error"
@@ -74,8 +74,8 @@
     "/api/auth/delete/{id}": {
       "delete": {
         "tags": ["Authentication"],
-        "summary": "Delete user and organisation with given ID",
-        "description": "User and Organisation account deletion",
+        "summary": "Delete user or organization with account ID and header Authorization token",
+        "description": "User and Collector account deletion",
         "parameters": [
           {
             "name": "id",
@@ -84,13 +84,13 @@
               "$ref": "#/definitions/id"
             },
             "required": true,
-            "description": "ID of User or Organisation that we want to find",
+            "description": "ID of User or collector that we want to delete",
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Deleted Successfully"
+            "description": "User/collector account deleted Successfully"
           }
         }
       }
@@ -98,8 +98,8 @@
     "/api/auth/org/delete/{id}": {
       "delete": {
         "tags": ["Authentication"],
-        "summary": "Delete collector with given ID",
-        "description": "Collector account deletion",
+        "summary": "Delete organization with given ID",
+        "description": "Organization account deletion",
         "parameters": [
           {
             "name": "id",
@@ -108,13 +108,13 @@
               "$ref": "#/definitions/id"
             },
             "required": true,
-            "description": "ID of collector that we want to find",
+            "description": "ID of organization account we wish to delete",
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Collector has been deleted"
+            "description": "Organization has been successfully deleted"
           }
         }
       }
@@ -128,7 +128,7 @@
           {
             "name": "Organization",
             "in": "body",
-            "description": "Organization that we want to create",
+            "description": "Organization account that we want to create",
             "schema": {
               "$ref": "#/definitions/orgCreate"
             }
@@ -161,7 +161,7 @@
         ],
         "responses": {
           "201": {
-            "description": "User In successfully"
+            "description": "Organization logged in successfully!"
           },
           "500": {
             "description": "Server error"
