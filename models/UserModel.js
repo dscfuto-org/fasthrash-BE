@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const pointSchema = require('./PointModel');
 
 let UserSchema = new mongoose.Schema(
   {
