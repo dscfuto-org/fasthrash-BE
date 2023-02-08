@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
+    "version": "2.1.0",
     "title": "Solution Challenge: Fastrash",
     "description": "API documentation for FASTRASH"
   },
@@ -15,6 +15,14 @@
     {
       "name": "Alerts",
       "description": "Routes for the Alerts API"
+    },
+    {
+      "name": "History",
+      "description": "Routes for the History API"
+    },
+    {
+      "name": "Image upload",
+      "description": "Routes for the Image upload API"
     }
   ],
   "schemes": ["https"],
@@ -25,12 +33,12 @@
       "post": {
         "tags": ["Authentication"],
         "summary": "Register a user or collector",
-        "description": "User and Collector registration",
+        "description": "User and collector registration",
         "parameters": [
           {
             "name": "User and Collector",
             "in": "body",
-            "description": "User/Collector you wish to create",
+            "description": "User/collector you wish to create",
             "schema": {
               "$ref": "#/definitions/userCreate"
             }
@@ -49,13 +57,13 @@
     "/api/auth/login": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "Route for User and Collector Login",
-        "description": "User and Collector login",
+        "summary": "Route for user and collector login",
+        "description": "User and collector login",
         "parameters": [
           {
             "name": "User and Collector",
             "in": "body",
-            "description": "User and Collector Login",
+            "description": "User and collector login",
             "schema": {
               "$ref": "#/definitions/Login"
             }
@@ -75,7 +83,7 @@
       "delete": {
         "tags": ["Authentication"],
         "summary": "Delete user or organization with account ID and header Authorization token",
-        "description": "User and Collector account deletion",
+        "description": "User and collector account deletion",
         "parameters": [
           {
             "name": "id",
@@ -84,7 +92,7 @@
               "$ref": "#/definitions/id"
             },
             "required": true,
-            "description": "ID of User or collector that we want to delete",
+            "description": "ID of user or collector that we want to delete",
             "type": "string"
           }
         ],
@@ -122,7 +130,7 @@
     "/api/auth/org/register": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "Register an Organisation",
+        "summary": "Register an Organization",
         "description": "Organization registration",
         "parameters": [
           {
@@ -147,13 +155,13 @@
     "/api/auth/org/login": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "Route for Organisation Login",
+        "summary": "Route for Organization Login",
         "description": "Organization login",
         "parameters": [
           {
-            "name": "Organisation",
+            "name": "Organization",
             "in": "body",
-            "description": "Organisation Login",
+            "description": "Organization Login",
             "schema": {
               "$ref": "#/definitions/Login"
             }
@@ -168,6 +176,31 @@
           }
         }
       }
+    },
+    "/api/alerts": {
+      "post": {
+        "tags": ["Alerts"],
+        "summary": "Route for creating a user->collector alert",
+        "description": "User -> collector alert creation",
+        "parameters": [
+          {
+            "name": "Alerts",
+            "in": "body",
+            "description": "User -> collector alert creation",
+            "schema": {
+              "$ref": "#/definitions/createAlerts"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Alert created successfully!"
+          },
+          "500": {
+            "description": "Error creating alert"
+          }
+        }
+      }
     }
   },
 
@@ -179,7 +212,7 @@
           "type": "string",
           "uniqueItems": true,
           "description": "User's ID",
-          "example": "9ujjbbm;fm4y8u40"
+          "example": "68asn88asc9a8c0ac0ca"
         }
       }
     },
@@ -195,38 +228,38 @@
       "properties": {
         "firstName": {
           "type": "string",
-          "description": "User's First Name",
+          "description": "User/collector's first name",
           "example": "John"
         },
         "lastName": {
           "type": "string",
-          "description": "User's Last Name",
+          "description": "User/collector's last name",
           "example": "Doe"
         },
         "location": {
           "type": "string",
-          "description": "User's Location"
+          "description": "User/collector's location"
         },
         "email": {
           "type": "string",
           "uniqueItems": true,
-          "description": "User's Email",
+          "description": "User/collector's email",
           "example": "johndoe@gmail.com"
         },
         "phoneNumber": {
           "type": "string",
-          "description": "User's Phone Number",
+          "description": "User/collector's phone number",
           "example": "012346789"
         },
         "password": {
           "type": "string",
-          "description": "User's Pass",
+          "description": "User/collector's password",
           "example": "123456abc@*&^%$"
         },
         "role": {
           "type": "string",
-          "description": "User's Role",
-          "example": "[user or collector]"
+          "description": "User/collector's role",
+          "example": "user or collector"
         }
       }
     },
@@ -242,33 +275,33 @@
       "properties": {
         "businessName": {
           "type": "string",
-          "description": "Business Name",
+          "description": "Organization's name",
           "example": "Dvultech Ltd"
         },
         "location": {
           "type": "string",
-          "description": "Organisation's Location",
+          "description": "Organization's location",
           "example": "latitude adress"
         },
         "size": {
           "type": "string",
-          "description": "Size of Organisation",
-          "example": "[Small, Medium, Large]"
+          "description": "Size of organization",
+          "example": "Small, Medium, Large"
         },
         "yearsOfOperation": {
           "type": "integer",
-          "description": "Years of Operation",
-          "example": "7"
+          "description": "Years of operation",
+          "example": 7
         },
         "email": {
           "type": "string",
           "uniqueItems": true,
-          "description": "User's Email",
+          "description": "Organization's email",
           "example": "info@dvultech.com"
         },
         "password": {
           "type": "string",
-          "description": "User's Pass",
+          "description": "Organization's password",
           "example": "123456abc@*&^%$"
         }
       }
@@ -279,13 +312,45 @@
         "email": {
           "type": "string",
           "uniqueItems": true,
-          "description": "User's Email",
+          "description": "Organization's email",
           "example": "johndoe@gmail.com"
         },
         "password": {
           "type": "string",
-          "description": "User's Pass",
+          "description": "Organization's password",
           "example": "1234567abcde@!"
+        }
+      }
+    },
+    "createAlerts": {
+      "required": ["title", "description", "image", "location"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "uniqueItems": "true",
+          "description": "Title of the alert",
+          "example": "Need to dispose some waste"
+        },
+        "description": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "Description of the alert",
+          "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
+        },
+        "image": {
+          "type": "string",
+          "description": "A snapshot of the image you wish to dispose",
+          "example": "https://storage.googleapis.com/fastrash-image-upload/66988091.jpg"
+        },
+        "location": {
+          "type": "string",
+          "description": "Location of the user creating the alert",
+          "example": "121.13, 32.1"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Quantity of the waste in KG",
+          "example": 7
         }
       }
     }
