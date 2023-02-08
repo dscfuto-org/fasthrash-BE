@@ -8,6 +8,8 @@ const apiResponse = require('./helpers/apiResponse');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+// const Cloud = require('@google-cloud/storage');
+// const serviceKey = path.join(__dirname, './storage-keys.json');
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -17,12 +19,11 @@ mongoose
   .connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     //don't show the log when it is test
-    // if (process.env.NODE_ENV !== 'test') {
-    //   console.log('Connected to %s', MONGODB_URL);
-    //   console.log('App is running ... \n');
-    //   console.log('Press CTRL + C to stop the process. \n');
-    // }
-    console.log('MongoDB database connection established successfully!');
+    if (process.env.NODE_ENV !== 'test') {
+      console.log('Connected to %s', MONGODB_URL);
+      console.log('App is running ... \n');
+      console.log('Press CTRL + C to stop the process. \n');
+    }
   })
   .catch((err) => {
     console.error('App starting error:', err.message);
@@ -32,6 +33,13 @@ mongoose
 const db = mongoose.connection; //eslint-disable-line no-unused-vars
 
 const app = express();
+
+// Google Cloud Storage config
+// const { Storage } = Cloud;
+// const storage = new Storage({
+//   keyFilename: serviceKey,
+//   projectId: '107179241557185109618',
+// });
 
 //don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {

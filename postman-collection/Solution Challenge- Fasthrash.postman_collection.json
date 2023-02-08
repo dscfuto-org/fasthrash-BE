@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "41cfbf1f-6e56-4bed-8aa5-889682438fd7",
 		"name": "Solution Challenge: Fasthrash",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25701563"
 	},
 	"item": [
 		{
@@ -171,7 +172,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/org/delete/",
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/delete/",
 							"protocol": "https",
 							"host": [
 								"fastrash-1337",
@@ -183,7 +184,6 @@
 							"path": [
 								"api",
 								"auth",
-								"org",
 								"delete",
 								""
 							]
@@ -265,7 +265,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/delete/",
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/auth/org/delete/",
 							"protocol": "https",
 							"host": [
 								"fastrash-1337",
@@ -277,6 +277,7 @@
 							"path": [
 								"api",
 								"auth",
+								"org",
 								"delete",
 								""
 							]
@@ -288,6 +289,41 @@
 		},
 		{
 			"name": "Alerts",
+			"item": []
+		},
+		{
+			"name": "Documentation",
+			"item": [
+				{
+					"name": "Swagger UI",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api-docs",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api-docs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "History",
+			"item": []
+		},
+		{
+			"name": "Image upload",
 			"item": []
 		},
 		{

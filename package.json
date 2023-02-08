@@ -9,6 +9,7 @@
     "lint": "eslint --fix --config .eslintrc.json \"**/*.js\""
   },
   "dependencies": {
+    "@google-cloud/storage": "^6.9.2",
     "bcrypt": "^5.0.0",
     "codacy-coverage": "^3.4.0",
     "cookie-parser": "~1.4.3",
@@ -23,8 +24,10 @@
     "moment": "^2.24.0",
     "mongoose": "^6.9.0",
     "morgan": "~1.9.0",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.3.1",
-    "swagger-ui-express": "^4.6.0"
+    "swagger-ui-express": "^4.6.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

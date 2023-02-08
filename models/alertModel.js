@@ -7,8 +7,9 @@ let alertSchema = new mongoose.Schema(
       trim: true,
       type: String,
     },
-    image: { type: String },
-    location: { type: String },
+    image: { type: String, required: true },
+    location: { type: String, required: true },
+    quantity: { type: Number },
   },
   { timestamps: true }
 );
