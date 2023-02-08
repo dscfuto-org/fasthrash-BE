@@ -2,11 +2,14 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-require('dotenv').config();
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
 const apiResponse = require('./helpers/apiResponse');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+// const Cloud = require('@google-cloud/storage');
+// const serviceKey = path.join(__dirname, './storage-keys.json');
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -31,6 +34,13 @@ const db = mongoose.connection; //eslint-disable-line no-unused-vars
 
 const app = express();
 
+// Google Cloud Storage config
+// const { Storage } = Cloud;
+// const storage = new Storage({
+//   keyFilename: serviceKey,
+//   projectId: '107179241557185109618',
+// });
+
 //don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
   app.use(logger('dev'));
@@ -43,9 +53,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 //To allow cross-origin requests
 app.use(cors());
 
+// necessary code for setting up api route documentation
+
 //Route Prefixes
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {
