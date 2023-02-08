@@ -6,14 +6,17 @@ const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
 const apiResponse = require('./helpers/apiResponse');
 const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-// const Cloud = require('@google-cloud/storage');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger.json');
+// // const Cloud = require('@google-cloud/storage');
 // const serviceKey = path.join(__dirname, './storage-keys.json');
+const dotenv = require('dotenv')
+dotenv.config({path: './config.env'})
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
 const mongoose = require('mongoose');
+const { config } = require('process');
 
 mongoose
   .connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -58,7 +61,7 @@ app.use(cors());
 //Route Prefixes
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {

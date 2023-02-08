@@ -1,8 +1,9 @@
-const Alert = require('../models/AlertModel');
+const Organization = require('../models/OrgModel')
+// const Alert = require('../models/AlertModel');
 
 exports.createAlert = async (req, res) => {
   try {
-    const newAlert = await Alert.create(req.body);
+    const newAlert = await Organization.create(req.body);
 
     return res.status(200).json({
       status: 'Alert created successfully!',
@@ -20,7 +21,7 @@ exports.createAlert = async (req, res) => {
 
 exports.getAlert = async (req, res) => {
   try {
-    const alert = await Alert.findById(req.params.id);
+    const alert = await Organization.findById(req.params.id);
     return res.status(200).json({
       status: 'Alerts fetched successfully!',
       data: {
@@ -36,7 +37,7 @@ exports.getAlert = async (req, res) => {
 };
 exports.getAlerts = async (req, res) => {
   try {
-    const alert = await Alert.find();
+    const alert = await Organization.find();
     return res.status(200).json({
       status: 'Alerts fetched successfully!',
       data: {
@@ -53,7 +54,7 @@ exports.getAlerts = async (req, res) => {
 
 exports.deleteAlert = async (req, res) => {
   try {
-    await Alert.findByIdAndDelete(req.params.id, req.body);
+    await Organization.findByIdAndDelete(req.params.id, req.body);
     return res.status(204).json({
       status: 'Alert deleted successfully',
       data: null,
