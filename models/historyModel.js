@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 let historySchema = new mongoose.Schema(
   {
@@ -14,8 +14,8 @@ let historySchema = new mongoose.Schema(
     wasteImageTitle: { type: String },
     collectionStatus: {
       type: String,
-      default: "false",
-      enum: ["true", "pending", "false"],
+      default: 'false',
+      enum: ['true', 'pending', 'false'],
     },
     timeDisposed: { type: Date, required: true },
     timeCollected: { type: Date },
@@ -23,4 +23,4 @@ let historySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("History", historySchema);
+module.exports = mongoose.model('History', historySchema);
