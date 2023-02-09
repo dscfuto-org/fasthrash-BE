@@ -21,7 +21,7 @@
       "description": "Routes for the History API"
     },
     {
-      "name": "Image upload",
+      "name": "Image API",
       "description": "Routes for the Image upload API"
     }
   ],
@@ -177,7 +177,8 @@
         }
       }
     },
-    "/api/alerts": {
+    
+    "/api/alerts/create": {
       "post": {
         "tags": ["Alerts"],
         "summary": "Route for creating a user->collector alert",
@@ -201,9 +202,392 @@
           }
         }
       }
+    },
+    "/api/alerts/{id}": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for getting an User -> collector alert",
+        "description": "Getting an alert created by a User -> collector",
+        "parameters": [
+          {
+            "name": "Alerts",
+            "in": "body",
+            "description": "Fetch User -> collector Alert",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User -> collector Alert fetched successfully!"
+          },
+          "500": {
+            "description": "Error fetching User -> collector alert"
+          }
+        }
+      }
+    },
+    "/api/alerts/delete/{id}": {
+      "delete": {
+        "tags": ["Alerts"],
+        "summary": "Route for deleting a user->collector alert",
+        "description": "User -> collector alert delete",
+        "parameters": [
+          {
+            "name": "Alerts",
+            "in": "body",
+            "description": "User -> collector alert deletion",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User -> collector Alert deleted successfully!"
+          },
+          "500": {
+            "description": "Error deleting User -> collector alert"
+          }
+        }
+      }
+    },
+
+    "/api/org/alerts/create": {
+      "post": {
+        "tags": ["Alerts"],
+        "summary": "Route for creating a collector->organisation alert",
+        "description": "Collector -> organisation alert creation",
+        "parameters": [
+          {
+            "name": "Alerts",
+            "in": "body",
+            "description": "Collector -> organisation alert creation",
+            "schema": {
+              "$ref": "#/definitions/createAlerts"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Alert created successfully!"
+          },
+          "500": {
+            "description": "Error creating alert"
+          }
+        }
+      }
+    },
+    "/api/org/alerts/{id}": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for getting a Collector -> Organisation alert",
+        "description": "Getting an alert created by a Collector -> Organisation",
+        "parameters": [
+          {
+            "name": "Alerts",
+            "in": "body",
+            "description": "Fetch Collector -> Organisation Alert",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Collector -> Organisation Alert fetched successfully!"
+          },
+          "500": {
+            "description": "Error fetching Collector -> Organisation Alert"
+          }
+        }
+      }
+    },
+    "/api/org/alerts/delete/{id}": {
+      "delete": {
+        "tags": ["Alerts"],
+        "summary": "Route for deleting a collector->organisation alert",
+        "description": "Collector -> Organisation alert delete",
+        "parameters": [
+          {
+            "name": "Alerts",
+            "in": "body",
+            "description": "Collector -> Organisation alert deletion",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Alert deleted successfully!"
+          },
+          "500": {
+            "description": "Error deleting alert"
+          }
+        }
+      }
+    },
+
+
+    "/api/upload": {
+      "post": {
+        "tags": ["Image API"],
+        "summary": "Route for uplading an Image",
+        "description": "Image Upload",
+        "parameters": [
+          {
+            "name": "Image upload",
+            "in": "body",
+            "description": "Upload Image",
+            "schema": {
+              "$ref": "#/definitions/uploadImage"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Image uploaded successfully!"
+          },
+          "500": {
+            "description": "Error uploading image"
+          }
+        }
+      }
+    },
+    "/api/file/download/{id}": {
+      "get": {
+        "tags": ["Image API"],
+        "summary": "Route for downloading an Image with particular ID",
+        "description": "Image Download",
+        "parameters": [
+          {
+            "name": "Image Download",
+            "in": "body",
+            "description": "Download Image",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Image downloaded successfully!"
+          },
+          "500": {
+            "description": "Error downloading image"
+          }
+        }
+      }
+    },
+    
+    "/api/history/getHistory/{id}": {
+      "get": {
+        "tags": ["History"],
+        "summary": "Route for getting User or Organisation History",
+        "description": "Get User or Organisation History with particular ID",
+        "parameters": [
+          {
+            "name": "User or Organisation History",
+            "in": "body",
+            "description": "Get User or Organisation History",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "History fetched successfully!"
+          },
+          "500": {
+            "description": "Error fetching history"
+          }
+        }
+      }
+    },
+    "/api/history/updateHistory/{id}": {
+      "put": {
+        "tags": ["History"],
+        "summary": "Route for updating User or Organisation History",
+        "description": "Update User or Organisation History with particular ID",
+        "parameters": [
+          {
+            "name": "User or Organisation History",
+            "in": "body",
+            "description": "Updating User or Organisation History",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "History updated successfully!"
+          },
+          "500": {
+            "description": "Error updating history"
+          }
+        }
+      }
+    },
+    "/api/history/addUserHistory/{userId}": {
+      "post": {
+        "tags": ["History"],
+        "summary": "Route for adding User History",
+        "description": "Add User History",
+        "parameters": [
+          {
+            "name": "User History",
+            "in": "body",
+            "description": "Add User History",
+            "schema": {
+              "$ref": "#/definitions/createHistory"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User History created successfully!"
+          },
+          "500": {
+            "description": "Error creating user history"
+          }
+        }
+      }
+    },
+    "/api/history/getUserHistory/{userId}": {
+      "get": {
+        "tags": ["History"],
+        "summary": "Route for getting User History",
+        "description": "Get User with particular user ID",
+        "parameters": [
+          {
+            "name": "User History",
+            "in": "body",
+            "description": "Get User History",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "History fetched successfully!"
+          },
+          "500": {
+            "description": "Error fetching history"
+          }
+        }
+      }
+    },
+    "/api/history/deleteUserHistory/{userId}/{historyId}": {
+      "delete": {
+        "tags": ["History"],
+        "summary": "Route for deleting user History",
+        "description": "Deleting User History with particular ID",
+        "parameters": [
+          {
+            "name": "User History",
+            "in": "body",
+            "description": "Deleting User History",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "History deleted successfully!"
+          },
+          "500": {
+            "description": "Error deleting history"
+          }
+        }
+      }
+    },
+    "/api/history/addOrgHistory/{orgId}": {
+      "post": {
+        "tags": ["History"],
+        "summary": "Route for adding Organisation History",
+        "description": "Add Organisation History",
+        "parameters": [
+          {
+            "name": "Organisation History",
+            "in": "body",
+            "description": "Add Organisation History",
+            "schema": {
+              "$ref": "#/definitions/createHistory"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Organisation History created successfully!"
+          },
+          "500": {
+            "description": "Error creating organisation history"
+          }
+        }
+      }
+    },
+    "/api/history/getOrgHistory/{orgId}": {
+      "get": {
+        "tags": ["History"],
+        "summary": "Route for getting Organisation History",
+        "description": "Get User with particular organisation ID",
+        "parameters": [
+          {
+            "name": "Organisation History",
+            "in": "body",
+            "description": "Get Organisation History",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Organisation History fetched successfully!"
+          },
+          "500": {
+            "description": "Error fetching organisation history"
+          }
+        }
+      }
+    },
+    "/api/history/deleteOrgHistory/{orgId}/{historyId}": {
+      "delete": {
+        "tags": ["History"],
+        "summary": "Route for deleting Organisation History",
+        "description": "Deleting Organisation History with particular ID",
+        "parameters": [
+          {
+            "name": "Organisation History",
+            "in": "body",
+            "description": "Deleting Organisation History",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "History deleted successfully!"
+          },
+          "500": {
+            "description": "Error deleting history"
+          }
+        }
+      }
     }
   },
 
+  
+
+
+  
   "definitions": {
     "id": {
       "required": ["_id"],
@@ -351,6 +735,49 @@
           "type": "integer",
           "description": "Quantity of the waste in KG",
           "example": 7
+        }
+      }
+    },
+    "uploadImage": {
+      "required": ["url"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "uniqueItems": "true",
+          "description": "Location of Image",
+          "example": "url"
+        }
+      }
+    },"createHistory": {
+      "required": [
+        "wasteImageUrl",
+        "wasteImageTitle",
+        "timeDisposed",
+        "timeCollected"
+      ],
+      "properties": {
+        "wasteImageUrl": {
+          "type": "string",
+          "description": "Url for Image",
+          "example": "www.image-location/"
+        },
+        "wasteImageTitle": {
+          "type": "string",
+          "description": "Title of Waste Image",
+          "example": "First Waste"
+        },
+        "collectionStatus": {
+          "type": "string",
+          "description": "Status of Waste Collection",
+          "example": "true or pending or false"
+        },
+        "timeDisposed": {
+          "type": "date",
+          "description": "Time waste is disposed"
+        },
+        "timeCollected": {
+          "type": "date",
+          "description": "Time waste is collected"
         }
       }
     }
