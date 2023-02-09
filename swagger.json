@@ -177,7 +177,7 @@
         }
       }
     },
-    
+
     "/api/alerts/create": {
       "post": {
         "tags": ["Alerts"],
@@ -330,7 +330,6 @@
       }
     },
 
-
     "/api/upload": {
       "post": {
         "tags": ["Image API"],
@@ -381,17 +380,17 @@
         }
       }
     },
-    
+
     "/api/history/getHistory/{id}": {
       "get": {
         "tags": ["History"],
-        "summary": "Route for getting User or Organisation History",
-        "description": "Get User or Organisation History with particular ID",
+        "summary": "Route for fetching histories",
+        "description": "Get user/collector/organization history with their ID",
         "parameters": [
           {
-            "name": "User or Organisation History",
+            "name": "Fetch history",
             "in": "body",
-            "description": "Get User or Organisation History",
+            "description": "Fetch history of user/collector/organization",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -410,13 +409,13 @@
     "/api/history/updateHistory/{id}": {
       "put": {
         "tags": ["History"],
-        "summary": "Route for updating User or Organisation History",
-        "description": "Update User or Organisation History with particular ID",
+        "summary": "Route for updating history",
+        "description": "Update a particular history with their ID",
         "parameters": [
           {
-            "name": "User or Organisation History",
+            "name": "Update history",
             "in": "body",
-            "description": "Updating User or Organisation History",
+            "description": "Updating user/collector/organization history",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -435,8 +434,8 @@
     "/api/history/addUserHistory/{userId}": {
       "post": {
         "tags": ["History"],
-        "summary": "Route for adding User History",
-        "description": "Add User History",
+        "summary": "Route for adding User history",
+        "description": "Add user history",
         "parameters": [
           {
             "name": "User History",
@@ -460,13 +459,13 @@
     "/api/history/getUserHistory/{userId}": {
       "get": {
         "tags": ["History"],
-        "summary": "Route for getting User History",
-        "description": "Get User with particular user ID",
+        "summary": "Route for fetching the history of a particular user",
+        "description": "Get all history for a particular user",
         "parameters": [
           {
-            "name": "User History",
+            "name": "Fetch user history",
             "in": "body",
-            "description": "Get User History",
+            "description": "Fetch user history",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -485,13 +484,13 @@
     "/api/history/deleteUserHistory/{userId}/{historyId}": {
       "delete": {
         "tags": ["History"],
-        "summary": "Route for deleting user History",
-        "description": "Deleting User History with particular ID",
+        "summary": "Route for deleting user history",
+        "description": "Deleting history for a user with the History and User ID",
         "parameters": [
           {
-            "name": "User History",
+            "name": "User history delete",
             "in": "body",
-            "description": "Deleting User History",
+            "description": "Deleting user history",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -510,13 +509,13 @@
     "/api/history/addOrgHistory/{orgId}": {
       "post": {
         "tags": ["History"],
-        "summary": "Route for adding Organisation History",
-        "description": "Add Organisation History",
+        "summary": "Route for adding organisation history",
+        "description": "Create organization history",
         "parameters": [
           {
-            "name": "Organisation History",
+            "name": "Create organisation history",
             "in": "body",
-            "description": "Add Organisation History",
+            "description": "Add organisation history",
             "schema": {
               "$ref": "#/definitions/createHistory"
             }
@@ -524,7 +523,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Organisation History created successfully!"
+            "description": "Organisation history created successfully!"
           },
           "500": {
             "description": "Error creating organisation history"
@@ -535,13 +534,13 @@
     "/api/history/getOrgHistory/{orgId}": {
       "get": {
         "tags": ["History"],
-        "summary": "Route for getting Organisation History",
-        "description": "Get User with particular organisation ID",
+        "summary": "Route for fetching Organization history",
+        "description": "Fetch history for organization with their ID",
         "parameters": [
           {
-            "name": "Organisation History",
+            "name": "Fetch organisation history",
             "in": "body",
-            "description": "Get Organisation History",
+            "description": "Get all history for an organization",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -549,7 +548,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Organisation History fetched successfully!"
+            "description": "Organisation history fetched successfully!"
           },
           "500": {
             "description": "Error fetching organisation history"
@@ -560,7 +559,7 @@
     "/api/history/deleteOrgHistory/{orgId}/{historyId}": {
       "delete": {
         "tags": ["History"],
-        "summary": "Route for deleting Organisation History",
+        "summary": "Route for deleting organisation History",
         "description": "Deleting Organisation History with particular ID",
         "parameters": [
           {
@@ -584,10 +583,6 @@
     }
   },
 
-  
-
-
-  
   "definitions": {
     "id": {
       "required": ["_id"],
@@ -744,11 +739,12 @@
         "url": {
           "type": "string",
           "uniqueItems": "true",
-          "description": "Location of Image",
+          "description": "URL of Image",
           "example": "url"
         }
       }
-    },"createHistory": {
+    },
+    "createHistory": {
       "required": [
         "wasteImageUrl",
         "wasteImageTitle",
@@ -769,7 +765,7 @@
         "collectionStatus": {
           "type": "string",
           "description": "Status of Waste Collection",
-          "example": "true or pending or false"
+          "example": "True | Pending | False"
         },
         "timeDisposed": {
           "type": "date",
