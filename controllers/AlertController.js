@@ -22,7 +22,7 @@ exports.getAlert = async (req, res) => {
   try {
     const alert = await Alert.findById(req.params.id);
     return res.status(200).json({
-      status: 'Alerts fetched successfully!',
+      status: 'Alert fetched successfully!',
       data: {
         alert,
       },

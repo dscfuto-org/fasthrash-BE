@@ -289,7 +289,175 @@
 		},
 		{
 			"name": "Alerts",
-			"item": []
+			"item": [
+				{
+					"name": "Create user->collector alert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Need to dispose some waste\",\r\n  \"description\": \"I have some waste at [my_location] that needs to be collected, it weighs about [weight] kg...\",\r\n  \"image\": \"https://storage.googleapis.com/fastrash-image-upload/66988091.jpg\",\r\n  \"location\": \"121.13, 32.1\",\r\n  \"quantity\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/alerts/create",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch user->collector alert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/alerts/6asdf88sf7fsaf9fas",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"6asdf88sf7fsaf9fas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user->collector alert",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/alerts/delete/29848839nd7m",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"alerts",
+								"delete",
+								"29848839nd7m"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create collector->organization alert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Need to dispose some waste\",\r\n  \"description\": \"I have some waste at [my_location] that needs to be collected, it weighs about [weight] kg...\",\r\n  \"image\": \"https://storage.googleapis.com/fastrash-image-upload/66988091.jpg\",\r\n  \"location\": \"121.13, 32.1\",\r\n  \"quantity\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/org/alerts/create",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"org",
+								"alerts",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch collector->organization alert",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/org/alerts/6asdf88sf7fsaf9fas",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"org",
+								"alerts",
+								"6asdf88sf7fsaf9fas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete collector->organization alert",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/org/alerts/delete/29848839nd7m",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"org",
+								"alerts",
+								"delete",
+								"29848839nd7m"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Documentation",
@@ -324,7 +492,66 @@
 		},
 		{
 			"name": "Image upload",
-			"item": []
+			"item": [
+				{
+					"name": "Upload image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/hp/Documents/GDSC/Solutions Challenge/Fasthrash/fasthrash-BE/storage-keys.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/upload",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fastrash-1337.ew.r.appspot.com/api/file/download/my_image.png",
+							"protocol": "https",
+							"host": [
+								"fastrash-1337",
+								"ew",
+								"r",
+								"appspot",
+								"com"
+							],
+							"path": [
+								"api",
+								"file",
+								"download",
+								"my_image.png"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Fastrash API",
