@@ -381,7 +381,7 @@
       }
     },
 
-    "/api/history/{id}": {
+    "/api/history/getHistory/{id}": {
       "get": {
         "tags": ["History"],
         "summary": "Route for fetching histories",
@@ -406,7 +406,7 @@
         }
       }
     },
-    "/api/history/update/{id}": {
+    "/api/history/updateHistory/{id}": {
       "put": {
         "tags": ["History"],
         "summary": "Route for updating history",
@@ -431,7 +431,7 @@
         }
       }
     },
-    "/api/history/user/create/{userId}": {
+    "/api/history/addUserHistory/{userId}": {
       "post": {
         "tags": ["History"],
         "summary": "Route for adding User history",
@@ -456,7 +456,7 @@
         }
       }
     },
-    "/api/history/user/{userId}": {
+    "/api/history/getUserHistory/{userId}": {
       "get": {
         "tags": ["History"],
         "summary": "Route for fetching the history of a particular user",
@@ -481,7 +481,7 @@
         }
       }
     },
-    "/api/history/delete/{userId}/{historyId}": {
+    "/api/history/deleteUserHistory/{userId}/{historyId}": {
       "delete": {
         "tags": ["History"],
         "summary": "Route for deleting user history",
@@ -506,7 +506,7 @@
         }
       }
     },
-    "/api/history/org/create/{orgId}": {
+    "/api/history/addOrgHistory/{orgId}": {
       "post": {
         "tags": ["History"],
         "summary": "Route for adding organisation history",
@@ -531,7 +531,7 @@
         }
       }
     },
-    "/api/history/org/{orgId}": {
+    "/api/history/getOrgHistory/{orgId}": {
       "get": {
         "tags": ["History"],
         "summary": "Route for fetching Organization history",
@@ -556,10 +556,10 @@
         }
       }
     },
-    "/api/history/org/delete/{orgId}/{historyId}": {
+    "/api/history/deleteOrgHistory/{orgId}/{historyId}": {
       "delete": {
         "tags": ["History"],
-        "summary": "Rout  e for deleting organisation History",
+        "summary": "Route for deleting organisation History",
         "description": "Deleting Organisation History with particular ID",
         "parameters": [
           {

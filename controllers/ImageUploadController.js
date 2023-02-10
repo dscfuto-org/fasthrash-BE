@@ -4,7 +4,6 @@ const { Storage } = require('@google-cloud/storage');
 // Instantiate a storage client with credentials
 const storage = new Storage({ keyFilename: 'storage-keys.json' });
 const bucket = storage.bucket('fastrash-image-upload');
-const uuid = require('uuid');
 
 const upload = async (req, res) => {
   try {
@@ -15,10 +14,7 @@ const upload = async (req, res) => {
     }
 
     // Create a new blob in the bucket and upload the file data.
-    const uniquename = `${req.file.fieldname}-${uuid.v4()}-${
-      req.file.originalname
-    }`;
-    const blob = bucket.file(uniquename);
+    const blob = bucket.file(req.file.originalname);
     const blobStream = blob.createWriteStream({
       resumable: false,
     });
@@ -54,7 +50,7 @@ const upload = async (req, res) => {
   } catch (err) {
     if (err.code == 'LIMIT_FILE_SIZE') {
       return res.status(500).json({
-        message: 'File cannot be larger than 10MB',
+        message: 'File cannot be larger than 2MB',
       });
     }
     res.status(500).send({
