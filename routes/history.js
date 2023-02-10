@@ -1,14 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const historyController = require("../controllers/historyController");
+const historyController = require('../controllers/historyController');
 
-router.get("/getHistory/:id/", historyController.getHistory);
-router.put("/updateHistory/:id/", historyController.updateHistory);
-router.get("/getUserHistory/:userId/", historyController.getUserHistory);
-router.post("/addUserHistory/:userId", historyController.addUserHistory);
-router.delete('/deleteUserHistory/:userId/:historyId', historyController.deleteUserHistory);
-router.get("/getOrgHistory/:orgId/", historyController.getOrgHistory);
-router.post("/addOrgHistory/:orgId", historyController.addOrgHistory);
-router.delete('/deleteOrgHistory/:orgId/:historyId', historyController.deleteOrgHistory);
+router.get('/:id/', historyController.getHistory);
+router.put('/update/:id/', historyController.updateHistory);
+router.get('/user/:userId/', historyController.getUserHistory);
+router.post('/user/create/:userId', historyController.addUserHistory);
+router.delete(
+  '/delete/:userId/:historyId',
+  historyController.deleteUserHistory
+);
+router.get('/org/:orgId/', historyController.getOrgHistory);
+router.post('/org/create/:orgId', historyController.addOrgHistory);
+router.delete(
+  '/org/delete/:orgId/:historyId',
+  historyController.deleteOrgHistory
+);
 
 module.exports = router;
