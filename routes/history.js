@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 const historyController = require('../controllers/HistoryController');
 
-router.get('/getHistory/:id/', historyController.getHistory);
-router.put('/updateHistory/:id/', historyController.updateHistory);
-router.get('/getUserHistory/:userId/', historyController.getUserHistory);
-router.post('/addUserHistory/:userId', historyController.addUserHistory);
+router.get('/fetch/:id/', historyController.getHistory);
+router.put('/update/:id/', historyController.updateHistory);
+router.get('/user/:userId/', historyController.getUserHistory);
+router.post('/create/:userId', historyController.addUserHistory);
 router.delete(
-  '/deleteUserHistory/:userId/:historyId',
+  '/delete/:userId/:historyId',
   historyController.deleteUserHistory
 );
-router.get('/getOrgHistory/:orgId/', historyController.getOrgHistory);
-router.post('/addOrgHistory/:orgId', historyController.addOrgHistory);
+router.get('/org/:orgId/', historyController.getOrgHistory);
+router.post('/org/create/:orgId', historyController.addOrgHistory);
 router.delete(
-  '/deleteOrgHistory/:orgId/:historyId',
+  '/org/delete/:orgId/:historyId',
   historyController.deleteOrgHistory
 );
 

@@ -381,7 +381,7 @@
       }
     },
 
-    "/api/history/getHistory/{id}": {
+    "/api/history/fetch/{id}": {
       "get": {
         "tags": ["History"],
         "summary": "Route for fetching histories",
@@ -406,7 +406,7 @@
         }
       }
     },
-    "/api/history/updateHistory/{id}": {
+    "/api/history/update/{id}": {
       "put": {
         "tags": ["History"],
         "summary": "Route for updating history",
@@ -431,7 +431,7 @@
         }
       }
     },
-    "/api/history/addUserHistory/{userId}": {
+    "/api/history/create/{userId}": {
       "post": {
         "tags": ["History"],
         "summary": "Route for adding User history",
@@ -456,7 +456,7 @@
         }
       }
     },
-    "/api/history/getUserHistory/{userId}": {
+    "/api/history/user/{userId}": {
       "get": {
         "tags": ["History"],
         "summary": "Route for fetching the history of a particular user",
@@ -481,7 +481,7 @@
         }
       }
     },
-    "/api/history/deleteUserHistory/{userId}/{historyId}": {
+    "/api/history/delete/{userId}/{historyId}": {
       "delete": {
         "tags": ["History"],
         "summary": "Route for deleting user history",
@@ -506,7 +506,7 @@
         }
       }
     },
-    "/api/history/addOrgHistory/{orgId}": {
+    "/api/history/org/create/{orgId}": {
       "post": {
         "tags": ["History"],
         "summary": "Route for adding organisation history",
@@ -531,7 +531,7 @@
         }
       }
     },
-    "/api/history/getOrgHistory/{orgId}": {
+    "/api/history/org/{orgId}": {
       "get": {
         "tags": ["History"],
         "summary": "Route for fetching Organization history",
@@ -556,7 +556,7 @@
         }
       }
     },
-    "/api/history/deleteOrgHistory/{orgId}/{historyId}": {
+    "/api/history/org/delete/{orgId}/{historyId}": {
       "delete": {
         "tags": ["History"],
         "summary": "Route for deleting organisation History",
