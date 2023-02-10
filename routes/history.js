@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const historyController = require("../controllers/historyController");
+const historyController = require("../controllers/HistoryController");
 
 router.get("/getHistory/:id/", historyController.getHistory);
 router.put("/updateHistory/:id/", historyController.updateHistory);

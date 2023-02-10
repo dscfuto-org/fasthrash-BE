@@ -1,4 +1,4 @@
-const Alert = require('../models/AlertModel');
+const Alert = require('../models/alertModel');
 
 exports.createAlert = async (req, res) => {
   try {
