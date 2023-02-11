@@ -8,6 +8,7 @@ const apiResponse = require('./helpers/apiResponse');
 const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+require('dotenv').config();
 // const Cloud = require('@google-cloud/storage');
 // const serviceKey = path.join(__dirname, './storage-keys.json');
 

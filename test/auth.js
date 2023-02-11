@@ -1,6 +1,5 @@
 const { chai, server } = require('./testConfig');
 const UserModel = require('../models/UserModel');
-
 /**
  * Test cases to test all the authentication APIs
  * Covered Routes:
@@ -8,7 +7,7 @@ const UserModel = require('../models/UserModel');
  * (2) Register
  */
 
-describe('Auth', () => {
+describe('Authentication', () => {
   // Before each test we empty the database
   before((done) => {
     // eslint-disable-next-line no-unused-vars
@@ -19,26 +18,28 @@ describe('Auth', () => {
 
   // Prepare data for testing
   const testData = {
-    firstName: 'test',
-    lastName: 'testing',
-    password: 'Test@123',
+    firstName: 'Chidera',
+    lastName: 'Anichebe',
+    location: '12.123, 12.4',
+    email: 'root@localhost.com',
     phoneNumber: '08123456789',
-    email: 'fasthrash@gmail.com',
+    password: 'sup3rs3cur3pwd',
+    role: 'user',
   };
 
   /*
    * Test the /POST route
    */
-  describe('/POST Register', () => {
-    it('It should Register user', (done) => {
+  describe('POST /api/auth/register', () => {
+    it('It should register a new user', (done) => {
       chai
         .request(server)
         .post('/api/auth/register')
         .send(testData)
         .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('message').eql('Registration Success.');
-          testData._id = res.body.data._id;
+          res.should.have.status(201);
+          res.body.should.have.property('message');
+          testData._id = res.body._id;
           done();
         });
     });
@@ -48,14 +49,16 @@ describe('Auth', () => {
    * Test the /POST route
    */
   describe('/POST Login', () => {
-    it('it should do user Login', (done) => {
+    it('It should do a successful user login', (done) => {
       chai
         .request(server)
         .post('/api/auth/login')
         .send({ email: testData.email, password: testData.password })
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.have.property('message').eql('Login Success.');
+          res.body.should.have
+            .property('message')
+            .eql('Authorization successful');
           done();
         });
     });
