@@ -250,3 +250,41 @@ exports.logout = [
     }
   },
 ];
+
+exports.resetPassword =[
+  async (req, res) => {
+    try {
+      const { email, password, token } = req.body;
+  
+      // Verify that the token is valid
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  
+      // Find the user with the email
+      const user = await User.findOne({ email });
+  
+      // If the user does not exist, return an error
+      if (!user) {
+        return res.status(400).json({ error: 'User not found' });
+      }
+  
+      // Check if the token has expired
+      if (decoded.exp < Date.now() / 1000) {
+        return res.status(400).json({ error: 'Token has expired' });
+      }
+  
+      // Hash the new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+  
+      // Update the user's password
+      user.password = hashedPassword;
+      await user.save();
+  
+      // Return a success message
+      res.status(200).json({ message: 'Password reset successful' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Server error' });
+    }
+  }
+];
