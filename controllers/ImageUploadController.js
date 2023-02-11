@@ -5,58 +5,41 @@ const { Storage } = require('@google-cloud/storage');
 const storage = new Storage({ keyFilename: 'storage-keys.json' });
 const bucket = storage.bucket('fastrash-image-upload');
 const uuid = require('uuid');
+const path = require('path');
 
-const upload = async (req, res) => {
-  const NON_IMAGE =
-    'Error: Invalid file type. Only jpg, jpeg, and png files are allowed.';
+
+const uploadFiles = async (req, res) => {
   try {
-    await processFile(req, res);
-
-    if (!req.file) {
-      return res.status(400).send({ message: 'Please upload a file!' });
-    }
-
-    // Create a new blob in the bucket and upload the file data.
-    let uniquename = `${req.file.fieldname}-${uuid.v4()}-${
-      req.file.originalname
-    }`;
-    const blob = bucket.file(uniquename);
-    const blobStream = blob.createWriteStream({
-      resumable: false,
-    });
-
-    blobStream.on('error', (err) => {
-      res.status(500).send({ message: err.message });
-    });
-
-    // eslint-disable-next-line no-unused-vars
-    blobStream.on('finish', async (data) => {
-      // Create URL for directly file access via HTTP.
-      const publicUrl = format(
-        `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-      );
-
-      try {
-        // Make the file public
-        await bucket.file(req.file.originalname).makePublic();
-      } catch (err) {
-        return res.status(200).send({
-          message: `Uploaded the file successfully: ${req.file.originalname}`,
-          url: publicUrl,
-        });
+    await processFile(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({ error: err.message });
       }
-    });
 
-    blobStream.end(req.file.buffer);
-  } catch (err) {
-    if (err.code === 'LIMIT_FILE_SIZE') {
-      return res.status(400).json({
-        message: 'File cannot be larger than 10MB',
-      });
-    }
-    res.status(err !== NON_IMAGE ? 400 : 500).send({
-      message: `Could not upload the file - ${err}`,
+      const filenames = [];
+
+      for (const file of req.files) {
+        const filename = `${uuid.v4()}${path.extname(file.originalname)}`;
+        const blob = bucket.file(filename);
+        const blobStream = blob.createWriteStream({
+          resumable: false,
+          contentType: file.mimetype,
+        });
+
+        blobStream.on('error', (err) => {
+          return res.status(500).json({ error: `Error uploading file: ${err.message}` });
+        });
+
+        blobStream.on('finish', () => {
+          filenames.push(filename);
+        });
+
+        blobStream.end(file.buffer);
+      }
+
+      return res.status(200).json({ filenames });
     });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -93,4 +76,4 @@ const download = async (req, res) => {
   }
 };
 
-module.exports = { upload, getFiles, download };
+module.exports = { uploadFiles, getFiles, download };
