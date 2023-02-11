@@ -62,5 +62,5 @@ typings/
 
 #vs code configurations
 .vscode/
-package-lock.json
 storage-keys.json
+package-lock.json
