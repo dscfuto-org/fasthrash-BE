@@ -5,6 +5,7 @@ const { Storage } = require('@google-cloud/storage');
 const storage = new Storage({ keyFilename: 'storage-keys.json' });
 const bucket = storage.bucket('fastrash-image-upload');
 const uuid = require('uuid');
+const imageSchema = require('../models/imgModel');
 
 const upload = async (req, res) => {
   const NON_IMAGE =
@@ -40,6 +41,11 @@ const upload = async (req, res) => {
         // Make the file public
         await bucket.file(req.file.originalname).makePublic();
       } catch (err) {
+        const newImage = new imageSchema({
+          url: publicUrl,
+        });
+
+        await newImage.save();
         return res.status(200).send({
           message: `Uploaded the file successfully: ${req.file.originalname}`,
           url: publicUrl,
