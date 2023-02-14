@@ -19,30 +19,32 @@ describe('Alert Testing', () => {
   });
 
   // Prepare alert data for testing
-  const alertTestData = {
-    title: 'bottle',
+  let alertTestData = {
+    title: 'New alert',
     description: 'Lorem ipsum',
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnysF6uZMusij8xmeGSV4UI6H7yUaJCxTo9zRX-Ex7&s',
-    location: 'Lagos, Nigeria',
+    location: '125.4, 34.7',
     quantity: 59,
   };
 
   /*
    * Test the collector create alert route
    */
-  describe('POST /api/auth/create', () => {
+  describe('POST /api/alerts/create/', () => {
     it('It should create alert', (done) => {
       chai
         .request(server)
-        .post('/api/alerts/create')
+        .post('/api/alerts/create/')
         .send(alertTestData)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have
             .property('status')
             .eql('Alert created successfully!');
-          alertTestData._id = res.body._id;
+          alertTestData._id = res.body.data.alert._id;
+          alertTestData.createdAt = res.body.data.alert.createdAt;
+          alertTestData.updatedAt = res.body.data.alert.updatedAt;
           done();
         });
     });
@@ -51,17 +53,16 @@ describe('Alert Testing', () => {
   /*
    * Test the get alert route
    */
-  describe('GET /api/auth/:id', () => {
-    it('It should get collector alert', (done) => {
+  describe(`GET /api/alerts/${alertTestData._id}`, () => {
+    it('It should get user/collector alert', (done) => {
       chai
         .request(server)
-        .get('/api/auth/:id')
+        .get(`/api/alerts/${alertTestData._id}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have
             .property('status')
             .eql('Alert fetched successfully!');
-          alertTestData.description = res.body.description;
           done();
         });
     });
@@ -70,11 +71,11 @@ describe('Alert Testing', () => {
   /*
    * Test the delete alert route
    */
-  describe('DELETE /api/auth/:id', () => {
+  describe(`DELETE /api/alerts/delete/${alertTestData._id}`, () => {
     it('It should delete an alert', (done) => {
       chai
         .request(server)
-        .delete('/api/auth/:id')
+        .delete(`/api/alerts/delete/${alertTestData._id}`)
         .end((err, res) => {
           res.should.have.status(204);
           res.body.should.have
@@ -88,11 +89,11 @@ describe('Alert Testing', () => {
   /*
    * Test the delete alert for collector route
    */
-  describe('DELETE /api/auth/file/delete/:id', () => {
+  describe(`DELETE /api/alerts/delete/${alertTestData._id}`, () => {
     it('It should delete collector alert', (done) => {
       chai
         .request(server)
-        .delete('/api/auth/file/delete/:id')
+        .delete(`/api/alerts/delete/${alertTestData._id}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.should.have.property('status').eql('Alert deleted successfully');
@@ -104,11 +105,11 @@ describe('Alert Testing', () => {
   /*
    * Test the delete alert for organization route
    */
-  describe('DELETE /api/auth/file/delete/:id', () => {
-    it('It should delete collector alert', (done) => {
+  describe(`DELETE /api/alerts/org/delete/${alertTestData._id}`, () => {
+    it('It should delete organization alert', (done) => {
       chai
         .request(server)
-        .post('/api/auth/file/delete/:id')
+        .post(`/api/auth/file/delete/${alertTestData._id}`)
         .send(alertTestData)
         .end((err, res) => {
           res.should.have.status(200);

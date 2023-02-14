@@ -1,11 +1,11 @@
 const Alert = require('../models/alertModel');
-const imageUploadController = require('./ImageUploadController');
+// const imageUploadController = require('./ImageUploadController');
 
 exports.createAlert = async (req, res) => {
   try {
-    const response = await imageUploadController.upload(req, res);
+    // const response = await imageUploadController.upload(req, res);
     // console.log(response);
-    req.body['data']['image'] = response.url;
+    // req.body['data']['image'] = response.url;
     const newAlert = await Alert.create(req.body);
 
     return res.status(200).json({
