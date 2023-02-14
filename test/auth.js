@@ -40,7 +40,7 @@ describe('User authentication', () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.body.should.have.property('message');
-          userTestData._id = res.body._id;
+          userTestData._id = res.body.message._id;
           done();
         });
     });
