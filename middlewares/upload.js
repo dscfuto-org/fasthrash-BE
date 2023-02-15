@@ -15,7 +15,7 @@ let processFile = Multer({
     }
     cb(null, true);
   },
-}).array('files', 12);
+}).single('file');
 
 let processFileMiddleware = util.promisify(processFile);
 module.exports = processFileMiddleware;

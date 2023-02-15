@@ -6,7 +6,7 @@ const imageSchema = new mongoose.Schema({
     type: String,
     default: uuid.v4,
   },
-  url: String,
+  url: { type: String, required: true },
   title: String,
 });
 
