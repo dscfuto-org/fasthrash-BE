@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 // const pointSchema = require('./PointModel');
 
 let UserSchema = new mongoose.Schema(
@@ -9,11 +9,11 @@ let UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ["user", "collector"], default: "user" },
+    role: { type: String, enum: ['user', 'collector'], default: 'user' },
     histories: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "History",
+        ref: 'History',
       },
     ],
   },
@@ -21,8 +21,8 @@ let UserSchema = new mongoose.Schema(
 );
 
 // Virtual for user's full name
-UserSchema.virtual("fullName").get(function () {
+UserSchema.virtual('fullName').get(function () {
   return `${this.firstName} ${this.lastName}`;
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model('User', UserSchema);

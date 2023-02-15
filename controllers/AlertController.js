@@ -22,6 +22,22 @@ exports.createAlert = async (req, res) => {
   }
 };
 
+exports.fetchAlerts = async (req, res) => {
+  try {
+    const alerts = await Alert.find();
+    return res.status(200).json({
+      status: 'Alerts fetched successfully!',
+      data: {
+        alerts,
+      },
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: 'Error fetching alerts',
+      message: err,
+    });
+  }
+};
 exports.getAlert = async (req, res) => {
   try {
     const alert = await Alert.findById(req.params.id);
@@ -33,7 +49,7 @@ exports.getAlert = async (req, res) => {
     });
   } catch (err) {
     return res.status(404).json({
-      status: 'Error fetching alerts',
+      status: 'Error fetching alert',
       message: err,
     });
   }

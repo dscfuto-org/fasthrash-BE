@@ -203,6 +203,31 @@
         }
       }
     },
+    "/api/alerts/": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for fetching all created alerts",
+        "description": "Fetching all created alerts",
+        "parameters": [
+          {
+            "name": "Alerts",
+            "in": "body",
+            "description": "Fetch alerts",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alerts fetched successfully!"
+          },
+          "404": {
+            "description": "Error fetching alerts"
+          }
+        }
+      }
+    },
     "/api/alerts/{id}": {
       "get": {
         "tags": ["Alerts"],
