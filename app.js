@@ -9,12 +9,12 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 require('dotenv').config();
-// const Cloud = require('@google-cloud/storage');
-// const serviceKey = path.join(__dirname, './storage-keys.json');
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
 const mongoose = require('mongoose');
+
+mongoose.set('strictQuery', true);
 
 mongoose
   .connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -34,13 +34,6 @@ mongoose
 const db = mongoose.connection; //eslint-disable-line no-unused-vars
 
 const app = express();
-
-// Google Cloud Storage config
-// const { Storage } = Cloud;
-// const storage = new Storage({
-//   keyFilename: serviceKey,
-//   projectId: '107179241557185109618',
-// });
 
 //don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
