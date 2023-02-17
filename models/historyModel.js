@@ -6,10 +6,6 @@ let historySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // wasteId: {
-    //   type: String,
-    //   required: true,
-    // },
     wasteImageUrl: { type: String },
     wasteImageTitle: { type: String },
     collectionStatus: {

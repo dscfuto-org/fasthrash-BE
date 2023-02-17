@@ -149,6 +149,7 @@ exports.login = async (req, res) => {
             email: users[0].email,
             phoneNumber: users[0].phoneNumber,
             role: users[0].role,
+            history: users[0].histories,
             token: token,
           });
         }
@@ -203,6 +204,7 @@ exports.loginOrg = async (req, res) => {
             size: users[0].size,
             location: users[0].location,
             email: users[0].email,
+            histories: users[0].histories,
             token: token,
           });
         }

@@ -9,7 +9,7 @@ let UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ['user', 'collector'], default: 'user' },
+    role: { type: String, enum: ['user', 'collector'], required: true },
     histories: [
       {
         type: mongoose.Schema.Types.ObjectId,

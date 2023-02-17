@@ -11,6 +11,6 @@ app.use('/', imageUploadRouter);
 app.use('/auth/', authRouter);
 app.use('/alerts/', userAlertRouter);
 app.use('/org/alerts/', collectorAlertRouter);
-app.use('/history', historyRouter);
+app.use('/history/', historyRouter);
 
 module.exports = app;
