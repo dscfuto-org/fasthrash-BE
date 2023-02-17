@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const pointSchema = require('./PointModel');
+const validator = require('validator');
 
 let OrgSchema = new mongoose.Schema(
   {
@@ -11,8 +11,24 @@ let OrgSchema = new mongoose.Schema(
       required: true,
       min: [0, "Years of operation can't be negative"],
     },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, 'Please provide a valid email'],
+    },
+    password: { type: String, required: [true, 'Please provide a password'] },
+    passwordConfirm: {
+      type: String,
+      required: [true, 'Please enter matching passwords'],
+      validate: {
+        validator: function (val) {
+          return val === this.password;
+        },
+        message: 'Passwords do not match',
+      },
+    },
     histories: [
       {
         type: mongoose.Schema.Types.ObjectId,

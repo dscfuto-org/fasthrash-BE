@@ -33,7 +33,12 @@ exports.register = async (req, res) => {
           message: 'Email is already taken!',
         });
       } else {
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
+        if (req.body.password !== req.body.cfmPassword) {
+          return res.status(400).json({
+            message: 'Password does not match!',
+          });
+        }
+        bcrypt.hash(req.body.password, 12, (err, hash) => {
           if (err) {
             return res.status(500).json({
               error: err,
@@ -46,6 +51,7 @@ exports.register = async (req, res) => {
               email: req.body.email,
               phoneNumber: req.body.phoneNumber,
               password: hash,
+              passwordConfirm: hash,
               role: req.body.role,
             });
 
@@ -81,7 +87,12 @@ exports.registerOrg = async (req, res) => {
           message: 'Email is already taken!',
         });
       } else {
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
+        if (req.body.password !== req.body.cfmPassword) {
+          return res.status(400).json({
+            message: 'Password does not match!',
+          });
+        }
+        bcrypt.hash(req.body.password, 12, (err, hash) => {
           if (err) {
             return res.status(500).json({
               error: err,
@@ -94,6 +105,7 @@ exports.registerOrg = async (req, res) => {
               yearsOfOperation: req.body.yearsOfOperation,
               email: req.body.email,
               password: hash,
+              passwordConfirm: hash,
             });
 
             organization
