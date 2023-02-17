@@ -30,11 +30,15 @@ exports.addUserHistory = async (req, res) => {
 
     await newHistory.save();
 
-    await UserModel.findOneAndUpdate(userId, {
-      $push: {
-        histories: newHistory,
+    await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        $push: {
+          histories: newHistory,
+        },
       },
-    });
+      { new: true }
+    );
 
     return res.status(201).json({
       status: 'History added successfully!',
@@ -74,19 +78,23 @@ exports.deleteUserHistory = async (req, res) => {
     const { historyId, userId } = req.params;
 
     await History.findByIdAndDelete(historyId);
-    await UserModel.findOneAndUpdate(userId, {
-      $pull: {
-        histories: historyId,
+    let result = await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        $pull: {
+          histories: historyId,
+        },
       },
-    });
+      { new: true }
+    );
 
-    return res.status(204).json({
+    return res.status(202).json({
       status: 'History deleted successfully',
-      data: null,
+      data: result,
     });
   } catch (err) {
     return res.status(404).json({
-      status: 'Error deleting alert',
+      status: 'Error deleting history',
       message: err,
     });
   }
@@ -112,7 +120,9 @@ exports.getHistory = async (req, res) => {
 exports.updateHistory = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedHistory = await History.findByIdAndUpdate(id, req.body);
+    const updatedHistory = await History.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
 
     return res.status(201).json({
       status: 'History updated successfully!',
@@ -149,11 +159,15 @@ exports.addOrgHistory = async (req, res) => {
       timeCollected,
     });
     await newHistory.save();
-    await OrgModel.findOneAndUpdate(orgId, {
-      $push: {
-        histories: newHistory,
+    await OrgModel.findByIdAndUpdate(
+      orgId,
+      {
+        $push: {
+          histories: newHistory,
+        },
       },
-    });
+      { new: true }
+    );
 
     return res.status(200).json({
       status: 'History added successfully!',
@@ -193,19 +207,23 @@ exports.deleteOrgHistory = async (req, res) => {
     const { historyId, orgId } = req.params;
 
     await History.findByIdAndDelete(historyId);
-    await OrgModel.findOneAndUpdate(orgId, {
-      $pull: {
-        histories: historyId,
+    let result = await OrgModel.findByIdAndUpdate(
+      orgId,
+      {
+        $pull: {
+          histories: historyId,
+        },
       },
-    });
+      { new: true }
+    );
 
-    return res.status(204).json({
+    return res.status(202).json({
       status: 'History deleted successfully',
-      data: null,
+      data: result,
     });
   } catch (err) {
     return res.status(404).json({
-      status: 'Error deleting alert',
+      status: 'Error deleting history',
       message: err,
     });
   }
