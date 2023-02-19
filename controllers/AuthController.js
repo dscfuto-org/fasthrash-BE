@@ -1,5 +1,6 @@
 const UserModel = require('../models/UserModel');
 const OrgModel = require('../models/OrgModel');
+const TokenModel = require('../models/tokenModel');
 // const { body, validationResult } = require('express-validator');
 // const { sanitizeBody } = require('express-validator');
 //helper file to prepare responses.
@@ -7,8 +8,11 @@ const OrgModel = require('../models/OrgModel');
 // const utility = require('../helpers/utility');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+// const fs = require('fs');
+// const path = require('path');
 // const { fn } = require('moment/moment');
-// const mailer = require("../helpers/mailer");
+const sendEmail = require('../helpers/mailer');
 // const { constants } = require('../helpers/constants');
 
 /**
@@ -33,7 +37,7 @@ exports.register = async (req, res) => {
           message: 'Email is already taken!',
         });
       } else {
-        if (req.body.password !== req.body.cfmPassword) {
+        if (req.body.password !== req.body.passwordConfirm) {
           return res.status(400).json({
             message: 'Password does not match!',
           });
@@ -87,7 +91,7 @@ exports.registerOrg = async (req, res) => {
           message: 'Email is already taken!',
         });
       } else {
-        if (req.body.password !== req.body.cfmPassword) {
+        if (req.body.password !== req.body.passwordConfirm) {
           return res.status(400).json({
             message: 'Password does not match!',
           });
@@ -279,10 +283,10 @@ exports.logout = [
 exports.resetPassword = [
   async (req, res) => {
     try {
-      const { email, password, token } = req.body;
+      const { email } = req.body;
 
       // Verify that the token is valid
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      // const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       // Find the user with the email
       const user = await UserModel.findOne({ email });
@@ -292,21 +296,65 @@ exports.resetPassword = [
         return res.status(400).json({ error: 'User not found' });
       }
 
-      // Check if the token has expired
-      if (decoded.exp < Date.now() / 1000) {
-        return res.status(400).json({ error: 'Token has expired' });
+      let token = TokenModel.find({ userId: user._id });
+      if (token) {
+        token.deleteOne();
       }
+      // create reset token
+      let resetToken = crypto.randomBytes(32).toString('hex');
+      // create hash
+      const hash = await bcrypt.hash(resetToken, 12);
 
-      // Hash the new password
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
+      await new TokenModel({
+        userId: user._id,
+        token: hash,
+        createdAt: Date.now(),
+      }).save();
 
-      // Update the user's password
-      user.password = hashedPassword;
-      await user.save();
+      const clientURL = 'https://fastrash-1337.ew.r.appspot.com';
+      const link = `${clientURL}/resetpassword/${resetToken}/${user._id}`;
 
-      // Return a success message
-      res.status(200).json({ message: 'Password reset successful' });
+      sendEmail.send(
+        process.env.MAILGUN_EMAIL,
+        user.email,
+        'Fastrash password reset request',
+        'You requested to reset your password',
+        `<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Fastrash password reset</title>
+  </head>
+  <body>
+    <p><b>Hi ${user.firstName},</b></p>
+    <p>You requested to reset your password.</p>
+    <p>Please, click the link below to reset your password:</p>
+    <a href='${link}'>Reset Password</a>
+    <br/>
+    <p>If the button above does not work, please copy and paste the link below into your browser: ${link}</p>
+    <br/>
+    <p>If you did not request a password reset, please ignore this email.</p>
+  </body>
+</html>`
+      );
+      return link;
+
+      // Check if the token has expired
+      // if (decoded.exp < Date.now() / 1000) {
+      //   return res.status(400).json({ error: 'Token has expired' });
+      // }
+
+      // // Hash the new password
+      // const salt = await bcrypt.genSalt(10);
+      // const hashedPassword = await bcrypt.hash(password, salt);
+
+      // // Update the user's password
+      // user.password = hashedPassword;
+      // await user.save();
+
+      // // Return a success message
+      // res.status(200).json({ message: 'Password reset successful' });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Server error' });

@@ -1,25 +1,22 @@
-const nodemailer = require("nodemailer");
+const formData = require('form-data');
+const Mailgun = require('mailgun.js');
+const mailgun = new Mailgun(formData);
 
-// create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-	host: process.env.EMAIL_SMTP_HOST,
-	port: process.env.EMAIL_SMTP_PORT,
-	//secure: process.env.EMAIL_SMTP_SECURE, // lack of ssl commented this. You can uncomment it.
-	auth: {
-		user: process.env.EMAIL_SMTP_USERNAME,
-		pass: process.env.EMAIL_SMTP_PASSWORD
-	}
-});
-
-exports.send = function (from, to, subject, html)
-{
-	// send mail with defined transport object
-	// visit https://nodemailer.com/ for more options
-	return transporter.sendMail({
-		from: from, // sender address e.g. no-reply@xyz.com or "Fred Foo 👻" <foo@example.com>
-		to: to, // list of receivers e.g. bar@example.com, baz@example.com
-		subject: subject, // Subject line e.g. 'Hello ✔'
-		//text: text, // plain text body e.g. Hello world?
-		html: html // html body e.g. '<b>Hello world?</b>'
-	});
+exports.send = function (from, to, subject, text, html) {
+  const client = mailgun.client({
+    username: 'api',
+    key: process.env.MAILGUN_API_KEY,
+  });
+  const domain = process.env.MAILGUN_DOMAIN_NAME;
+  const messageData = {
+    from: `GDSC FUTO <${from}>`,
+    to: `Awesome user <${to}>`,
+    subject: `${subject}`,
+    text: `${text}`,
+    html: html,
+  };
+  client.messages
+    .create(domain, messageData)
+    .then((msg) => console.log(msg))
+    .catch((err) => console.log(err));
 };

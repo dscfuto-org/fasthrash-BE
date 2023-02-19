@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);
+router.post('/resetpassword/:userID', AuthController.resetPassword);
 router.post('/org/register', AuthController.registerOrg);
 router.post('/org/login', AuthController.loginOrg);
 router.delete(
