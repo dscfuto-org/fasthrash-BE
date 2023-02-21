@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
         }
         bcrypt.hash(req.body.password, 12, (err, hash) => {
           if (err) {
-            return res.status(500).json({
+            return res.status(400).json({
               error: err,
             });
           } else {
@@ -63,7 +63,7 @@ exports.register = async (req, res) => {
             user
               .save()
               .then((result) => res.status(201).json({ message: result }))
-              .catch((err) => res.status(500).json({ error: err }));
+              .catch((err) => res.status(400).json({ error: err }));
           }
         });
       }
@@ -99,7 +99,7 @@ exports.registerOrg = async (req, res) => {
         }
         bcrypt.hash(req.body.password, 12, (err, hash) => {
           if (err) {
-            return res.status(500).json({
+            return res.status(400).json({
               error: err,
             });
           } else {
@@ -113,10 +113,11 @@ exports.registerOrg = async (req, res) => {
               passwordConfirm: hash,
             });
 
+            organization.passwordConfirm = 'True';
             organization
               .save()
               .then((result) => res.status(201).json({ message: result }))
-              .catch((err) => res.status(500).json({ error: err }));
+              .catch((err) => res.status(400).json({ error: err }));
           }
         });
       }
@@ -175,7 +176,7 @@ exports.login = async (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      return res.status(500).json({
+      return res.status(400).json({
         error: err,
       });
     });
@@ -230,7 +231,7 @@ exports.loginOrg = async (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      return res.status(500).json({
+      return res.status(400).json({
         error: err,
       });
     });
@@ -249,7 +250,7 @@ exports.userDelete = async (req, res) => {
       })
     )
     .catch((err) => {
-      res.status(500).json({ error: err });
+      res.status(401).json({ message: `Error deleting account!`, error: err });
     });
 };
 
@@ -261,7 +262,7 @@ exports.orgDelete = async (req, res) => {
       res.status(200).json({ message: 'Organization deleted successfully!' })
     )
     .catch((err) => {
-      res.status(500).json({ error: err });
+      res.status(401).json({ message: `Error deleting account`, error: err });
     });
 };
 
@@ -272,7 +273,7 @@ exports.logout = [
         if (err) {
           res.status(400).send('Unable to log out');
         } else {
-          res.send('Logout successful');
+          res.status(204).send('Logout successful');
         }
       });
     } else {
@@ -358,7 +359,7 @@ exports.resetPassword = [
       // res.status(200).json({ message: 'Password reset successful' });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Server error' });
+      res.status(400).json({ error: 'Server error' });
     }
   },
 ];
