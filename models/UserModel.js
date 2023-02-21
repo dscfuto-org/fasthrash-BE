@@ -17,13 +17,8 @@ let UserSchema = new mongoose.Schema(
     password: { type: String, required: [true, 'Please provide a password'] },
     passwordConfirm: {
       type: String,
-      required: [true, 'Please enter matching passwords'],
-      validate: {
-        validator: function (val) {
-          return val === this.password;
-        },
-        message: 'Passwords do not match',
-      },
+      required: [true, 'Password confirm is required'],
+      expiresAt: { type: Date, expires: 10 },
     },
     role: { type: String, enum: ['user', 'collector'], required: true },
     histories: [

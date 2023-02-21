@@ -59,6 +59,7 @@ exports.register = async (req, res) => {
               role: req.body.role,
             });
 
+            user.passwordConfirm = 'True';
             user
               .save()
               .then((result) => res.status(201).json({ message: result }))

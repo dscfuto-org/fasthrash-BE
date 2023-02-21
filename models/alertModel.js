@@ -7,6 +7,11 @@ let alertSchema = new mongoose.Schema(
       trim: true,
       type: String,
     },
+    status: {
+      type: String,
+      enum: ['pending', 'accepted', 'collected'],
+      default: 'pending',
+    },
     image: { type: String, required: true },
     location: { type: String, required: true },
     quantity: { type: Number },
