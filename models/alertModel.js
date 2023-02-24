@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 let alertSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
     description: {
       trim: true,
       type: String,
