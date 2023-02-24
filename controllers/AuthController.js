@@ -1,19 +1,10 @@
 const UserModel = require('../models/UserModel');
 const OrgModel = require('../models/OrgModel');
 const TokenModel = require('../models/tokenModel');
-// const { body, validationResult } = require('express-validator');
-// const { sanitizeBody } = require('express-validator');
-//helper file to prepare responses.
-// const apiResponse = require('../helpers/apiResponse');
-// const utility = require('../helpers/utility');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-// const fs = require('fs');
-// const path = require('path');
-// const { fn } = require('moment/moment');
 const sendEmail = require('../helpers/mailer');
-// const { constants } = require('../helpers/constants');
 
 /**
  * User registration.
@@ -63,7 +54,11 @@ exports.register = async (req, res) => {
             user
               .save()
               .then((result) => res.status(201).json({ message: result }))
-              .catch((err) => res.status(400).json({ error: err }));
+              .catch((err) =>
+                res
+                  .status(400)
+                  .json({ message: 'An error occurred!', error: err })
+              );
           }
         });
       }

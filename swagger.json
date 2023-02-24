@@ -48,8 +48,8 @@
           "201": {
             "description": "User created successfully"
           },
-          "500": {
-            "description": "Server error"
+          "400": {
+            "description": "Something went wrong"
           }
         }
       }
@@ -73,8 +73,8 @@
           "201": {
             "description": "User logged in successfully"
           },
-          "500": {
-            "description": "Server error"
+          "400": {
+            "description": "Something went wrong"
           }
         }
       }
@@ -146,8 +146,8 @@
           "201": {
             "description": "Organization created successfully"
           },
-          "500": {
-            "description": "Server error"
+          "400": {
+            "description": "Something went wrong"
           }
         }
       }
@@ -171,8 +171,8 @@
           "201": {
             "description": "Organization logged in successfully!"
           },
-          "500": {
-            "description": "Server error"
+          "400": {
+            "description": "Something went wrong"
           }
         }
       }
@@ -197,7 +197,7 @@
           "201": {
             "description": "Alert created successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error creating alert"
           }
         }
@@ -247,7 +247,7 @@
           "201": {
             "description": "User -> collector Alert fetched successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error fetching User -> collector alert"
           }
         }
@@ -272,7 +272,7 @@
           "201": {
             "description": "User -> collector Alert deleted successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error deleting User -> collector alert"
           }
         }
@@ -298,7 +298,7 @@
           "201": {
             "description": "Alert created successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error creating alert"
           }
         }
@@ -323,7 +323,7 @@
           "201": {
             "description": "Collector -> Organisation Alert fetched successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error fetching Collector -> Organisation Alert"
           }
         }
@@ -348,7 +348,7 @@
           "201": {
             "description": "Alert deleted successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error deleting alert"
           }
         }
@@ -374,7 +374,7 @@
           "201": {
             "description": "Image uploaded successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error uploading image"
           }
         }
@@ -399,7 +399,7 @@
           "201": {
             "description": "Image downloaded successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error downloading image"
           }
         }
@@ -425,7 +425,7 @@
           "201": {
             "description": "History fetched successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error fetching history"
           }
         }
@@ -450,7 +450,7 @@
           "201": {
             "description": "History updated successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error updating history"
           }
         }
@@ -475,7 +475,7 @@
           "201": {
             "description": "User History created successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error creating user history"
           }
         }
@@ -500,7 +500,7 @@
           "201": {
             "description": "History fetched successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error fetching history"
           }
         }
@@ -525,7 +525,7 @@
           "201": {
             "description": "History deleted successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error deleting history"
           }
         }
@@ -550,7 +550,7 @@
           "201": {
             "description": "Organisation history created successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error creating organisation history"
           }
         }
@@ -575,7 +575,7 @@
           "201": {
             "description": "Organisation history fetched successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error fetching organisation history"
           }
         }
@@ -600,7 +600,7 @@
           "201": {
             "description": "History deleted successfully!"
           },
-          "500": {
+          "400": {
             "description": "Error deleting history"
           }
         }
@@ -627,7 +627,8 @@
         "location",
         "email",
         "phoneNumber",
-        "password"
+        "password",
+        "passwordConfirm"
       ],
       "properties": {
         "firstName": {
@@ -660,6 +661,11 @@
           "description": "User/collector's password",
           "example": "123456abc@*&^%$"
         },
+        "passwordConfirm": {
+          "type": "string",
+          "description": "User/collector's password confirmation",
+          "example": "123456abc@*&^%$"
+        },
         "role": {
           "type": "string",
           "description": "User/collector's role",
@@ -674,7 +680,8 @@
         "size",
         "yearsOfOperation",
         "email",
-        "password"
+        "password",
+        "passwordConfirm"
       ],
       "properties": {
         "businessName": {
@@ -706,6 +713,11 @@
         "password": {
           "type": "string",
           "description": "Organization's password",
+          "example": "123456abc@*&^%$"
+        },
+        "passwordConfirm": {
+          "type": "string",
+          "description": "Organzation's password confirmation",
           "example": "123456abc@*&^%$"
         }
       }

@@ -18,7 +18,6 @@ let UserSchema = new mongoose.Schema(
     passwordConfirm: {
       type: String,
       required: [true, 'Password confirm is required'],
-      expiresAt: { type: Date, expires: 10 },
     },
     role: { type: String, enum: ['user', 'collector'], required: true },
     histories: [
