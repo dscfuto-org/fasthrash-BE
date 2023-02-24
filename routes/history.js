@@ -1,20 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const historyController = require('../controllers/HistoryController');
+const depositHistoryController = require('../controllers/historyControllers/DepositHistoryController');
+const collectionHistoryController = require('../controllers/historyControllers/CollectionHistoryController');
 
-router.get('/fetch/:id/', historyController.getHistory);
-router.put('/update/:id/', historyController.updateHistory);
-router.get('/user/:userId/', historyController.getUserHistory);
-router.post('/create/:userId', historyController.addUserHistory);
+// history/depositHistory
+/*
+  create, fetch, update & delete user deposit history
+*/
+router.get('/depositHistory/fetch/:id/', depositHistoryController.getDepositHistory);
+router.get('/depositHistory/fetchAll/:userId/', depositHistoryController.getAllDepositHistory);
+router.post('/depositHistory/create/:userId', depositHistoryController.addDepositHistory);
+router.put('/depositHistory/update/:id/', depositHistoryController.updateDepositHistory);
 router.delete(
-  '/delete/:userId/:historyId',
-  historyController.deleteUserHistory
+  '/depositHistory/:userId/:historyId',
+  depositHistoryController.deleteDepositHistory
 );
-router.get('/org/:orgId/', historyController.getOrgHistory);
-router.post('/org/create/:orgId', historyController.addOrgHistory);
+// history/collectionHistory
+/*
+  create, fetch, update & delete user collection history
+*/
+router.get('/collectionHistory/fetch/:id', collectionHistoryController.getCollectionHistory);
+router.get('/collectionHistory/fetchAll/:userId', collectionHistoryController.getCollectorCollectionHistory);
+router.post('/collectionHistory/create/:userId', collectionHistoryController.addCollectorCollectionHistory);
+router.put('/collectionHistory/update/:id', collectionHistoryController.updateCollectionHistory);
 router.delete(
-  '/org/delete/:orgId/:historyId',
-  historyController.deleteOrgHistory
+  '/collectionHistory/:userId/:historyId',
+  collectionHistoryController.deleteCollectorCollectionHistory
+);
+// history/organization
+/*
+  create, fetch, update & delete user deposit history
+*/
+router.get('/orgHistory/fetch/:orgId', collectionHistoryController.getOrgCollectionHistory);
+router.post('/orgHistory/create/:orgId', collectionHistoryController.addOrgCollectionHistory);
+router.delete(
+  '/orgHistory/:orgId/:historyId',
+  collectionHistoryController.deleteOrgCollectionHistory
 );
 
 module.exports = router;
