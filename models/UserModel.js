@@ -20,10 +20,16 @@ let UserSchema = new mongoose.Schema(
       required: [true, 'Password confirm is required'],
     },
     role: { type: String, enum: ['user', 'collector'], required: true },
-    histories: [
+    depositHistories: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'History',
+        ref: 'DepositHistory',
+      },
+    ],
+    collectionHistories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CollectionHistory',
       },
     ],
   },

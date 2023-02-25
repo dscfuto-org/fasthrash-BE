@@ -24,10 +24,10 @@ let OrgSchema = new mongoose.Schema(
       required: [true, 'Password confirm is required'],
       expiresAt: { type: Date, expires: 10 },
     },
-    histories: [
+    collectionHistories: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'History',
+        ref: 'CollectionHistory',
       },
     ],
   },

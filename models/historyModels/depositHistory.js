@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 
-let historySchema = new mongoose.Schema(
+let depositHistorySchema = new mongoose.Schema(
   {
-    recyclerId: {
+    userId: {
+      type: String,
+      required: true,
+    },
+    collectorId: {
       type: String,
       required: true,
     },
@@ -10,13 +14,12 @@ let historySchema = new mongoose.Schema(
     wasteImageTitle: { type: String },
     collectionStatus: {
       type: String,
-      default: 'false',
-      enum: ['true', 'pending', 'false'],
+      default: 'pending',
+      enum: ['accepted', 'pending', 'collected'],
     },
-    timeDisposed: { type: Date, required: true },
     timeCollected: { type: Date },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('History', historySchema);
+module.exports = mongoose.model('DepositHistory', depositHistorySchema);
