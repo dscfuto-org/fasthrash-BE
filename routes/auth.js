@@ -9,11 +9,14 @@ const userModel = require('../models/UserModel');
 
 const router = express.Router();
 
+// user/collector auth routes
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);
-router.post('/resetpassword/:userID', AuthController.resetPassword);
-router.post('/org/register', AuthController.registerOrg);
-router.post('/org/login', AuthController.loginOrg);
+router.post('/resetpassword/:userID', AuthController.requestPasswordReset);
+router.post(
+  '/resetpassword/:userID/:token/:tokenID',
+  AuthController.resetPassword
+);
 router.delete(
   '/delete/:userID',
   async (req, res, next) => {
@@ -26,8 +29,19 @@ router.delete(
   },
   AuthController.userDelete
 );
+
+// organization auth routes
+router.post('/org/register', AuthController.registerOrg);
+router.post('/org/login', AuthController.loginOrg);
+// router.post(['/logout', '/org/logout'], AuthController.logout);
+router.post(
+  '/org/resetpassword/:userID',
+  AuthController.requestPasswordResetOrg
+);
+router.post(
+  '/org/resetpassword/:userID/:token/:tokenID',
+  AuthController.resetPassword
+);
 router.delete('/org/delete/:userID', verifyOrg, AuthController.orgDelete);
-router.post(['/logout', '/org/logout'], AuthController.logout);
-router.post('reset-password', AuthController.resetPassword);
 
 module.exports = router;

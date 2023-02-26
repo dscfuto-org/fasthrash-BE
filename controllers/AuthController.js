@@ -166,11 +166,10 @@ exports.login = async (req, res) => {
             token: token,
           });
         }
-        res.sendStatus(401);
+        res.status(401).json({ message: 'Invalid password' });
       });
     })
     .catch((err) => {
-      console.log(err);
       return res.status(400).json({
         error: err,
       });
@@ -221,11 +220,10 @@ exports.loginOrg = async (req, res) => {
             token: token,
           });
         }
-        res.sendStatus(401);
+        res.status(401).json({ message: 'Invalid password' });
       });
     })
     .catch((err) => {
-      console.log(err);
       return res.status(400).json({
         error: err,
       });
@@ -277,7 +275,7 @@ exports.logout = [
   },
 ];
 
-exports.resetPassword = [
+exports.requestPasswordReset = [
   async (req, res) => {
     try {
       const { email } = req.body;
@@ -300,16 +298,23 @@ exports.resetPassword = [
       // create reset token
       let resetToken = crypto.randomBytes(32).toString('hex');
       // create hash
-      const hash = await bcrypt.hash(resetToken, 12);
+      const hash = await bcrypt.hash(resetToken, 10);
 
+      let tokenId = '';
       await new TokenModel({
         userId: user._id,
         token: hash,
         createdAt: Date.now(),
-      }).save();
+      })
+        .save()
+        .then((newtoken) => {
+          tokenId = newtoken._id;
+        });
 
       const clientURL = 'https://fastrash-1337.ew.r.appspot.com';
-      const link = `${clientURL}/resetpassword/${resetToken}/${user._id}`;
+      const link = `${clientURL}/resetpassword/${
+        user._id
+      }/${resetToken}/${tokenId.toString().substring(0, 24)}`;
 
       sendEmail.send(
         process.env.MAILGUN_EMAIL,
@@ -317,44 +322,217 @@ exports.resetPassword = [
         'Fastrash password reset request',
         'You requested to reset your password',
         `<html lang='en'>
-  <head>
-    <meta charset='UTF-8' />
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Fastrash password reset</title>
-  </head>
-  <body>
-    <p><b>Hi ${user.firstName},</b></p>
-    <p>You requested to reset your password.</p>
-    <p>Please, click the link below to reset your password:</p>
-    <a href='${link}'>Reset Password</a>
-    <br/>
-    <p>If the button above does not work, please copy and paste the link below into your browser: ${link}</p>
-    <br/>
-    <p>If you did not request a password reset, please ignore this email.</p>
-  </body>
-</html>`
+          <head>
+            <meta charset='UTF-8' />
+            <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <title>Fastrash password reset</title>
+          </head>
+          <body>
+            <p><b>Hi ${user.firstName},</b></p>
+            <p>You requested to reset your password.</p>
+            <p>Please, click the link below to reset your password:</p>
+            <a href='${link}'>Reset Password</a>
+            <br/>
+            <p>If the button above does not work, please copy and paste the link below into your browser: ${link}</p>
+            <br/>
+            <p>If you did not request a password reset, please ignore this email and contact support.</p>
+          </body>
+        </html>`
       );
-      return link;
-
-      // Check if the token has expired
-      // if (decoded.exp < Date.now() / 1000) {
-      //   return res.status(400).json({ error: 'Token has expired' });
-      // }
-
-      // // Hash the new password
-      // const salt = await bcrypt.genSalt(10);
-      // const hashedPassword = await bcrypt.hash(password, salt);
-
-      // // Update the user's password
-      // user.password = hashedPassword;
-      // await user.save();
-
-      // // Return a success message
-      // res.status(200).json({ message: 'Password reset successful' });
+      return res
+        .status(200)
+        .json({ message: 'Password reset link successfully sent!' });
     } catch (err) {
       console.error(err);
-      res.status(400).json({ error: 'Server error' });
+      res.status(400).json({ error: 'Error requesting password reset' });
+    }
+  },
+];
+
+exports.requestPasswordResetOrg = [
+  async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      // Verify that the token is valid
+      // const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Find the user with the email
+      const user = await OrgModel.findOne({ email });
+
+      // If the user does not exist, return an error
+      if (!user) {
+        return res.status(400).json({ error: 'User not found' });
+      }
+
+      let token = TokenModel.find({ userId: user._id });
+      if (token) {
+        token.deleteOne();
+      }
+      // create reset token
+      let resetToken = crypto.randomBytes(32).toString('hex');
+      // create hash
+      const hash = await bcrypt.hash(resetToken, 10);
+
+      let tokenId = '';
+      await new TokenModel({
+        userId: user._id,
+        token: hash,
+        createdAt: Date.now(),
+      })
+        .save()
+        .then((newtoken) => {
+          tokenId = newtoken._id;
+        });
+
+      const clientURL = 'https://fastrash-1337.ew.r.appspot.com';
+      const link = `${clientURL}/org/resetpassword/${
+        user._id
+      }/${resetToken}/${tokenId.toString().substring(0, 24)}`;
+
+      sendEmail.send(
+        process.env.MAILGUN_EMAIL,
+        user.email,
+        'Fastrash password reset request',
+        'You requested to reset your password',
+        `<html lang='en'>
+          <head>
+            <meta charset='UTF-8' />
+            <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <title>Fastrash password reset</title>
+          </head>
+          <body>
+            <p><b>Dear ${user.businessName},</b></p>
+            <p>Someone at your organization requested to reset your password.</p>
+            <p>Please, click the link below to reset your password:</p>
+            <a href='${link}'>Reset Password</a>
+            <br/>
+            <p>If the button above does not work, please copy and paste the link below into your browser: ${link}</p>
+            <br/>
+            <p>If you did not request a password reset, please ignore this email and contact support</p>
+          </body>
+        </html>`
+      );
+      return res
+        .status(200)
+        .json({ message: 'Password reset link successfully sent!' });
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ error: 'Error requesting password reset' });
+    }
+  },
+];
+
+exports.resetPassword = [
+  async (req, res) => {
+    try {
+      // destructure userID and token from params
+      const { userID, token, tokenID } = req.params;
+      // destructure password from body
+      const { password } = req.body;
+
+      let passwordResetToken = await TokenModel.findOne({ _id: tokenID });
+
+      if (!passwordResetToken) {
+        throw new Error('Invalid or expired password reset token');
+      }
+
+      const isValid = await bcrypt.compare(token, passwordResetToken.token);
+
+      if (!isValid) {
+        throw new Error('Invalid or expired password reset token');
+      }
+
+      const hash = await bcrypt.hash(password, 12);
+
+      await UserModel.updateOne(
+        { _id: userID },
+        { $set: { password: hash } },
+        { new: true }
+      );
+
+      const user = await UserModel.findById({ _id: userID });
+      sendEmail.send(
+        process.env.MAILGUN_EMAIL,
+        user.email,
+        'Fastrash: Your password has changed!',
+        'Password request successful',
+        `<html lang='en'>
+          <head>
+            <meta charset='UTF-8' />
+            <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <title>Your fastrash password has changed!</title>
+          </head>
+          <body>
+            <p><b>Hi ${user.firstName},</b></p>
+            <p>You have successfully reset your password</p>
+            <p>If you did not request a password reset, please contact support</p>
+          </body>
+        </html>`
+      );
+      await passwordResetToken.deleteOne();
+      return res.status(200).json({ message: 'Password changed successfully' });
+    } catch (err) {
+      return res.status(400).json({ error: 'Error changing your password' });
+    }
+  },
+];
+
+exports.resetPasswordOrg = [
+  async (req, res) => {
+    try {
+      // destructure userID and token from params
+      const { userID, token, tokenID } = req.params;
+      // destructure password from body
+      const { password } = req.body;
+
+      let passwordResetToken = await TokenModel.findOne({ _id: tokenID });
+
+      if (!passwordResetToken) {
+        throw new Error('Invalid or expired password reset token');
+      }
+
+      const isValid = await bcrypt.compare(token, passwordResetToken.token);
+
+      if (!isValid) {
+        throw new Error('Invalid or expired password reset token');
+      }
+
+      const hash = await bcrypt.hash(password, 12);
+
+      await OrgModel.updateOne(
+        { _id: userID },
+        { $set: { password: hash } },
+        { new: true }
+      );
+
+      const user = await OrgModel.findById({ _id: userID });
+      sendEmail.send(
+        process.env.MAILGUN_EMAIL,
+        user.email,
+        'Fastrash: Your password has changed!',
+        'Password request successful',
+        `<html lang='en'>
+          <head>
+            <meta charset='UTF-8' />
+            <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <title>Your fastrash password has changed!</title>
+          </head>
+          <body>
+            <p><b>Hello ${user.businessName},</b></p>
+            <p>You have successfully reset your password</p>
+            <p>If you did not request a password reset, please contact support</p>
+          </body>
+        </html>`
+      );
+      await passwordResetToken.deleteOne();
+      return res.status(200).json({ message: 'Password changed successfully' });
+    } catch (err) {
+      return res.status(400).json({ error: 'Error changing your password' });
     }
   },
 ];
