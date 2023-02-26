@@ -20,49 +20,57 @@ const sendEmail = require('../helpers/mailer');
  */
 
 exports.register = async (req, res) => {
-  await UserModel.find({ email: req.body.email })
-    .exec()
-    .then((users) => {
-      if (users.length >= 1) {
-        return res.status(409).json({
-          message: 'Email is already taken!',
-        });
-      } else {
-        if (req.body.password !== req.body.passwordConfirm) {
-          return res.status(400).json({
-            message: 'Password does not match!',
+  try {
+    await UserModel.find({ email: req.body.email })
+      .exec()
+      .then((users) => {
+        if (users.length >= 1) {
+          return res.status(409).json({
+            message: 'Email is already taken!',
+          });
+        } else {
+          if (req.body.password !== req.body.passwordConfirm) {
+            return res.status(400).json({
+              message: 'Password does not match!',
+            });
+          }
+          bcrypt.hash(req.body.password, 12, (err, hash) => {
+            if (err) {
+              return res.status(400).json({
+                error: err,
+              });
+            } else {
+              const user = new UserModel({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                location: req.body.location,
+                email: req.body.email,
+                phoneNumber: req.body.phoneNumber,
+                password: hash,
+                passwordConfirm: hash,
+                role: req.body.role,
+              });
+
+              user.passwordConfirm = 'True';
+              user
+                .save()
+                .then((result) => {
+                  return res.status(201).json({ message: result });
+                })
+                .catch((err) => {
+                  return res
+                    .status(400)
+                    .json({ message: 'An error occurred!', error: err });
+                });
+            }
           });
         }
-        bcrypt.hash(req.body.password, 12, (err, hash) => {
-          if (err) {
-            return res.status(400).json({
-              error: err,
-            });
-          } else {
-            const user = new UserModel({
-              firstName: req.body.firstName,
-              lastName: req.body.lastName,
-              location: req.body.location,
-              email: req.body.email,
-              phoneNumber: req.body.phoneNumber,
-              password: hash,
-              passwordConfirm: hash,
-              role: req.body.role,
-            });
-
-            user.passwordConfirm = 'True';
-            user
-              .save()
-              .then((result) => res.status(201).json({ message: result }))
-              .catch((err) =>
-                res
-                  .status(400)
-                  .json({ message: 'An error occurred!', error: err })
-              );
-          }
-        });
-      }
-    });
+      });
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: 'Error creating an account', error: err });
+  }
 };
 
 /**
@@ -79,44 +87,54 @@ exports.register = async (req, res) => {
  */
 
 exports.registerOrg = async (req, res) => {
-  await OrgModel.find({ email: req.body.email })
-    .exec()
-    .then((users) => {
-      if (users.length >= 1) {
-        return res.status(409).json({
-          message: 'Email is already taken!',
-        });
-      } else {
-        if (req.body.password !== req.body.passwordConfirm) {
-          return res.status(400).json({
-            message: 'Password does not match!',
+  try {
+    await OrgModel.find({ email: req.body.email })
+      .exec()
+      .then((users) => {
+        if (users.length >= 1) {
+          return res.status(409).json({
+            message: 'Email is already taken!',
+          });
+        } else {
+          if (req.body.password !== req.body.passwordConfirm) {
+            return res.status(400).json({
+              message: 'Password does not match!',
+            });
+          }
+          bcrypt.hash(req.body.password, 12, (err, hash) => {
+            if (err) {
+              return res.status(400).json({
+                error: err,
+              });
+            } else {
+              const organization = new OrgModel({
+                businessName: req.body.businessName,
+                location: req.body.location,
+                size: req.body.size,
+                yearsOfOperation: req.body.yearsOfOperation,
+                email: req.body.email,
+                password: hash,
+                passwordConfirm: hash,
+              });
+
+              organization.passwordConfirm = 'True';
+              organization
+                .save()
+                .then((result) => {
+                  return res.status(201).json({ message: result });
+                })
+                .catch((err) => {
+                  return res.status(400).json({ error: err });
+                });
+            }
           });
         }
-        bcrypt.hash(req.body.password, 12, (err, hash) => {
-          if (err) {
-            return res.status(400).json({
-              error: err,
-            });
-          } else {
-            const organization = new OrgModel({
-              businessName: req.body.businessName,
-              location: req.body.location,
-              size: req.body.size,
-              yearsOfOperation: req.body.yearsOfOperation,
-              email: req.body.email,
-              password: hash,
-              passwordConfirm: hash,
-            });
-
-            organization.passwordConfirm = 'True';
-            organization
-              .save()
-              .then((result) => res.status(201).json({ message: result }))
-              .catch((err) => res.status(400).json({ error: err }));
-          }
-        });
-      }
-    });
+      });
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: 'Error creating an account', error: err });
+  }
 };
 
 /**
@@ -129,51 +147,55 @@ exports.registerOrg = async (req, res) => {
  */
 
 exports.login = async (req, res) => {
-  await UserModel.find({ email: req.body.email })
-    .exec()
-    .then((users) => {
-      if (users.length == 0) {
-        return res.sendStatus(404).json({ message: 'Email does not exist' });
-      }
-      bcrypt.compare(req.body.password, users[0].password, (err, same) => {
-        if (err) {
-          res.sendStatus(401);
+  try {
+    await UserModel.find({ email: req.body.email })
+      .exec()
+      .then((users) => {
+        if (users.length == 0) {
+          return res.status(404).json({ message: 'Email does not exist' });
         }
-        if (same) {
-          // create a token
-          const token = jwt.sign(
-            {
+        bcrypt.compare(req.body.password, users[0].password, (err, same) => {
+          if (err) {
+            return res.status(401).json({ message: 'Invalid password' });
+          }
+          if (same) {
+            // create a token
+            const token = jwt.sign(
+              {
+                email: users[0].email,
+                userID: users[0]._id,
+              },
+              users[0].role === 'user'
+                ? process.env.JWT_SECRET_USER
+                : process.env.JWT_SECRET_COLLECTOR,
+              {
+                expiresIn: process.env.JWT_TIMEOUT_DURATION,
+              }
+            );
+            return res.status(200).json({
+              message: 'Authorization successful',
+              id: users[0]._id,
+              firstName: users[0].firstName,
+              lastName: users[0].lastName,
+              location: users[0].location,
               email: users[0].email,
-              userID: users[0]._id,
-            },
-            users[0].role === 'user'
-              ? process.env.JWT_SECRET_USER
-              : process.env.JWT_SECRET_COLLECTOR,
-            {
-              expiresIn: process.env.JWT_TIMEOUT_DURATION,
-            }
-          );
-          return res.status(200).json({
-            message: 'Authorization successful',
-            id: users[0]._id,
-            firstName: users[0].firstName,
-            lastName: users[0].lastName,
-            location: users[0].location,
-            email: users[0].email,
-            phoneNumber: users[0].phoneNumber,
-            role: users[0].role,
-            history: users[0].histories,
-            token: token,
-          });
-        }
-        res.status(401).json({ message: 'Invalid password' });
+              phoneNumber: users[0].phoneNumber,
+              role: users[0].role,
+              history: users[0].histories,
+              token: token,
+            });
+          }
+          return res.status(401).json({ message: 'Invalid password' });
+        });
+      })
+      .catch((err) => {
+        return res.status(400).json({
+          error: err,
+        });
       });
-    })
-    .catch((err) => {
-      return res.status(400).json({
-        error: err,
-      });
-    });
+  } catch (err) {
+    return res.status(400).json({ message: 'Error logging in', error: err });
+  }
 };
 
 /**
@@ -186,94 +208,96 @@ exports.login = async (req, res) => {
  */
 
 exports.loginOrg = async (req, res) => {
-  await OrgModel.find({ email: req.body.email })
-    .exec()
-    .then((users) => {
-      if (users.length == 0) {
-        return res.sendStatus(404).json({ message: 'Email does not exist' });
-      }
-      bcrypt.compare(req.body.password, users[0].password, (err, same) => {
-        if (err) {
-          res.sendStatus(401);
+  try {
+    await OrgModel.find({ email: req.body.email })
+      .exec()
+      .then((users) => {
+        if (users.length == 0) {
+          return res.status(404).json({ message: 'Email does not exist' });
         }
-        if (same) {
-          // create a token
-          const token = jwt.sign(
-            {
+        bcrypt.compare(req.body.password, users[0].password, (err, same) => {
+          if (err) {
+            return res.status(401).json({ message: 'Invalid password' });
+          }
+          if (same) {
+            // create a token
+            const token = jwt.sign(
+              {
+                email: users[0].email,
+                userID: users[0]._id,
+              },
+              process.env.JWT_SECRET_ORGANIZATION,
+              {
+                expiresIn: process.env.JWT_TIMEOUT_DURATION,
+              }
+            );
+            return res.status(200).json({
+              message: 'Authorization successful',
+              id: users[0]._id,
+              businessName: users[0].businessName,
+              yearsOfOperation: users[0].yearsOfOperation,
+              size: users[0].size,
+              location: users[0].location,
               email: users[0].email,
-              userID: users[0]._id,
-            },
-            process.env.JWT_SECRET_ORGANIZATION,
-            {
-              expiresIn: process.env.JWT_TIMEOUT_DURATION,
-            }
-          );
-          return res.status(200).json({
-            message: 'Authorization successful',
-            id: users[0]._id,
-            businessName: users[0].businessName,
-            yearsOfOperation: users[0].yearsOfOperation,
-            size: users[0].size,
-            location: users[0].location,
-            email: users[0].email,
-            histories: users[0].histories,
-            token: token,
-          });
-        }
-        res.status(401).json({ message: 'Invalid password' });
+              histories: users[0].histories,
+              token: token,
+            });
+          }
+          return res.status(401).json({ message: 'Invalid password' });
+        });
+      })
+      .catch((err) => {
+        return res.status(400).json({
+          error: err,
+        });
       });
-    })
-    .catch((err) => {
-      return res.status(400).json({
-        error: err,
-      });
-    });
+  } catch (err) {
+    return res.status(400).json({ message: 'Error logging in', error: err });
+  }
 };
 
 exports.userDelete = async (req, res) => {
-  const user = await UserModel.findOne({ _id: req.params.userID });
-  await UserModel.deleteOne({ _id: req.params.userID })
-    .exec()
-    // eslint-disable-next-line no-unused-vars
-    .then((response) =>
-      res.status(200).json({
-        message: `${
-          user.role.charAt(0).toUpperCase() + user.role.slice(1)
-        } deleted successfully!`,
+  try {
+    const user = await UserModel.findOne({ _id: req.params.userID });
+    await UserModel.deleteOne({ _id: req.params.userID })
+      .exec()
+      // eslint-disable-next-line no-unused-vars
+      .then((response) => {
+        return res.status(200).json({
+          message: `${
+            user.role.charAt(0).toUpperCase() + user.role.slice(1)
+          } deleted successfully!`,
+        });
       })
-    )
-    .catch((err) => {
-      res.status(401).json({ message: `Error deleting account!`, error: err });
-    });
+      .catch((err) => {
+        return res
+          .status(401)
+          .json({ message: `Error deleting account!`, error: err });
+      });
+  } catch (err) {
+    return res.status(401).json({ message: `Account not found!`, error: err });
+  }
 };
 
 exports.orgDelete = async (req, res) => {
-  await OrgModel.deleteOne({ _id: req.params.userID })
-    .exec()
-    // eslint-disable-next-line no-unused-vars
-    .then((response) =>
-      res.status(200).json({ message: 'Organization deleted successfully!' })
-    )
-    .catch((err) => {
-      res.status(401).json({ message: `Error deleting account`, error: err });
-    });
-};
-
-exports.logout = [
-  (req, res) => {
-    if (req.session) {
-      req.session.destroy((err) => {
-        if (err) {
-          res.status(400).send('Unable to log out');
-        } else {
-          res.status(204).send('Logout successful');
-        }
+  try {
+    await OrgModel.deleteOne({ _id: req.params.userID })
+      .exec()
+      // eslint-disable-next-line no-unused-vars
+      .then((response) => {
+        return res
+          .status(200)
+          .json({ message: 'Organization deleted successfully!' });
+      })
+      .catch((err) => {
+        return res
+          .status(401)
+          .json({ message: `Error deleting account`, error: err });
       });
-    } else {
-      res.end();
-    }
-  },
-];
+  } catch (err) {
+    return res.status(400).json({ message: `Account not found!`, error: err });
+  }
+};
 
 exports.requestPasswordReset = [
   async (req, res) => {
@@ -344,8 +368,7 @@ exports.requestPasswordReset = [
         .status(200)
         .json({ message: 'Password reset link successfully sent!' });
     } catch (err) {
-      console.error(err);
-      res.status(400).json({ error: 'Error requesting password reset' });
+      return res.status(400).json({ error: 'Error requesting password reset' });
     }
   },
 ];
@@ -419,8 +442,7 @@ exports.requestPasswordResetOrg = [
         .status(200)
         .json({ message: 'Password reset link successfully sent!' });
     } catch (err) {
-      console.error(err);
-      res.status(400).json({ error: 'Error requesting password reset' });
+      return res.status(400).json({ error: 'Error requesting password reset' });
     }
   },
 ];
@@ -454,6 +476,7 @@ exports.resetPassword = [
       );
 
       const user = await UserModel.findById({ _id: userID });
+
       sendEmail.send(
         process.env.MAILGUN_EMAIL,
         user.email,
@@ -473,6 +496,7 @@ exports.resetPassword = [
           </body>
         </html>`
       );
+
       await passwordResetToken.deleteOne();
       return res.status(200).json({ message: 'Password changed successfully' });
     } catch (err) {
@@ -510,6 +534,7 @@ exports.resetPasswordOrg = [
       );
 
       const user = await OrgModel.findById({ _id: userID });
+
       sendEmail.send(
         process.env.MAILGUN_EMAIL,
         user.email,
@@ -529,6 +554,7 @@ exports.resetPasswordOrg = [
           </body>
         </html>`
       );
+
       await passwordResetToken.deleteOne();
       return res.status(200).json({ message: 'Password changed successfully' });
     } catch (err) {
