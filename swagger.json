@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2.1.0",
+    "version": "2.2.5",
     "title": "Solution Challenge: Fastrash",
     "description": "API documentation for FASTRASH"
   },
@@ -103,6 +103,97 @@
         }
       }
     },
+    "/api/auth/resetpassword/{id}": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Request password reset for user/collector account",
+        "description": "User and collector password reset request",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "$ref": "#/definitions/id"
+            },
+            "required": true,
+            "description": "ID of user or collector who wants to reset their password",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "body",
+            "description": "Email of user or collector who wants to reset their password",
+            "schema": {
+              "$ref": "#/definitions/email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset email sent successfully!"
+          },
+          "400": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    },
+
+    "/api/auth/resetpassword/{id}/{token}/{tokenID}": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Password reset for user/collector account",
+        "description": "Password reset for user/collector account after reset token has been obtained",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "$ref": "#/definitions/id"
+            },
+            "required": true,
+            "description": "ID of user or collector who wants to reset their password",
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "schema": {
+              "$ref": "#/definitions/id"
+            },
+            "required": true,
+            "description": "Token sent via email",
+            "type": "string"
+          },
+          {
+            "name": "tokenID",
+            "in": "path",
+            "schema": {
+              "$ref": "#/definitions/id"
+            },
+            "required": true,
+            "description": "ID of the token",
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "New password of the user",
+            "schema": {
+              "$ref": "#/definitions/email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset successfully!"
+          },
+          "400": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    },
     "/api/auth/org/delete/{id}": {
       "delete": {
         "tags": ["Authentication"],
@@ -130,7 +221,7 @@
     "/api/auth/org/register": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "Register an Organization",
+        "summary": "Register an organization",
         "description": "Organization registration",
         "parameters": [
           {
@@ -155,7 +246,7 @@
     "/api/auth/org/login": {
       "post": {
         "tags": ["Authentication"],
-        "summary": "Route for Organization Login",
+        "summary": "Route for organization login",
         "description": "Organization login",
         "parameters": [
           {
@@ -170,6 +261,98 @@
         "responses": {
           "201": {
             "description": "Organization logged in successfully!"
+          },
+          "400": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    },
+
+    "/api/auth/org/resetpassword/{id}": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Request password reset for Organization account",
+        "description": "Organization password reset request",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "$ref": "#/definitions/id"
+            },
+            "required": true,
+            "description": "ID of organization who wants to reset their password",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "body",
+            "description": "Email of organization who wants to reset their password",
+            "schema": {
+              "$ref": "#/definitions/email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset email sent successfully!"
+          },
+          "400": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    },
+
+    "/api/auth/org/resetpassword/{id}/{token}/{tokenID}": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Password reset for organization account",
+        "description": "Password reset for organization account after reset token has been obtained",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "$ref": "#/definitions/id"
+            },
+            "required": true,
+            "description": "ID of organization who wants to reset their password",
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "schema": {
+              "$ref": "#/definitions/id"
+            },
+            "required": true,
+            "description": "Token sent via email",
+            "type": "string"
+          },
+          {
+            "name": "tokenID",
+            "in": "path",
+            "schema": {
+              "$ref": "#/definitions/id"
+            },
+            "required": true,
+            "description": "ID of the token",
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "New password of the organization",
+            "schema": {
+              "$ref": "#/definitions/email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password reset successfully!"
           },
           "400": {
             "description": "Something went wrong"
@@ -406,23 +589,23 @@
       }
     },
 
-    "/api/history/fetch/{id}": {
+    "/api/history/deposits/fetch/{id}": {
       "get": {
         "tags": ["History"],
-        "summary": "Route for fetching histories",
-        "description": "Get user/collector/organization history with their ID",
+        "summary": "Route for fetching deposit history",
+        "description": "Get history with their ID",
         "parameters": [
           {
-            "name": "Fetch history",
-            "in": "body",
-            "description": "Fetch history of user/collector/organization",
+            "name": "id",
+            "in": "path",
+            "description": "Fetch history",
             "schema": {
               "$ref": "#/definitions/id"
             }
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "History fetched successfully!"
           },
           "400": {
@@ -431,16 +614,43 @@
         }
       }
     },
-    "/api/history/update/{id}": {
-      "put": {
+
+    "/api/history/deposits/user/{id}": {
+      "get": {
         "tags": ["History"],
-        "summary": "Route for updating history",
-        "description": "Update a particular history with their ID",
+        "summary": "Route for fetching all deposit history for a user",
+        "description": "Get user deposits history with their ID",
         "parameters": [
           {
-            "name": "Update history",
-            "in": "body",
-            "description": "Updating user/collector/organization history",
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History fetched successfully!"
+          },
+          "400": {
+            "description": "Error fetching history"
+          }
+        }
+      }
+    },
+
+    "/api/history/deposits/update/{id}": {
+      "put": {
+        "tags": ["History"],
+        "summary": "Route for updating deposit history",
+        "description": "Update a particular deposit history with their ID",
+        "parameters": [
+          {
+            "name": "History ID",
+            "in": "path",
+            "description": "ID of the history to update",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -456,16 +666,17 @@
         }
       }
     },
-    "/api/history/create/{userId}": {
+
+    "/api/history/deposits/create/{userId}": {
       "post": {
         "tags": ["History"],
-        "summary": "Route for adding User history",
+        "summary": "Route for creating user deposit history",
         "description": "Add user history",
         "parameters": [
           {
-            "name": "User History",
-            "in": "body",
-            "description": "Add User History",
+            "name": "User ID",
+            "in": "path",
+            "description": "ID of user whose history we want to create",
             "schema": {
               "$ref": "#/definitions/createHistory"
             }
@@ -481,41 +692,25 @@
         }
       }
     },
-    "/api/history/user/{userId}": {
-      "get": {
+
+    "/api/history/deposits/delete/{userId}/{historyId}": {
+      "delete": {
         "tags": ["History"],
-        "summary": "Route for fetching the history of a particular user",
-        "description": "Get all history for a particular user",
+        "summary": "Route for deleting user deposit history",
+        "description": "Deleting deposit history for a user with the History and User ID",
         "parameters": [
           {
-            "name": "Fetch user history",
-            "in": "body",
-            "description": "Fetch user history",
+            "name": "User ID",
+            "in": "path",
+            "description": "ID of user",
             "schema": {
               "$ref": "#/definitions/id"
             }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "History fetched successfully!"
           },
-          "400": {
-            "description": "Error fetching history"
-          }
-        }
-      }
-    },
-    "/api/history/delete/{userId}/{historyId}": {
-      "delete": {
-        "tags": ["History"],
-        "summary": "Route for deleting user history",
-        "description": "Deleting history for a user with the History and User ID",
-        "parameters": [
           {
-            "name": "User history delete",
-            "in": "body",
-            "description": "Deleting user history",
+            "name": "History ID",
+            "in": "path",
+            "description": "ID of history",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -531,16 +726,155 @@
         }
       }
     },
+
+    "/api/history/collections/fetch/{id}": {
+      "get": {
+        "tags": ["History"],
+        "summary": "Route for fetching collection history",
+        "description": "Get history with their ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Fetch history",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History fetched successfully!"
+          },
+          "400": {
+            "description": "Error fetching history"
+          }
+        }
+      }
+    },
+
+    "/api/history/collections/collector/{id}": {
+      "get": {
+        "tags": ["History"],
+        "summary": "Route for fetching all collection history for a collector",
+        "description": "Get collector collection history with their ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Collector ID",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History fetched successfully!"
+          },
+          "400": {
+            "description": "Error fetching history"
+          }
+        }
+      }
+    },
+
+    "/api/history/collections/update/{id}": {
+      "put": {
+        "tags": ["History"],
+        "summary": "Route for updating collection history",
+        "description": "Update a particular collection history with their ID",
+        "parameters": [
+          {
+            "name": "History ID",
+            "in": "path",
+            "description": "ID of the history to update",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "History updated successfully!"
+          },
+          "400": {
+            "description": "Error updating history"
+          }
+        }
+      }
+    },
+
+    "/api/history/collections/create/{collectorId}": {
+      "post": {
+        "tags": ["History"],
+        "summary": "Route for creating collector collection history",
+        "description": "Add collector collection history",
+        "parameters": [
+          {
+            "name": "Collector ID",
+            "in": "path",
+            "description": "ID of collector whose history we want to create",
+            "schema": {
+              "$ref": "#/definitions/createHistory"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User history created successfully!"
+          },
+          "400": {
+            "description": "Error creating user history"
+          }
+        }
+      }
+    },
+
+    "/api/history/collections/delete/{collectorId}/{historyId}": {
+      "delete": {
+        "tags": ["History"],
+        "summary": "Route for deleting user collection history",
+        "description": "Deleting collection history for a collector with the History and account ID",
+        "parameters": [
+          {
+            "name": "Collector ID",
+            "in": "path",
+            "description": "ID of collector",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "name": "History ID",
+            "in": "path",
+            "description": "ID of history",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "History deleted successfully!"
+          },
+          "400": {
+            "description": "Error deleting history"
+          }
+        }
+      }
+    },
+
     "/api/history/org/create/{orgId}": {
       "post": {
         "tags": ["History"],
-        "summary": "Route for adding organisation history",
-        "description": "Create organization history",
+        "summary": "Route for adding organisation collection history",
+        "description": "Create organization collection history",
         "parameters": [
           {
-            "name": "Create organisation history",
-            "in": "body",
-            "description": "Add organisation history",
+            "name": "Organization ID",
+            "in": "path",
+            "description": "ID of organization",
             "schema": {
               "$ref": "#/definitions/createHistory"
             }
@@ -556,16 +890,17 @@
         }
       }
     },
-    "/api/history/org/{orgId}": {
+
+    "/api/history/org/fetch/{orgId}": {
       "get": {
         "tags": ["History"],
-        "summary": "Route for fetching Organization history",
+        "summary": "Route for fetching Organization collection history",
         "description": "Fetch history for organization with their ID",
         "parameters": [
           {
-            "name": "Fetch organisation history",
-            "in": "body",
-            "description": "Get all history for an organization",
+            "name": "Organization ID",
+            "in": "path",
+            "description": "Get all collections history for an organization",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -581,16 +916,25 @@
         }
       }
     },
+
     "/api/history/org/delete/{orgId}/{historyId}": {
       "delete": {
         "tags": ["History"],
-        "summary": "Route for deleting organisation History",
-        "description": "Deleting Organisation History with particular ID",
+        "summary": "Route for deleting organisation history",
+        "description": "Deleting Organisation collection history with an ID",
         "parameters": [
           {
-            "name": "Organisation History",
-            "in": "body",
-            "description": "Deleting Organisation History",
+            "name": "Organisation ID",
+            "in": "path",
+            "description": "ID of organization account",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "name": "History ID",
+            "in": "path",
+            "description": "ID of collection history",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -735,6 +1079,27 @@
           "type": "string",
           "description": "Organization's password",
           "example": "1234567abcde@!"
+        }
+      }
+    },
+    "email": {
+      "required": ["email"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "uniqueItems": true,
+          "description": "User's email",
+          "example": "johndoe@gmail.com"
+        }
+      }
+    },
+    "password": {
+      "required": ["password"],
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "New password for the user",
+          "example": "supersecurepasswd"
         }
       }
     },
