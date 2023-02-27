@@ -9,6 +9,8 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 require('dotenv').config();
+const helmet = require('helmet');
+const xss = require('xss-clean');
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -47,6 +49,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //To allow cross-origin requests
 app.use(cors());
+
+// Security middlewares
+app.use(helmet());
+app.use(xss());
 
 // necessary code for setting up api route documentation
 

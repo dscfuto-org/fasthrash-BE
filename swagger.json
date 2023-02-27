@@ -1119,9 +1119,9 @@
           "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
         },
         "image": {
-          "type": "string",
-          "description": "A snapshot of the image you wish to dispose",
-          "example": "https://storage.googleapis.com/fastrash-image-upload/66988091.jpg"
+          "type": "file",
+          "description": "A multipart/form-data file of the waste",
+          "example": "file"
         },
         "location": {
           "type": "string",
