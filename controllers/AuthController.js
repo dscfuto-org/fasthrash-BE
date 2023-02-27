@@ -341,7 +341,7 @@ exports.requestPasswordReset = [
       }/${resetToken}/${tokenId.toString().substring(0, 24)}`;
 
       sendEmail.send(
-        process.env.MAILGUN_EMAIL,
+        process.env.EMAIL_USER,
         user.email,
         'Fastrash password reset request',
         'You requested to reset your password',
@@ -362,7 +362,8 @@ exports.requestPasswordReset = [
             <br/>
             <p>If you did not request a password reset, please ignore this email and contact support.</p>
           </body>
-        </html>`
+        </html>
+        `
       );
       return res
         .status(200)
@@ -415,7 +416,7 @@ exports.requestPasswordResetOrg = [
       }/${resetToken}/${tokenId.toString().substring(0, 24)}`;
 
       sendEmail.send(
-        process.env.MAILGUN_EMAIL,
+        process.env.EMAIL_USER,
         user.email,
         'Fastrash password reset request',
         'You requested to reset your password',
@@ -478,7 +479,7 @@ exports.resetPassword = [
       const user = await UserModel.findById({ _id: userID });
 
       sendEmail.send(
-        process.env.MAILGUN_EMAIL,
+        process.env.EMAIL_USER,
         user.email,
         'Fastrash: Your password has changed!',
         'Password request successful',
@@ -536,7 +537,7 @@ exports.resetPasswordOrg = [
       const user = await OrgModel.findById({ _id: userID });
 
       sendEmail.send(
-        process.env.MAILGUN_EMAIL,
+        process.env.EMAIL_USER,
         user.email,
         'Fastrash: Your password has changed!',
         'Password request successful',
