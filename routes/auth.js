@@ -6,17 +6,20 @@ const {
   verifyOrg,
 } = require('../middlewares/verifyUser');
 const userModel = require('../models/UserModel');
-
+// const resetPassword = require('../utils/index.html');
 const router = express.Router();
 
 // user/collector auth routes
 router.post('/register', AuthController.register);
 router.post('/login', AuthController.login);
-router.post('/resetpassword/:userID', AuthController.requestPasswordReset);
+router.post('/resetpassword/', AuthController.requestPasswordReset);
 router.post(
   '/resetpassword/:userID/:token/:tokenID',
   AuthController.resetPassword
 );
+router.get('/resetpassword/:userID/:token/:tokenID', (req, res) => {
+  res.sendFile('index.html', { root: './utils' });
+});
 router.delete(
   '/delete/:userID',
   async (req, res, next) => {
@@ -34,10 +37,7 @@ router.delete(
 router.post('/org/register', AuthController.registerOrg);
 router.post('/org/login', AuthController.loginOrg);
 // router.post(['/logout', '/org/logout'], AuthController.logout);
-router.post(
-  '/org/resetpassword/:userID',
-  AuthController.requestPasswordResetOrg
-);
+router.post('/org/resetpassword/', AuthController.requestPasswordResetOrg);
 router.post(
   '/org/resetpassword/:userID/:token/:tokenID',
   AuthController.resetPassword
