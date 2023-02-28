@@ -32,6 +32,7 @@
     "morgan": "~1.9.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.3.1",
+    "socket.io": "^4.6.1",
     "swagger-ui-express": "^4.6.0",
     "uuid": "^9.0.0",
     "validator": "^13.9.0",
