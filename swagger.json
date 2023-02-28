@@ -366,6 +366,41 @@
         }
       }
     },
+
+    "/api/alerts/update/{id}": {
+      "put": {
+        "tags": ["Alerts"],
+        "summary": "Route for updating a user->collector alert",
+        "description": "User -> collector alert update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the alert whose status we want to update",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "name": "status",
+            "in": "body",
+            "description": "New status we which to set on the alert",
+            "schema": {
+              "$ref": "#/definitions/status"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Alert updated successfully!"
+          },
+          "400": {
+            "description": "Error updating alert"
+          }
+        }
+      }
+    },
+
     "/api/alerts/": {
       "get": {
         "tags": ["Alerts"],
@@ -467,6 +502,40 @@
         }
       }
     },
+    "/api/org/alerts/update/{id}": {
+      "put": {
+        "tags": ["Alerts"],
+        "summary": "Route for updating a collector->organization alert",
+        "description": "Collector -> organization alert update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the alert whose status we want to update",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "name": "status",
+            "in": "body",
+            "description": "New status we which to set on the alert",
+            "schema": {
+              "$ref": "#/definitions/status"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Alert updated successfully!"
+          },
+          "400": {
+            "description": "Error updating alert"
+          }
+        }
+      }
+    },
+
     "/api/org/alerts/{id}": {
       "get": {
         "tags": ["Alerts"],
@@ -666,7 +735,7 @@
             "in": "path",
             "description": "ID of user whose history we want to create",
             "schema": {
-              "$ref": "#/definitions/createHistory"
+              "$ref": "#/definitions/id"
             }
           },
           {
@@ -680,10 +749,10 @@
         ],
         "responses": {
           "201": {
-            "description": "User History created successfully!"
+            "description": "Deposits history created successfully!"
           },
           "400": {
-            "description": "Error creating user history"
+            "description": "Error creating deposits history"
           }
         }
       }
@@ -820,7 +889,7 @@
             "in": "path",
             "description": "ID of collector whose history we want to create",
             "schema": {
-              "$ref": "#/definitions/createHistory"
+              "$ref": "#/definitions/id"
             }
           },
           {
@@ -834,10 +903,10 @@
         ],
         "responses": {
           "201": {
-            "description": "User history created successfully!"
+            "description": "Collections history created successfully!"
           },
           "400": {
-            "description": "Error creating user history"
+            "description": "Error creating collections history"
           }
         }
       }
@@ -981,6 +1050,16 @@
           "uniqueItems": true,
           "description": "User's ID",
           "example": "68asn88asc9a8c0ac0ca"
+        }
+      }
+    },
+    "status": {
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "User's status",
+          "example": "accepted"
         }
       }
     },
