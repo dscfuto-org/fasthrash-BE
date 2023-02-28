@@ -11,7 +11,7 @@ let collectionHistorySchema = new mongoose.Schema(
       required: true,
     },
     wasteImageUrl: { type: String },
-    wasteImageTitle: { type: String },
+    wasteImageDescription: { type: String },
     timeCollected: { type: Date },
   },
   { timestamps: true }

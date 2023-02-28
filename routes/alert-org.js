@@ -6,6 +6,7 @@ const upload = multer();
 
 router.get('/', alertController.fetchAlerts);
 router.post('/create/', upload.single('file'), alertController.createAlert);
+router.put('/update/:id', alertController.updateAlertStatus);
 router.get('/:id/', alertController.getAlert);
 router.delete('/delete/:id/', alertController.deleteAlert);
 

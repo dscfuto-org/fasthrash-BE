@@ -49,6 +49,40 @@ exports.createAlert = async (req, res) => {
   }
 };
 
+exports.updateAlertStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const alert = await Alert.findById(req.params.id);
+
+    if (status === 'pending') {
+      alert.status = 'pending';
+    } else if (status === 'accepted') {
+      alert.status = 'accepted';
+    } else if (status === 'collected') {
+      alert.status = 'collected';
+    } else {
+      return res.status(400).json({
+        status: 'Error updating alert',
+        message: 'Invalid status',
+      });
+    }
+
+    await alert.save();
+
+    return res.status(200).json({
+      status: 'Alert updated successfully!',
+      data: {
+        alert,
+      },
+    });
+  } catch (err) {
+    return res.status(400).json({
+      status: 'Error updating alert',
+      message: err,
+    });
+  }
+};
+
 exports.fetchAlerts = async (req, res) => {
   try {
     const alerts = await Alert.find();
@@ -65,6 +99,7 @@ exports.fetchAlerts = async (req, res) => {
     });
   }
 };
+
 exports.getAlert = async (req, res) => {
   try {
     const alert = await Alert.findById(req.params.id);

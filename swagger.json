@@ -103,22 +103,12 @@
         }
       }
     },
-    "/api/auth/resetpassword/{id}": {
+    "/api/auth/resetpassword/": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Request password reset for user/collector account",
         "description": "User and collector password reset request",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "$ref": "#/definitions/id"
-            },
-            "required": true,
-            "description": "ID of user or collector who wants to reset their password",
-            "type": "string"
-          },
           {
             "name": "email",
             "in": "body",
@@ -269,22 +259,12 @@
       }
     },
 
-    "/api/auth/org/resetpassword/{id}": {
+    "/api/auth/org/resetpassword/": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Request password reset for Organization account",
         "description": "Organization password reset request",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "$ref": "#/definitions/id"
-            },
-            "required": true,
-            "description": "ID of organization who wants to reset their password",
-            "type": "string"
-          },
           {
             "name": "email",
             "in": "body",
@@ -654,6 +634,14 @@
             "schema": {
               "$ref": "#/definitions/id"
             }
+          },
+          {
+            "name": "Update Deposit history",
+            "in": "body",
+            "description": "Update existing deposit history",
+            "schema": {
+              "$ref": "#/definitions/createDepositHistory"
+            }
           }
         ],
         "responses": {
@@ -679,6 +667,14 @@
             "description": "ID of user whose history we want to create",
             "schema": {
               "$ref": "#/definitions/createHistory"
+            }
+          },
+          {
+            "name": "Create Deposit history",
+            "in": "body",
+            "description": "Create new deposit history",
+            "schema": {
+              "$ref": "#/definitions/createDepositHistory"
             }
           }
         ],
@@ -792,6 +788,14 @@
             "schema": {
               "$ref": "#/definitions/id"
             }
+          },
+          {
+            "name": "Update collections history",
+            "in": "body",
+            "description": "Update existing collection history",
+            "schema": {
+              "$ref": "#/definitions/createCollectionsHistory"
+            }
           }
         ],
         "responses": {
@@ -817,6 +821,14 @@
             "description": "ID of collector whose history we want to create",
             "schema": {
               "$ref": "#/definitions/createHistory"
+            }
+          },
+          {
+            "name": "Create collections history",
+            "in": "body",
+            "description": "Create new collection history",
+            "schema": {
+              "$ref": "#/definitions/createCollectionsHistory"
             }
           }
         ],
@@ -877,6 +889,14 @@
             "description": "ID of organization",
             "schema": {
               "$ref": "#/definitions/createHistory"
+            }
+          },
+          {
+            "name": "Create organization collections history",
+            "in": "body",
+            "description": "Create new Organization collection history",
+            "schema": {
+              "$ref": "#/definitions/createOrgCollectionsHistory"
             }
           }
         ],
@@ -1146,20 +1166,33 @@
         }
       }
     },
-    "createHistory": {
+    "createDepositHistory": {
       "required": [
+        "userID",
+        "collectorID",
         "wasteImageUrl",
-        "wasteImageTitle",
+        "wasteImageDescription",
+        "collectionStatus",
         "timeDisposed",
         "timeCollected"
       ],
       "properties": {
+        "userId": {
+          "type": "string",
+          "description": "User ID",
+          "example": "5f1f9b9c9c9c9c9c9c9c9c9c"
+        },
+        "collectorId": {
+          "type": "string",
+          "description": "Collector ID",
+          "example": "5f1f9b9c9c9c9c9c9c9c9c9c"
+        },
         "wasteImageUrl": {
           "type": "string",
           "description": "Url for Image",
           "example": "www.image-location/"
         },
-        "wasteImageTitle": {
+        "wasteImageDescription": {
           "type": "string",
           "description": "Title of Waste Image",
           "example": "First Waste"
@@ -1169,13 +1202,83 @@
           "description": "Status of Waste Collection",
           "example": "True | Pending | False"
         },
-        "timeDisposed": {
+        "timeCollected": {
           "type": "date",
-          "description": "Time waste is disposed"
+          "description": "Time waste is collected",
+          "example": "2023-121-32"
+        }
+      }
+    },
+
+    "createCollectionsHistory": {
+      "required": [
+        "collectorID",
+        "ownerID",
+        "wasteImageUrl",
+        "wasteImageDescription",
+        "timeCollected"
+      ],
+      "properties": {
+        "collectorId": {
+          "type": "string",
+          "description": "Collector ID",
+          "example": "5f1f9b9c9c9c9c9c9c9c9c9c"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Owner ID",
+          "example": "5f1f9b9c9c9c9c9c9c9c9c9c"
+        },
+        "wasteImageUrl": {
+          "type": "string",
+          "description": "Url for Image",
+          "example": "www.image-location/"
+        },
+        "wasteImageDescription": {
+          "type": "string",
+          "description": "Title of Waste Image",
+          "example": "First Waste"
         },
         "timeCollected": {
           "type": "date",
-          "description": "Time waste is collected"
+          "description": "Time waste is collected",
+          "example": "2023-121-32"
+        }
+      }
+    },
+
+    "createOrgCollectionsHistory": {
+      "required": [
+        "ownerID",
+        "wasteImageUrl",
+        "wasteImageDescription",
+        "timeCollected"
+      ],
+      "properties": {
+        "collectorId": {
+          "type": "string",
+          "description": "ID of the organization",
+          "example": "5f1f9b9c9c9c9c9c9c9c9c9c"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Owner ID",
+          "example": "5f1f9b9c9c9c9c9c9c9c9c9c"
+        },
+        "wasteImageUrl": {
+          "type": "string",
+          "description": "Url for Image",
+          "example": "www.image-location/"
+        },
+        "wasteImageDescription": {
+          "type": "string",
+          "description": "Title of Waste Image",
+          "example": "First Waste"
+        },
+        "timeCollected": {
+          "type": "date",
+          "description": "Time waste is collected",
+          "example": "2023-121-32"
         }
       }
     }

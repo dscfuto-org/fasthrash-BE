@@ -7,7 +7,7 @@ exports.addDepositHistory = async (req, res) => {
     const {
       collectorId,
       wasteImageUrl,
-      wasteImageTitle,
+      wasteImageDescription,
       collectionStatus,
       timeCollected,
     } = req.body;
@@ -16,7 +16,7 @@ exports.addDepositHistory = async (req, res) => {
       userId,
       collectorId,
       wasteImageUrl,
-      wasteImageTitle,
+      wasteImageDescription,
       collectionStatus,
       timeCollected,
     });
@@ -86,9 +86,13 @@ exports.getDepositHistory = async (req, res) => {
 exports.updateDepositHistory = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedDepositHistory = await DepositHistory.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+    const updatedDepositHistory = await DepositHistory.findByIdAndUpdate(
+      id,
+      req.body,
+      {
+        new: true,
+      }
+    );
 
     return res.status(201).json({
       status: 'DepositHistory updated successfully!',

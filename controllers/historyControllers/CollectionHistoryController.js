@@ -5,18 +5,14 @@ const OrgModel = require('../../models/OrgModel');
 exports.addCollectorCollectionHistory = async (req, res) => {
   try {
     const { userId } = req.params;
-    const {
-      ownerId,
-      wasteImageUrl,
-      wasteImageTitle,
-      timeCollected,
-    } = req.body;
+    const { ownerId, wasteImageUrl, wasteImageDescription, timeCollected } =
+      req.body;
 
     const newHistory = new CollectionHistory({
       collectorId: userId,
       ownerId,
       wasteImageUrl,
-      wasteImageTitle,
+      wasteImageDescription,
       timeCollected,
     });
 
@@ -85,9 +81,13 @@ exports.getCollectionHistory = async (req, res) => {
 exports.updateCollectionHistory = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedCollectionHistory = await CollectionHistory.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
+    const updatedCollectionHistory = await CollectionHistory.findByIdAndUpdate(
+      id,
+      req.body,
+      {
+        new: true,
+      }
+    );
 
     return res.status(201).json({
       status: 'CollectionHistory updated successfully!',
@@ -133,19 +133,15 @@ exports.deleteCollectorCollectionHistory = async (req, res) => {
 exports.addOrgCollectionHistory = async (req, res) => {
   try {
     const { orgId } = req.params;
-    const {
-        ownerId,
-        wasteImageUrl,
-        wasteImageTitle,
-        timeCollected,
-    } = req.body;
-  
+    const { ownerId, wasteImageUrl, wasteImageDescription, timeCollected } =
+      req.body;
+
     const newHistory = new CollectionHistory({
-        collectorId: orgId,
-        ownerId,
-        wasteImageUrl,
-        wasteImageTitle,
-        timeCollected,
+      collectorId: orgId,
+      ownerId,
+      wasteImageUrl,
+      wasteImageDescription,
+      timeCollected,
     });
     await newHistory.save();
     await OrgModel.findByIdAndUpdate(

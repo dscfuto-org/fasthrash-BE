@@ -11,7 +11,7 @@ let depositHistorySchema = new mongoose.Schema(
       required: true,
     },
     wasteImageUrl: { type: String },
-    wasteImageTitle: { type: String },
+    wasteImageDescription: { type: String },
     collectionStatus: {
       type: String,
       default: 'pending',
