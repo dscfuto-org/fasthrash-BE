@@ -17,9 +17,6 @@ router.post(
   '/resetpassword/:userID/:token/:tokenID',
   AuthController.resetPassword
 );
-router.get('/resetpassword/:userID/:token/:tokenID', (req, res) => {
-  res.sendFile('resetPassword.html', { root: './utils' });
-});
 router.delete(
   '/delete/:userID',
   async (req, res, next) => {
@@ -42,9 +39,6 @@ router.post(
   '/org/resetpassword/:userID/:token/:tokenID',
   AuthController.resetPassword
 );
-router.get('/org/resetpassword/:userID/:token/:tokenID', (req, res) => {
-  res.sendFile('resetPassword.html', { root: './utils' });
-});
 router.delete('/org/delete/:userID', verifyOrg, AuthController.orgDelete);
 
 module.exports = router;

@@ -60,6 +60,12 @@ app.use(xss());
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/resetpassword/:userID/:token/:tokenID', (req, res) => {
+  res.sendFile('resetPassword.html', { root: './utils' });
+});
+app.use('/org/resetpassword/:userID/:token/:tokenID', (req, res) => {
+  res.sendFile('resetPassword.html', { root: './utils' });
+});
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {
