@@ -6,7 +6,7 @@ const {
   verifyOrg,
 } = require('../middlewares/verifyUser');
 const userModel = require('../models/UserModel');
-// const resetPassword = require('../utils/index.html');
+
 const router = express.Router();
 
 // user/collector auth routes
@@ -18,7 +18,7 @@ router.post(
   AuthController.resetPassword
 );
 router.get('/resetpassword/:userID/:token/:tokenID', (req, res) => {
-  res.sendFile('index.html', { root: './utils' });
+  res.sendFile('resetPassword.html', { root: './utils' });
 });
 router.delete(
   '/delete/:userID',
@@ -42,6 +42,9 @@ router.post(
   '/org/resetpassword/:userID/:token/:tokenID',
   AuthController.resetPassword
 );
+router.get('/org/resetpassword/:userID/:token/:tokenID', (req, res) => {
+  res.sendFile('resetPassword.html', { root: './utils' });
+});
 router.delete('/org/delete/:userID', verifyOrg, AuthController.orgDelete);
 
 module.exports = router;

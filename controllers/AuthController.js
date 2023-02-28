@@ -452,9 +452,10 @@ exports.resetPassword = [
   async (req, res) => {
     try {
       // destructure userID and token from params
-      const { userID, token, tokenID } = req.params;
+      let { userID, token, tokenID } = req.params;
       // destructure password from body
-      const { password } = req.body;
+      let { password } = req.body;
+      console.log(req.body, userID, token, password);
 
       let passwordResetToken = await TokenModel.findOne({ _id: tokenID });
 
