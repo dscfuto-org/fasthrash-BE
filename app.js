@@ -11,6 +11,7 @@ const swaggerDocument = require('./swagger.json');
 require('dotenv').config();
 const helmet = require('helmet');
 const xss = require('xss-clean');
+const crypto = require('crypto');
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -53,6 +54,19 @@ app.use(cors());
 // Security middlewares
 app.use(helmet());
 app.use(xss());
+
+// Sets the `script-src` directive to "'self' 'nonce-e33ccde670f149c1789b1e1e113b0916'" (or similar)
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString('hex');
+  next();
+});
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      scriptSrc: [(req, res) => `'nonce-${res.locals.cspNonce}'`],
+    },
+  })
+);
 
 // necessary code for setting up api route documentation
 

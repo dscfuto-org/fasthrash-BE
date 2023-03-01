@@ -1203,19 +1203,18 @@
       }
     },
     "createAlerts": {
-      "required": ["title", "description", "image", "location"],
+      "required": ["description", "status", "image", "location", "quantity"],
       "properties": {
-        "title": {
-          "type": "string",
-          "uniqueItems": "true",
-          "description": "Title of the alert",
-          "example": "Need to dispose some waste"
-        },
         "description": {
           "type": "string",
           "uniqueItems": true,
           "description": "Description of the alert",
           "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the alert",
+          "example": "pending | accepted | collected"
         },
         "image": {
           "type": "file",
