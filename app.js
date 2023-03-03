@@ -11,7 +11,7 @@ const swaggerDocument = require('./swagger.json');
 require('dotenv').config();
 const helmet = require('helmet');
 const xss = require('xss-clean');
-// const crypto = require('crypto');
+const crypto = require('crypto');
 
 // DB connection
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -56,29 +56,35 @@ app.use(helmet());
 app.use(xss());
 
 // Sets the `script-src` directive to "'self' 'nonce-e33ccde670f149c1789b1e1e113b0916'" (or similar)
-// app.use((req, res, next) => {
-//   res.locals.cspNonce = crypto.randomBytes(16).toString('hex');
-//   next();
-// });
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     directives: {
-//       scriptSrc: [(req, res) => `'nonce-${res.locals.cspNonce}'`],
-//     },
-//   })
-// );
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString('hex');
+  next();
+});
 
-// necessary code for setting up api route documentation
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      scriptSrc: [(req, res) => `'nonce-${res.locals.cspNonce}'`],
+    },
+  })
+);
+
+// setting view engine as ejs
+app.set('view engine', 'ejs');
 
 //Route Prefixes
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
+
+// api documentation route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/resetpassword/:userID/:token/:tokenID', (req, res) => {
-  res.sendFile('resetPassword.html', { root: './utils' });
+
+// user/collector and organization makeshift reset password routes
+app.get('/resetpassword/:userID/:token/:tokenID', (req, res) => {
+  res.render('./resetPassword', { cspNonce: res.locals.cspNonce });
 });
-app.use('/org/resetpassword/:userID/:token/:tokenID', (req, res) => {
-  res.sendFile('resetPassword.html', { root: './utils' });
+app.get('/org/resetpassword/:userID/:token/:tokenID', (req, res) => {
+  res.render('resetPassword', { cspNonce: res.locals.cspNonce });
 });
 
 // throw 404 if URL not found
@@ -91,6 +97,19 @@ app.use((err, req, res) => {
     return apiResponse.unauthorizedResponse(res, err.message);
   }
 });
+
+console.log(
+  `%c
+      ------------------
+      < Happy Hacking! >
+      ------------------
+              \\   ^__^
+               \\  (oo)\\_______
+                  (__)\\       )\\/\\
+                      ||----w |
+                      ||     ||`,
+  'font-family:monospace'
+);
 
 // eslint-disable-next-line no-unused-vars
 app.listen(process.env.PORT, (req, res) => {

@@ -453,7 +453,6 @@ exports.resetPassword = [
       let { userID, token, tokenID } = req.params;
       // destructure password from body
       let { password } = req.body;
-      console.log(req.body, userID, token, password);
 
       let passwordResetToken = await TokenModel.findOne({ _id: tokenID });
 
