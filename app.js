@@ -51,6 +51,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 //To allow cross-origin requests
 app.use(cors());
 
+// api documentation route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // Security middlewares
 app.use(helmet());
 app.use(xss());
@@ -75,9 +78,6 @@ app.set('view engine', 'ejs');
 //Route Prefixes
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
-
-// api documentation route
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // user/collector and organization makeshift reset password routes
 app.get('/resetpassword/:userID/:token/:tokenID', (req, res) => {
