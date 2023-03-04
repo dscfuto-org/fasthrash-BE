@@ -6,9 +6,9 @@ const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
 const apiResponse = require('./helpers/apiResponse');
 const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-require('dotenv').config();
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger.json');
+require('dotenv').config({path: './config.env'});
 // const Cloud = require('@google-cloud/storage');
 // const serviceKey = path.join(__dirname, './storage-keys.json');
 
@@ -19,16 +19,17 @@ const mongoose = require('mongoose');
 mongoose
   .connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    //don't show the log when it is test
-    if (process.env.NODE_ENV !== 'test') {
-      console.log('Connected to %s', MONGODB_URL);
-      console.log('App is running ... \n');
-      console.log('Press CTRL + C to stop the process. \n');
-    }
-  })
-  .catch((err) => {
-    console.error('App starting error:', err.message);
-    process.exit(1);
+  //   //don't show the log when it is test
+  //   if (process.env.NODE_ENV !== 'test') {
+  //     console.log('Connected to %s', MONGODB_URL);
+  //     console.log('App is running ... \n');
+  //     console.log('Press CTRL + C to stop the process. \n');
+  //   }
+  // })
+  // .catch((err) => {
+  //   console.error('App starting error:', err.message);
+  //   process.exit(1);
+  console.log('DB Connected Successfully')
   });
 
 const db = mongoose.connection; //eslint-disable-line no-unused-vars
@@ -59,7 +60,7 @@ app.use(cors());
 //Route Prefixes
 app.use('/', indexRouter);
 app.use('/api/', apiRouter);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // throw 404 if URL not found
 app.all('*', function (req, res) {

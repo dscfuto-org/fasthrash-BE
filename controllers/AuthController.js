@@ -1,12 +1,14 @@
 const UserModel = require('../models/UserModel');
 const OrgModel = require('../models/OrgModel');
+const User = require('../models/UserModel')
+const { findByIdAndUpdate } = require('../models/imgModel');
 // const { body, validationResult } = require('express-validator');
 // const { sanitizeBody } = require('express-validator');
 //helper file to prepare responses.
 // const apiResponse = require('../helpers/apiResponse');
 // const utility = require('../helpers/utility');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
 // const { fn } = require('moment/moment');
 // const mailer = require("../helpers/mailer");
 // const { constants } = require('../helpers/constants');
@@ -288,3 +290,19 @@ exports.resetPassword = [
     }
   },
 ];
+exports.updateUserData = async(req,res,next)=>{
+  const userDataToUpdate = req.body
+  if(req.body.password){
+    res.status(400).json({
+      message: "This route is not for password Reset please try using the /'reset-password/' Route ",
+    })
+  }
+  const updatedUserData = await User.findByIdAndUpdate(req.params.id, userDataToUpdate,{new: true,runValidators: true})
+  res.status(200).json({
+    message:'Data Updated Successfully',
+    data: {
+      updatedUserData
+    }
+  })
+
+}

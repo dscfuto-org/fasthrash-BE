@@ -1,9 +1,9 @@
 const processFile = require('../middlewares/upload');
 const { format } = require('util');
-const { Storage } = require('@google-cloud/storage');
+// const { Storage } = require('@google-cloud/storage');
 // Instantiate a storage client with credentials
-const storage = new Storage({ keyFilename: 'storage-keys.json' });
-const bucket = storage.bucket('fastrash-image-upload');
+// const storage = new Storage({ keyFilename: 'storage-keys.json' });
+// const bucket = storage.bucket('fastrash-image-upload');
 const uuid = require('uuid');
 const imageSchema = require('../models/imgModel');
 

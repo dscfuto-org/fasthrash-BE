@@ -28,5 +28,6 @@ router.delete(
 router.delete('/org/delete/:userID', verifyOrg, AuthController.orgDelete);
 router.post(['/logout', '/org/logout'], AuthController.logout);
 router.post('reset-password', AuthController.resetPassword);
+router.patch('/updateMe/:id',AuthController.updateUserData )
 
 module.exports = router;

@@ -28,11 +28,11 @@ exports.addUserHistory = async (req, res) => {
       timeCollected,
     });
     await newHistory.save();
-    await UserModel.findOneAndUpdate(userId, {
-      $push: {
-        histories: newHistory,
-      },
-    });
+    // await UserModel.findOneAndUpdate(userId, {
+    //   $push: {
+    //     histories: newHistory,
+    //   },
+    // });
 
     return res.status(201).json({
       status: 'History added successfully!',
