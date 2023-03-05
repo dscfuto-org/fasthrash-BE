@@ -426,6 +426,24 @@
         }
       }
     },
+
+    "/api/alerts/?role=user": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for fetching all alerts created by users",
+        "description": "Fetching all user created alerts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User alerts fetched successfully!"
+          },
+          "404": {
+            "description": "Error fetching user alerts"
+          }
+        }
+      }
+    },
+
     "/api/alerts/{id}": {
       "get": {
         "tags": ["Alerts"],
@@ -502,6 +520,24 @@
         }
       }
     },
+
+    "/api/org/alerts/?role=collector": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for fetching all alerts created by collectors",
+        "description": "Fetching all collector created alerts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Collector alerts fetched successfully!"
+          },
+          "404": {
+            "description": "Error fetching collector alerts"
+          }
+        }
+      }
+    },
+
     "/api/org/alerts/update/{id}": {
       "put": {
         "tags": ["Alerts"],
@@ -1225,6 +1261,11 @@
           "type": "string",
           "description": "Location of the user creating the alert",
           "example": "121.13, 32.1"
+        },
+        "role": {
+          "type": "string",
+          "description": "Role of the user creating the alert",
+          "example": "user | collector"
         },
         "quantity": {
           "type": "integer",
