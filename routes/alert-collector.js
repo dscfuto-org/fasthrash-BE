@@ -4,7 +4,7 @@ const alertController = require('../controllers/AlertController');
 const multer = require('multer');
 const upload = multer();
 
-router.get('/', alertController.fetchAlerts);
+router.get('/', alertController.getAllAlertsByRole);
 router.post('/create/', upload.single('file'), alertController.createAlert);
 router.put('/update/:id', alertController.updateAlertStatus);
 router.get('/:id/', alertController.getAlert);

@@ -13,6 +13,7 @@ let alertSchema = new mongoose.Schema(
     },
     image: { type: String, required: true },
     location: { type: String, required: true },
+    role: { type: String, enum: ['user', 'collector'], required: true },
     quantity: { type: Number },
   },
   { timestamps: true }
