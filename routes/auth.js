@@ -17,6 +17,7 @@ router.post(
   '/resetpassword/:userID/:token/:tokenID',
   AuthController.resetPassword
 );
+router.patch('/update/:id', AuthController.updateUserData);
 router.delete(
   '/delete/:userID',
   async (req, res, next) => {
@@ -39,6 +40,7 @@ router.post(
   '/org/resetpassword/:userID/:token/:tokenID',
   AuthController.resetPassword
 );
+router.patch('/org/update/:id', AuthController.updateOrgData);
 router.delete('/org/delete/:userID', verifyOrg, AuthController.orgDelete);
 
 module.exports = router;

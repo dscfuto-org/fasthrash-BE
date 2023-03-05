@@ -73,6 +73,46 @@ exports.register = async (req, res) => {
   }
 };
 
+exports.updateUserData = async (req, res) => {
+  try {
+    const userDataToUpdate = req.body;
+    if (req.body.password) {
+      return res.status(400).json({
+        message: 'This route is not for password reset!',
+      });
+    }
+    if (req.body.email) {
+      return res.status(400).json({
+        message: `Sorry, you can't update your email at the moment!`,
+      });
+    }
+    if (req.body.role) {
+      return res
+        .status(400)
+        .json({ message: `Sorry, you can't update your role at the moment!` });
+    }
+    const updatedUserData = await UserModel.findByIdAndUpdate(
+      req.params.id,
+      userDataToUpdate,
+      { new: true, runValidators: true }
+    );
+    return res.status(200).json({
+      message: `${
+        updatedUserData === null
+          ? 'Invalid profile ID'
+          : 'Profile data updated successfully'
+      }`,
+      data: {
+        updatedUserData,
+      },
+    });
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: 'Error updating your data', error: err });
+  }
+};
+
 /**
  * Organization registration.
  *
@@ -134,6 +174,42 @@ exports.registerOrg = async (req, res) => {
     return res
       .status(400)
       .json({ message: 'Error creating an account', error: err });
+  }
+};
+
+exports.updateOrgData = async (req, res) => {
+  try {
+    const orgDataToUpdate = req.body;
+    if (req.body.password) {
+      return res.status(400).json({
+        message: 'This route is not for password reset!',
+      });
+    }
+    if (req.body.email) {
+      return res.status(400).json({
+        message: `Sorry, you can't update your email at the moment!`,
+      });
+    }
+    const updatedOrgData = await OrgModel.findByIdAndUpdate(
+      req.params.id,
+      orgDataToUpdate,
+      { new: true, runValidators: true }
+    );
+
+    return res.status(200).json({
+      message: `${
+        updatedOrgData === null
+          ? 'Invalid profile ID'
+          : 'Profile data updated successfully'
+      }`,
+      data: {
+        updatedOrgData,
+      },
+    });
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ message: 'Error updating your data', error: err });
   }
 };
 

@@ -24,6 +24,11 @@ let OrgSchema = new mongoose.Schema(
       required: [true, 'Password confirm is required'],
       expiresAt: { type: Date, expires: 10 },
     },
+    profileImage: {
+      type: String,
+      default:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnh94MQvh24TUznVTtvALyDyWrrNPw-SmNHg&usqp=CAU',
+    },
     collectionHistories: [
       {
         type: mongoose.Schema.Types.ObjectId,

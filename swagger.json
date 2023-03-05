@@ -79,6 +79,40 @@
         }
       }
     },
+
+    "/api/auth/update/{userID}": {
+      "patch": {
+        "tags": ["Authentication"],
+        "summary": "Update a user/collector profile",
+        "description": "User and collector profile update",
+        "parameters": [
+          {
+            "name": "User ID",
+            "in": "path",
+            "description": "ID of the User/collector profile you want to update",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "name": "Profile data",
+            "in": "body",
+            "description": "Data you wish to update",
+            "schema": {
+              "$ref": "#/definitions/userUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    },
     "/api/auth/delete/{id}": {
       "delete": {
         "tags": ["Authentication"],
@@ -233,6 +267,41 @@
         }
       }
     },
+
+    "/api/auth/org/update/{orgID}": {
+      "patch": {
+        "tags": ["Authentication"],
+        "summary": "Update an organization's profile",
+        "description": "Organization profile update",
+        "parameters": [
+          {
+            "name": "Organization ID",
+            "in": "path",
+            "description": "ID of the organization profile you want to update",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          },
+          {
+            "name": "Profile data",
+            "in": "body",
+            "description": "Data you wish to update",
+            "schema": {
+              "$ref": "#/definitions/orgUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User updated successfully"
+          },
+          "400": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    },
+
     "/api/auth/org/login": {
       "post": {
         "tags": ["Authentication"],
@@ -1152,6 +1221,29 @@
         }
       }
     },
+    "userUpdate": {
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "User/collector's first name",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "User/collector's last name",
+          "example": "Doe"
+        },
+        "location": {
+          "type": "string",
+          "description": "User/collector's location"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "User/collector's phone number",
+          "example": "012346789"
+        }
+      }
+    },
     "orgCreate": {
       "required": [
         "businessName",
@@ -1198,6 +1290,30 @@
           "type": "string",
           "description": "Organzation's password confirmation",
           "example": "123456abc@*&^%$"
+        }
+      }
+    },
+    "orgUpdate": {
+      "properties": {
+        "businessName": {
+          "type": "string",
+          "description": "Organization's name",
+          "example": "Dvultech Ltd"
+        },
+        "location": {
+          "type": "string",
+          "description": "Organization's location",
+          "example": "latitude adress"
+        },
+        "size": {
+          "type": "string",
+          "description": "Size of organization",
+          "example": "Small | Medium | Large"
+        },
+        "yearsOfOperation": {
+          "type": "integer",
+          "description": "Years of operation",
+          "example": 7
         }
       }
     },
