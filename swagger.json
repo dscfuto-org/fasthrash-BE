@@ -1355,7 +1355,7 @@
       }
     },
     "createAlerts": {
-      "required": ["description", "status", "image", "location", "quantity"],
+      "required": ["description", "status", "image", "quantity"],
       "properties": {
         "description": {
           "type": "string",
@@ -1373,10 +1373,20 @@
           "description": "A multipart/form-data file of the waste",
           "example": "file"
         },
-        "location": {
+        "location.longitude": {
+          "type": "Number",
+          "description": "Location (longitude) of the user creating the alert",
+          "example": 121.13
+        },
+        "location.latitude": {
+          "type": "Number",
+          "description": "Location (latitude) of the user creating the alert",
+          "example": 32.5
+        },
+        "address": {
           "type": "string",
-          "description": "Location of the user creating the alert",
-          "example": "121.13, 32.1"
+          "description": "Address of the user creating the alert",
+          "example": "address"
         },
         "role": {
           "type": "string",
