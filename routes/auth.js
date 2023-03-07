@@ -30,6 +30,7 @@ router.delete(
   },
   AuthController.userDelete
 );
+router.get('/profile/:userID', AuthController.profile)
 
 // organization auth routes
 router.post('/org/register', AuthController.registerOrg);
@@ -42,5 +43,7 @@ router.post(
 );
 router.patch('/org/update/:id', AuthController.updateOrgData);
 router.delete('/org/delete/:userID', verifyOrg, AuthController.orgDelete);
+router.get('/org/profile/:userID', AuthController.orgProfile)
+
 
 module.exports = router;
