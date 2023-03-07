@@ -80,6 +80,32 @@
       }
     },
 
+    "/api/auth/profile/{userID}": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Fetch user/collector profile information",
+        "description": "Route for fetching user/collector profile informaion",
+        "parameters": [
+          {
+            "name": "User ID",
+            "in": "path",
+            "description": "ID of user/collector whose profile we wish to fetch",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User/collector profile fetched successfully"
+          },
+          "400": {
+            "description": "Error occurred fetching user/collector profile"
+          }
+        }
+      }
+    },
+
     "/api/auth/update/{userID}": {
       "patch": {
         "tags": ["Authentication"],
@@ -323,6 +349,32 @@
           },
           "400": {
             "description": "Something went wrong"
+          }
+        }
+      }
+    },
+
+    "/api/auth/org/profile/{userID}": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Fetch organization profile information",
+        "description": "Route for fetching organization profile informaion",
+        "parameters": [
+          {
+            "name": "Organization ID",
+            "in": "path",
+            "description": "ID of organization whose profile we wish to fetch",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organization profile fetched successfully"
+          },
+          "400": {
+            "description": "Error occurred fetching organization profile"
           }
         }
       }
