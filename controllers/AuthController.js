@@ -113,6 +113,24 @@ exports.updateUserData = async (req, res) => {
   }
 };
 
+exports.profile = async (req, res) =>{
+  try{
+    const user = await UserModel.findById(req.params.userID)
+    return res
+    .status(200)
+    .json({
+      message: 'User profile',
+      data: {
+        user
+      }
+    })
+  }catch(err){
+    return res
+    .status(400)
+    .json({message: 'Error fetching user profile', error: err})
+  }
+}
+
 /**
  * Organization registration.
  *
@@ -213,6 +231,24 @@ exports.updateOrgData = async (req, res) => {
   }
 };
 
+exports.orgProfile = async (req, res) =>{
+  try{
+    const user = await OrgModel.findById(req.params.userID)
+    return res
+    .status(200)
+    .json({
+      message: 'user profile',
+      data: {
+        user
+      }
+    })
+  }catch(err){
+    return res
+    .status(400)
+    .json({message: 'Error fetching user profile', error: err})
+  }
+}
+
 /**
  * User login.
  *
@@ -251,12 +287,6 @@ exports.login = async (req, res) => {
             return res.status(200).json({
               message: 'Authorization successful',
               id: users[0]._id,
-              firstName: users[0].firstName,
-              lastName: users[0].lastName,
-              location: users[0].location,
-              email: users[0].email,
-              phoneNumber: users[0].phoneNumber,
-              role: users[0].role,
               token: token,
             });
           }
@@ -309,11 +339,6 @@ exports.loginOrg = async (req, res) => {
             return res.status(200).json({
               message: 'Authorization successful',
               id: users[0]._id,
-              businessName: users[0].businessName,
-              yearsOfOperation: users[0].yearsOfOperation,
-              size: users[0].size,
-              location: users[0].location,
-              email: users[0].email,
               token: token,
             });
           }
