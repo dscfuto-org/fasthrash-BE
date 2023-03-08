@@ -113,23 +113,21 @@ exports.updateUserData = async (req, res) => {
   }
 };
 
-exports.profile = async (req, res) =>{
-  try{
-    const user = await UserModel.findById(req.params.userID)
-    return res
-    .status(200)
-    .json({
+exports.profile = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.userID);
+    return res.status(200).json({
       message: 'User profile',
       data: {
-        user
-      }
-    })
-  }catch(err){
+        user,
+      },
+    });
+  } catch (err) {
     return res
-    .status(400)
-    .json({message: 'Error fetching user profile', error: err})
+      .status(400)
+      .json({ message: 'Error fetching user profile', error: err });
   }
-}
+};
 
 /**
  * Organization registration.
@@ -231,23 +229,21 @@ exports.updateOrgData = async (req, res) => {
   }
 };
 
-exports.orgProfile = async (req, res) =>{
-  try{
-    const user = await OrgModel.findById(req.params.userID)
-    return res
-    .status(200)
-    .json({
+exports.orgProfile = async (req, res) => {
+  try {
+    const user = await OrgModel.findById(req.params.userID);
+    return res.status(200).json({
       message: 'user profile',
       data: {
-        user
-      }
-    })
-  }catch(err){
+        user,
+      },
+    });
+  } catch (err) {
     return res
-    .status(400)
-    .json({message: 'Error fetching user profile', error: err})
+      .status(400)
+      .json({ message: 'Error fetching user profile', error: err });
   }
-}
+};
 
 /**
  * User login.
@@ -362,7 +358,7 @@ exports.userDelete = async (req, res) => {
       .exec()
       // eslint-disable-next-line no-unused-vars
       .then((response) => {
-        return res.status(200).json({
+        return res.status(204).json({
           message: `${
             user.role.charAt(0).toUpperCase() + user.role.slice(1)
           } deleted successfully!`,
@@ -385,7 +381,7 @@ exports.orgDelete = async (req, res) => {
       // eslint-disable-next-line no-unused-vars
       .then((response) => {
         return res
-          .status(200)
+          .status(204)
           .json({ message: 'Organization deleted successfully!' });
       })
       .catch((err) => {

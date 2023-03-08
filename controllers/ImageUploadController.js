@@ -27,7 +27,7 @@ const upload = async (req, res) => {
     });
 
     blobStream.on('error', (err) => {
-      res.status(500).send({ message: err.message });
+      return res.status(400).send({ message: err.message });
     });
 
     // eslint-disable-next-line no-unused-vars
@@ -60,7 +60,7 @@ const upload = async (req, res) => {
         message: 'File cannot be larger than 10MB',
       });
     }
-    res.status(err !== NON_IMAGE ? 400 : 500).send({
+    return res.status(err !== NON_IMAGE ? 400 : 500).send({
       message: `Could not upload the file - ${err}`,
     });
   }
@@ -78,11 +78,11 @@ const getFiles = async (req, res) => {
       });
     });
 
-    res.status(200).send(fileInfos);
+    return res.status(200).send(fileInfos);
   } catch (err) {
     console.log(err);
 
-    res.status(500).send({
+    return res.status(401).send({
       message: 'Unable to read list of files!',
     });
   }
@@ -93,7 +93,7 @@ const download = async (req, res) => {
     const [metaData] = await bucket.file(req.params.name).getMetadata();
     res.redirect(metaData.mediaLink);
   } catch (err) {
-    res.status(500).send({
+    return res.status(401).send({
       message: 'Could not download the file. ' + err,
     });
   }
