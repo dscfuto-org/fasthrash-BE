@@ -467,14 +467,62 @@
         "tags": ["Alerts"],
         "summary": "Route for creating a user->collector alert",
         "description": "User -> collector alert creation",
+        "consumes": "multipart/form-data",
         "parameters": [
           {
-            "name": "Alerts",
-            "in": "body",
-            "description": "User -> collector alert creation",
-            "schema": {
-              "$ref": "#/definitions/createAlerts"
-            }
+            "name": "file",
+            "in": "formData",
+            "type": "file",
+            "description": "The file to upload"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "in": "formData",
+            "description": "Description of the alert",
+            "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "type": "string",
+            "description": "Status of the alert",
+            "example": "pending | accepted | collected"
+          },
+          {
+            "name": "location.longitude",
+            "in": "formData",
+            "type": "Number",
+            "description": "Location (longitude) of the user creating the alert",
+            "example": 121.13
+          },
+          {
+            "name": "location.latitude",
+            "in": "formData",
+            "type": "Number",
+            "description": "Location (latitude) of the user creating the alert",
+            "example": 32.5
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "type": "string",
+            "description": "Address of the user creating the alert",
+            "example": "address"
+          },
+          {
+            "name": "role",
+            "in": "formData",
+            "type": "string",
+            "description": "Role of the user creating the alert",
+            "example": "user | collector"
+          },
+          {
+            "name": "quantity",
+            "in": "formData",
+            "type": "integer",
+            "description": "Quantity of the waste in KG",
+            "example": 7
           }
         ],
         "responses": {
@@ -1403,52 +1451,6 @@
           "type": "string",
           "description": "New password for the user",
           "example": "supersecurepasswd"
-        }
-      }
-    },
-    "createAlerts": {
-      "required": ["description", "status", "image", "quantity"],
-      "properties": {
-        "description": {
-          "type": "string",
-          "uniqueItems": true,
-          "description": "Description of the alert",
-          "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
-        },
-        "status": {
-          "type": "string",
-          "description": "Status of the alert",
-          "example": "pending | accepted | collected"
-        },
-        "image": {
-          "type": "file",
-          "description": "A multipart/form-data file of the waste",
-          "example": "file"
-        },
-        "location.longitude": {
-          "type": "Number",
-          "description": "Location (longitude) of the user creating the alert",
-          "example": 121.13
-        },
-        "location.latitude": {
-          "type": "Number",
-          "description": "Location (latitude) of the user creating the alert",
-          "example": 32.5
-        },
-        "address": {
-          "type": "string",
-          "description": "Address of the user creating the alert",
-          "example": "address"
-        },
-        "role": {
-          "type": "string",
-          "description": "Role of the user creating the alert",
-          "example": "user | collector"
-        },
-        "quantity": {
-          "type": "integer",
-          "description": "Quantity of the waste in KG",
-          "example": 7
         }
       }
     },
