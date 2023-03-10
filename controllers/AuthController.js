@@ -115,7 +115,10 @@ exports.updateUserData = async (req, res) => {
 
 exports.profile = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.params.userID);
+    const user = await UserModel.findById(req.params.userID).select(
+      '-password'
+    );
+
     return res.status(200).json({
       message: 'User profile',
       data: {
@@ -231,7 +234,7 @@ exports.updateOrgData = async (req, res) => {
 
 exports.orgProfile = async (req, res) => {
   try {
-    const user = await OrgModel.findById(req.params.userID);
+    const user = await OrgModel.findById(req.params.userID).select('-password');
     return res.status(200).json({
       message: 'user profile',
       data: {

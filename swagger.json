@@ -87,7 +87,7 @@
         "description": "Route for fetching user/collector profile informaion",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of user/collector whose profile we wish to fetch",
             "schema": {
@@ -113,7 +113,7 @@
         "description": "User and collector profile update",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of the User/collector profile you want to update",
             "schema": {
@@ -301,7 +301,7 @@
         "description": "Organization profile update",
         "parameters": [
           {
-            "name": "Organization ID",
+            "name": "orgID",
             "in": "path",
             "description": "ID of the organization profile you want to update",
             "schema": {
@@ -361,7 +361,7 @@
         "description": "Route for fetching organization profile informaion",
         "parameters": [
           {
-            "name": "Organization ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of organization whose profile we wish to fetch",
             "schema": {
@@ -888,7 +888,7 @@
         "description": "Add user history",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of user whose history we want to create",
             "schema": {
@@ -922,7 +922,7 @@
         "description": "Deleting deposit history for a user with the History and User ID",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of user",
             "schema": {
@@ -930,7 +930,7 @@
             }
           },
           {
-            "name": "History ID",
+            "name": "historyID",
             "in": "path",
             "description": "ID of history",
             "schema": {
@@ -1110,7 +1110,7 @@
         "description": "Create organization collection history",
         "parameters": [
           {
-            "name": "Organization ID",
+            "name": "orgID",
             "in": "path",
             "description": "ID of organization",
             "schema": {
@@ -1144,7 +1144,7 @@
         "description": "Fetch history for organization with their ID",
         "parameters": [
           {
-            "name": "Organization ID",
+            "name": "orgID",
             "in": "path",
             "description": "Get all collections history for an organization",
             "schema": {
@@ -1170,7 +1170,7 @@
         "description": "Deleting Organisation collection history with an ID",
         "parameters": [
           {
-            "name": "Organisation ID",
+            "name": "orgID",
             "in": "path",
             "description": "ID of organization account",
             "schema": {
