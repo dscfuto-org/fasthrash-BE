@@ -470,10 +470,16 @@
         "consumes": "multipart/form-data",
         "parameters": [
           {
-            "name": "file",
+            "name": "images",
             "in": "formData",
             "type": "file",
-            "description": "The file to upload"
+            "description": "The image file(s) to upload"
+          },
+          {
+            "name": "images",
+            "in": "formData",
+            "type": "file",
+            "description": "The image file(s) to upload"
           },
           {
             "name": "description",
@@ -671,10 +677,16 @@
         "description": "Collector -> organisation alert creation",
         "parameters": [
           {
-            "name": "file",
+            "name": "images",
             "in": "formData",
             "type": "file",
-            "description": "The file to upload"
+            "description": "The image file(s) to upload"
+          },
+          {
+            "name": "images",
+            "in": "formData",
+            "type": "file",
+            "description": "The image file(s) to upload"
           },
           {
             "name": "description",
