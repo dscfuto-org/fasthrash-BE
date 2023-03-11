@@ -1,8 +1,37 @@
 const Alert = require('../models/alertModel');
 const axios = require('axios');
 const FormData = require('form-data');
+const { cloudUpload } = require('../helpers/cloudStorage');
+
 
 exports.createAlert = async (req, res) => {
+  const alertData = req.body;
+
+  try {
+    const { alertImages, uploadErrors } = await cloudUpload(req);
+    if (alertImages < 1) {
+      console.log(uploadErrors);
+      throw new Error('Error uploading images');
+    }
+
+    const newAlert = await Alert.create({ ...alertData, image: alertImages });
+    return res.status(201).json({
+      status: 'Alert created successfully!',
+      message: `${alertImages.length} images uploaded, ${uploadErrors.length} failed.`,
+      data: {
+        alert: newAlert.toJSON(),
+      },
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: 'Error creating alert',
+      message: error.message,
+    });
+  }
+};
+
+
+exports._createAlert = async (req, res) => {
   try {
     const imageData = req.file;
     const alertData = req.body;
@@ -136,9 +165,8 @@ exports.getAllAlertsByRole = async (req, res) => {
       if (userType === 'org' && role === 'collector') {
         const alerts = await Alert.find({ role: 'collector' });
         return res.status(200).json({
-          status: `${
-            alerts.length > 1 ? 'Alerts' : 'Alert'
-          } fetched successfully`,
+          status: `${alerts.length > 1 ? 'Alerts' : 'Alert'
+            } fetched successfully`,
           data: {
             alert: alerts,
           },
@@ -146,9 +174,8 @@ exports.getAllAlertsByRole = async (req, res) => {
       } else if (userType !== 'org' && role === 'user') {
         const alerts = await Alert.find({ role: 'user' });
         return res.status(200).json({
-          status: `${
-            alerts.length > 1 ? 'Alerts' : 'Alert'
-          } fetched successfully`,
+          status: `${alerts.length > 1 ? 'Alerts' : 'Alert'
+            } fetched successfully`,
           data: {
             alert: alerts,
           },
