@@ -11,7 +11,7 @@ let alertSchema = new mongoose.Schema(
       enum: ['pending', 'accepted', 'collected'],
       default: 'pending',
     },
-    image: { type: String, required: true },
+    image: [{ type: String, required: true }],
     address: { type: String },
     location: {
       longitude: { type: Number },
