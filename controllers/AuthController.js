@@ -276,9 +276,7 @@ exports.login = async (req, res) => {
                 email: users[0].email,
                 userID: users[0]._id,
               },
-              users[0].role === 'user'
-                ? process.env.JWT_SECRET_USER
-                : process.env.JWT_SECRET_COLLECTOR,
+              process.env.JWT_SECRET_USER,
               {
                 expiresIn: process.env.JWT_TIMEOUT_DURATION,
               }
