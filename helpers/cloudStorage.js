@@ -27,7 +27,6 @@ const cloudUpload = async (req) => {
             await blob.save(file.buffer, {resumable: false});
             await blob.makePublic();
             const publicUrl = format(`https://storage.googleapis.com/${bucket.name}/${blob.name}`);
-            console.log(publicUrl);
 
             const newImage = new imageSchema({ url: publicUrl });
             await newImage.save();
