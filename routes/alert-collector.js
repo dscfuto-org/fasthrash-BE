@@ -3,11 +3,12 @@ const router = express.Router();
 const alertController = require('../controllers/AlertController');
 const multer = require('multer');
 const upload = multer();
+const { verifyUser } = require('../middlewares/verifyUser');
 
 router.get('/', alertController.getAllAlertsByRole);
-router.post('/create/', upload.single('file'), alertController.createAlert);
-router.put('/update/:id', alertController.updateAlertStatus);
-router.get('/:id/', alertController.getAlert);
-router.delete('/delete/:id/', alertController.deleteAlert);
+router.post('/create/', upload.single('file'),verifyUser, alertController.createAlert);
+router.put('/update/:id', verifyUser, alertController.updateAlertStatus);
+router.get('/:id/', verifyUser, alertController.getAlert);
+router.delete('/delete/:id/', verifyUser, alertController.deleteAlert);
 
 module.exports = router;
