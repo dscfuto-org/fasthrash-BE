@@ -22,7 +22,7 @@ router.post('/org/login', AuthController.loginOrg);
 router.post('/org/resetpassword/', AuthController.requestPasswordResetOrg);
 router.post(
   '/org/resetpassword/:userID/:token/:tokenID',
-  AuthController.resetPassword
+  AuthController.resetPasswordOrg
 );
 router.patch('/org/update/:id', verifyOrg, AuthController.updateOrgData);
 router.delete('/org/delete/:userID', verifyOrg, AuthController.orgDelete);
