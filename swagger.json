@@ -87,7 +87,7 @@
         "description": "Route for fetching user/collector profile informaion",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of user/collector whose profile we wish to fetch",
             "schema": {
@@ -113,7 +113,7 @@
         "description": "User and collector profile update",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of the User/collector profile you want to update",
             "schema": {
@@ -301,7 +301,7 @@
         "description": "Organization profile update",
         "parameters": [
           {
-            "name": "Organization ID",
+            "name": "orgID",
             "in": "path",
             "description": "ID of the organization profile you want to update",
             "schema": {
@@ -361,7 +361,7 @@
         "description": "Route for fetching organization profile informaion",
         "parameters": [
           {
-            "name": "Organization ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of organization whose profile we wish to fetch",
             "schema": {
@@ -467,14 +467,68 @@
         "tags": ["Alerts"],
         "summary": "Route for creating a user->collector alert",
         "description": "User -> collector alert creation",
+        "consumes": "multipart/form-data",
         "parameters": [
           {
-            "name": "Alerts",
-            "in": "body",
-            "description": "User -> collector alert creation",
-            "schema": {
-              "$ref": "#/definitions/createAlerts"
-            }
+            "name": "images",
+            "in": "formData",
+            "type": "file",
+            "description": "The image file(s) to upload"
+          },
+          {
+            "name": "images",
+            "in": "formData",
+            "type": "file",
+            "description": "The image file(s) to upload"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "in": "formData",
+            "description": "Description of the alert",
+            "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "type": "string",
+            "description": "Status of the alert",
+            "example": "pending | accepted | collected"
+          },
+          {
+            "name": "location.longitude",
+            "in": "formData",
+            "type": "Number",
+            "description": "Location (longitude) of the user creating the alert",
+            "example": 121.13
+          },
+          {
+            "name": "location.latitude",
+            "in": "formData",
+            "type": "Number",
+            "description": "Location (latitude) of the user creating the alert",
+            "example": 32.5
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "type": "string",
+            "description": "Address of the user creating the alert",
+            "example": "address"
+          },
+          {
+            "name": "role",
+            "in": "formData",
+            "type": "string",
+            "description": "Role of the user creating the alert",
+            "example": "user"
+          },
+          {
+            "name": "quantity",
+            "in": "formData",
+            "type": "integer",
+            "description": "Quantity of the waste in KG",
+            "example": 7
           }
         ],
         "responses": {
@@ -623,12 +677,65 @@
         "description": "Collector -> organisation alert creation",
         "parameters": [
           {
-            "name": "Alerts",
-            "in": "body",
-            "description": "Collector -> organisation alert creation",
-            "schema": {
-              "$ref": "#/definitions/createAlerts"
-            }
+            "name": "images",
+            "in": "formData",
+            "type": "file",
+            "description": "The image file(s) to upload"
+          },
+          {
+            "name": "images",
+            "in": "formData",
+            "type": "file",
+            "description": "The image file(s) to upload"
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "in": "formData",
+            "description": "Description of the alert",
+            "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "type": "string",
+            "description": "Status of the alert",
+            "example": "pending | accepted | collected"
+          },
+          {
+            "name": "location.longitude",
+            "in": "formData",
+            "type": "Number",
+            "description": "Location (longitude) of the user creating the alert",
+            "example": 121.13
+          },
+          {
+            "name": "location.latitude",
+            "in": "formData",
+            "type": "Number",
+            "description": "Location (latitude) of the user creating the alert",
+            "example": 32.5
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "type": "string",
+            "description": "Address of the user creating the alert",
+            "example": "address"
+          },
+          {
+            "name": "role",
+            "in": "formData",
+            "type": "string",
+            "description": "Role of the user creating the alert",
+            "example": "collector"
+          },
+          {
+            "name": "quantity",
+            "in": "formData",
+            "type": "integer",
+            "description": "Quantity of the waste in KG",
+            "example": 70
           }
         ],
         "responses": {
@@ -888,7 +995,7 @@
         "description": "Add user history",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of user whose history we want to create",
             "schema": {
@@ -922,7 +1029,7 @@
         "description": "Deleting deposit history for a user with the History and User ID",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "ID of user",
             "schema": {
@@ -930,7 +1037,7 @@
             }
           },
           {
-            "name": "History ID",
+            "name": "historyID",
             "in": "path",
             "description": "ID of history",
             "schema": {
@@ -1110,7 +1217,7 @@
         "description": "Create organization collection history",
         "parameters": [
           {
-            "name": "Organization ID",
+            "name": "orgID",
             "in": "path",
             "description": "ID of organization",
             "schema": {
@@ -1144,7 +1251,7 @@
         "description": "Fetch history for organization with their ID",
         "parameters": [
           {
-            "name": "Organization ID",
+            "name": "orgID",
             "in": "path",
             "description": "Get all collections history for an organization",
             "schema": {
@@ -1170,7 +1277,7 @@
         "description": "Deleting Organisation collection history with an ID",
         "parameters": [
           {
-            "name": "Organisation ID",
+            "name": "orgID",
             "in": "path",
             "description": "ID of organization account",
             "schema": {
@@ -1403,52 +1510,6 @@
           "type": "string",
           "description": "New password for the user",
           "example": "supersecurepasswd"
-        }
-      }
-    },
-    "createAlerts": {
-      "required": ["description", "status", "image", "quantity"],
-      "properties": {
-        "description": {
-          "type": "string",
-          "uniqueItems": true,
-          "description": "Description of the alert",
-          "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
-        },
-        "status": {
-          "type": "string",
-          "description": "Status of the alert",
-          "example": "pending | accepted | collected"
-        },
-        "image": {
-          "type": "file",
-          "description": "A multipart/form-data file of the waste",
-          "example": "file"
-        },
-        "location.longitude": {
-          "type": "Number",
-          "description": "Location (longitude) of the user creating the alert",
-          "example": 121.13
-        },
-        "location.latitude": {
-          "type": "Number",
-          "description": "Location (latitude) of the user creating the alert",
-          "example": 32.5
-        },
-        "address": {
-          "type": "string",
-          "description": "Address of the user creating the alert",
-          "example": "address"
-        },
-        "role": {
-          "type": "string",
-          "description": "Role of the user creating the alert",
-          "example": "user | collector"
-        },
-        "quantity": {
-          "type": "integer",
-          "description": "Quantity of the waste in KG",
-          "example": 7
         }
       }
     },

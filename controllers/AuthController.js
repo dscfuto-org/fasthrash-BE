@@ -115,7 +115,10 @@ exports.updateUserData = async (req, res) => {
 
 exports.profile = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.params.userID);
+    const user = await UserModel.findById(req.params.userID).select(
+      '-password'
+    );
+
     return res.status(200).json({
       message: 'User profile',
       data: {
@@ -231,7 +234,7 @@ exports.updateOrgData = async (req, res) => {
 
 exports.orgProfile = async (req, res) => {
   try {
-    const user = await OrgModel.findById(req.params.userID);
+    const user = await OrgModel.findById(req.params.userID).select('-password');
     return res.status(200).json({
       message: 'user profile',
       data: {
@@ -273,9 +276,7 @@ exports.login = async (req, res) => {
                 email: users[0].email,
                 userID: users[0]._id,
               },
-              users[0].role === 'user'
-                ? process.env.JWT_SECRET_USER
-                : process.env.JWT_SECRET_COLLECTOR,
+              process.env.JWT_SECRET_USER,
               {
                 expiresIn: process.env.JWT_TIMEOUT_DURATION,
               }

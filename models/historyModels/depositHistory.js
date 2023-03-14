@@ -8,7 +8,6 @@ let depositHistorySchema = new mongoose.Schema(
     },
     collectorId: {
       type: String,
-      required: true,
     },
     wasteImageUrl: { type: String },
     wasteImageDescription: { type: String },
