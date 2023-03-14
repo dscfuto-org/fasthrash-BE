@@ -1,7 +1,7 @@
 const util = require('util');
 const Multer = require('multer');
 const path = require('path');
-const maxSize = 10 * 1024 * 1024;
+const maxSize = 24 * 1024 * 1024;
 
 let processFile = Multer({
   storage: Multer.memoryStorage(),
@@ -11,7 +11,11 @@ let processFile = Multer({
     const extension = path.extname(file.originalname).toLowerCase();
 
     if (!allowedExtensions.includes(extension)) {
-      return cb(new Error('Invalid file type. Only jpg, jpeg, and png files are allowed.'));
+      return cb(
+        new Error(
+          'Invalid file type. Only jpg, jpeg, and png files are allowed.'
+        )
+      );
     }
     cb(null, true);
   },

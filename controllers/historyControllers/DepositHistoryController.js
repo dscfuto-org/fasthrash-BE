@@ -5,7 +5,6 @@ exports.addDepositHistory = async (req, res) => {
   try {
     const { userId } = req.params;
     const {
-      collectorId,
       wasteImageUrl,
       wasteImageDescription,
       collectionStatus,
@@ -14,7 +13,6 @@ exports.addDepositHistory = async (req, res) => {
 
     const newHistory = new DepositHistory({
       userId,
-      collectorId,
       wasteImageUrl,
       wasteImageDescription,
       collectionStatus,

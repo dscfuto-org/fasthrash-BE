@@ -8,7 +8,6 @@ let depositHistorySchema = new mongoose.Schema(
     },
     collectorId: {
       type: String,
-      required: true,
     },
     alertId: {
       type: mongoose.Schema.Types.ObjectId,
