@@ -28,10 +28,10 @@ exports.createAlert = async (req, res) => {
       userId: alertData.userId, 
       alertId: newAlert._id, 
     }]);
-    session.commitTransaction();
+    await session.commitTransaction();
 
     return res.status(201).json({
-      status: 'Alert created successfully!',
+      status: 'Alert (and history) created successfully!',
       message: `${alertImages.length} images uploaded, ${uploadErrors.length} failed.`,
       data: {
         alert: newAlert.toJSON(),
@@ -39,13 +39,13 @@ exports.createAlert = async (req, res) => {
       },
     });
   } catch (error) {
-    session.abortTransaction();
+    await session.abortTransaction();
     return res.status(400).json({
       status: 'Error creating alert',
       message: error.message,
     });
   } finally {
-    session.endSession();
+    await session.endSession();
   }
 };
 
@@ -214,16 +214,23 @@ exports.getAllAlertsByRole = async (req, res) => {
 };
 
 exports.deleteAlert = async (req, res) => {
+  const session = await mongoose.startSession();
   try {
-    await Alert.findByIdAndDelete(req.params.id, req.body);
+    session.startTransaction();
+    await Alert.findByIdAndDelete(req.params.id, req.body, {session});
+    await DepositHistory.findOneAndDelete({alertId: req.params.id}, {session});
+    await session.commitTransaction();
     return res.status(204).json({
-      status: 'Alert deleted successfully',
+      status: 'Alert (with history) deleted successfully',
       data: null,
     });
   } catch (err) {
+    await session.abortTransaction();
     return res.status(404).json({
       status: 'Error deleting alert',
       message: err,
     });
+  } finally {
+    await session.endSession();
   }
 };
