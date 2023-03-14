@@ -2,31 +2,50 @@ const Alert = require('../models/alertModel');
 const axios = require('axios');
 const FormData = require('form-data');
 const { cloudUpload } = require('../helpers/cloudStorage');
+const { default: mongoose } = require('mongoose');
+const DepositHistory = require('../models/historyModels/depositHistory');
 
 
+/**
+ * create alert and add the created alert to user deposit history
+ */
 exports.createAlert = async (req, res) => {
   const alertData = req.body;
+  const session = await mongoose.startSession();
 
   try {
+    session.startTransaction();
     const { alertImages, uploadErrors } = await cloudUpload(req);
     if (alertImages < 1) {
       console.log(uploadErrors);
       throw new Error('Error uploading images');
     }
 
-    const newAlert = await Alert.create({ ...alertData, image: alertImages });
+    // const newAlert = await Alert.create([{ ...alertData, images: alertImages }], {session});
+    const newAlert = new Alert({...alertData, images: alertImages});
+    await newAlert.save({session});
+    const newHistory = new DepositHistory([{
+      userId: alertData.userId, 
+      alertId: newAlert._id, 
+    }]);
+    session.commitTransaction();
+
     return res.status(201).json({
       status: 'Alert created successfully!',
       message: `${alertImages.length} images uploaded, ${uploadErrors.length} failed.`,
       data: {
         alert: newAlert.toJSON(),
+        deposit: newHistory.toJSON(),
       },
     });
   } catch (error) {
+    session.abortTransaction();
     return res.status(400).json({
       status: 'Error creating alert',
       message: error.message,
     });
+  } finally {
+    session.endSession();
   }
 };
 

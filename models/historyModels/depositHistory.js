@@ -10,8 +10,11 @@ let depositHistorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    wasteImageUrl: { type: String },
-    wasteImageDescription: { type: String },
+    alertId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      unique: true
+    },
     collectionStatus: {
       type: String,
       default: 'pending',
