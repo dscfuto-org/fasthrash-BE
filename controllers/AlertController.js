@@ -2,31 +2,50 @@ const Alert = require('../models/alertModel');
 const axios = require('axios');
 const FormData = require('form-data');
 const { cloudUpload } = require('../helpers/cloudStorage');
+const { default: mongoose } = require('mongoose');
+const DepositHistory = require('../models/historyModels/depositHistory');
 
 
+/**
+ * create alert and add the created alert to user deposit history
+ */
 exports.createAlert = async (req, res) => {
   const alertData = req.body;
+  const session = await mongoose.startSession();
 
   try {
+    session.startTransaction();
     const { alertImages, uploadErrors } = await cloudUpload(req);
     if (alertImages < 1) {
       console.log(uploadErrors);
       throw new Error('Error uploading images');
     }
 
-    const newAlert = await Alert.create({ ...alertData, image: alertImages });
+    // const newAlert = await Alert.create([{ ...alertData, images: alertImages }], {session});
+    const newAlert = new Alert({...alertData, images: alertImages});
+    await newAlert.save({session});
+    const newHistory = new DepositHistory([{
+      userId: alertData.userId, 
+      alertId: newAlert._id, 
+    }]);
+    await session.commitTransaction();
+
     return res.status(201).json({
-      status: 'Alert created successfully!',
+      status: 'Alert (and history) created successfully!',
       message: `${alertImages.length} images uploaded, ${uploadErrors.length} failed.`,
       data: {
         alert: newAlert.toJSON(),
+        deposit: newHistory.toJSON(),
       },
     });
   } catch (error) {
+    await session.abortTransaction();
     return res.status(400).json({
       status: 'Error creating alert',
       message: error.message,
     });
+  } finally {
+    await session.endSession();
   }
 };
 
@@ -195,16 +214,23 @@ exports.getAllAlertsByRole = async (req, res) => {
 };
 
 exports.deleteAlert = async (req, res) => {
+  const session = await mongoose.startSession();
   try {
-    await Alert.findByIdAndDelete(req.params.id, req.body);
+    session.startTransaction();
+    await Alert.findByIdAndDelete(req.params.id, req.body, {session});
+    await DepositHistory.findOneAndDelete({alertId: req.params.id}, {session});
+    await session.commitTransaction();
     return res.status(204).json({
-      status: 'Alert deleted successfully',
+      status: 'Alert (with history) deleted successfully',
       data: null,
     });
   } catch (err) {
+    await session.abortTransaction();
     return res.status(404).json({
       status: 'Error deleting alert',
       message: err,
     });
+  } finally {
+    await session.endSession();
   }
 };
