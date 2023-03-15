@@ -4,7 +4,7 @@
  GDSC FUTO Backend repository for Google Solution Challenge 2023
 ```
 
-<img src="./assets/branding/branding-01.png">
+<img src="https://github.com/dscfuto-org/fasthrash-BE/blob/main/assets/branding/Branding-01.png" alt="Fastrash">
 <!-- A ready-to-use boilerplate for REST API Development with Node.js, Express, and MongoDB -->
 
 <!-- ## Getting started
