@@ -1,11 +1,21 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
-    "version": "2.2.5",
+    "version": "3.2.5",
     "title": "Solution Challenge: Fastrash",
-    "description": "API documentation for FASTRASH"
+    "description": "API documentation for Fastrash"
   },
   "host": "fastrash-1337.ew.r.appspot.com",
+  "servers": [
+    {
+      "url": "https://fastrash-1337.ew.r.appspot.com",
+      "description": "Remote test server"
+    },
+    {
+      "url": "http://localhost:1337",
+      "description": "Development server"
+    }
+  ],
   "basePath": "/",
   "tags": [
     {
@@ -28,22 +38,81 @@
   "schemes": ["https"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
+
+  "components": {
+    "securitySchemes": {
+      "headerAuth": {
+        "type": "http",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Authorization Token",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "headerAuth": []
+    }
+  ],
   "paths": {
     "/api/auth/register": {
       "post": {
         "tags": ["Authentication"],
         "summary": "Register a user or collector",
         "description": "User and collector registration",
-        "parameters": [
-          {
-            "name": "User and Collector",
-            "in": "body",
-            "description": "User/collector you wish to create",
-            "schema": {
-              "$ref": "#/definitions/userCreate"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "description": "User/collector's first name",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "User/collector's last name",
+                    "example": "Doe"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "User/collector's location"
+                  },
+                  "email": {
+                    "type": "string",
+                    "uniqueItems": true,
+                    "description": "User/collector's email",
+                    "example": "johndoe@gmail.com"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "description": "User/collector's phone number",
+                    "example": "012346789"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "User/collector's password",
+                    "example": "123456abc@*&^%$"
+                  },
+                  "passwordConfirm": {
+                    "type": "string",
+                    "description": "User/collector's password confirmation",
+                    "example": "123456abc@*&^%$"
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "User/collector's role",
+                    "example": "user | collector"
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "User created successfully"
@@ -59,16 +128,27 @@
         "tags": ["Authentication"],
         "summary": "Route for user and collector login",
         "description": "User and collector login",
-        "parameters": [
-          {
-            "name": "User and Collector",
-            "in": "body",
-            "description": "User and collector login",
-            "schema": {
-              "$ref": "#/definitions/Login"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email address of the user",
+                    "example": "dscfuto@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of the user",
+                    "example": "12$8dfnasf9.23i9"
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "User logged in successfully"
@@ -273,16 +353,53 @@
         "tags": ["Authentication"],
         "summary": "Register an organization",
         "description": "Organization registration",
-        "parameters": [
-          {
-            "name": "Organization",
-            "in": "body",
-            "description": "Organization account that we want to create",
-            "schema": {
-              "$ref": "#/definitions/orgCreate"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "businessName": {
+                    "type": "string",
+                    "description": "Organization's name",
+                    "example": "Dvultech Ltd"
+                  },
+                  "location": {
+                    "type": "string",
+                    "description": "Organization's location",
+                    "example": "latitude adress"
+                  },
+                  "size": {
+                    "type": "string",
+                    "description": "Size of organization",
+                    "example": "Small | Medium | Large"
+                  },
+                  "yearsOfOperation": {
+                    "type": "integer",
+                    "description": "Years of operation",
+                    "example": 7
+                  },
+                  "email": {
+                    "type": "string",
+                    "uniqueItems": true,
+                    "description": "Organization's email",
+                    "example": "info@dvultech.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Organization's password",
+                    "example": "123456abc@*&^%$"
+                  },
+                  "passwordConfirm": {
+                    "type": "string",
+                    "description": "Organzation's password confirmation",
+                    "example": "123456abc@*&^%$"
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "Organization created successfully"
@@ -333,16 +450,27 @@
         "tags": ["Authentication"],
         "summary": "Route for organization login",
         "description": "Organization login",
-        "parameters": [
-          {
-            "name": "Organization",
-            "in": "body",
-            "description": "Organization Login",
-            "schema": {
-              "$ref": "#/definitions/Login"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email address of the user",
+                    "example": "dscfuto@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password of the user",
+                    "example": "12$8dfnasf9.23i9"
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "Organization logged in successfully!"
@@ -468,69 +596,62 @@
         "summary": "Route for creating a user->collector alert",
         "description": "User -> collector alert creation",
         "consumes": "multipart/form-data",
-        "parameters": [
-          {
-            "name": "images",
-            "in": "formData",
-            "type": "file",
-            "description": "The image file(s) to upload"
-          },
-          {
-            "name": "images",
-            "in": "formData",
-            "type": "file",
-            "description": "The image file(s) to upload"
-          },
-          {
-            "name": "description",
-            "type": "string",
-            "in": "formData",
-            "description": "Description of the alert",
-            "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
-          },
-          {
-            "name": "status",
-            "in": "formData",
-            "type": "string",
-            "description": "Status of the alert",
-            "example": "pending | accepted | collected"
-          },
-          {
-            "name": "location.longitude",
-            "in": "formData",
-            "type": "Number",
-            "description": "Location (longitude) of the user creating the alert",
-            "example": 121.13
-          },
-          {
-            "name": "location.latitude",
-            "in": "formData",
-            "type": "Number",
-            "description": "Location (latitude) of the user creating the alert",
-            "example": 32.5
-          },
-          {
-            "name": "address",
-            "in": "formData",
-            "type": "string",
-            "description": "Address of the user creating the alert",
-            "example": "address"
-          },
-          {
-            "name": "role",
-            "in": "formData",
-            "type": "string",
-            "description": "Role of the user creating the alert",
-            "example": "user"
-          },
-          {
-            "name": "quantity",
-            "in": "formData",
-            "type": "integer",
-            "description": "Quantity of the waste in KG",
-            "example": 7
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the alert",
+                    "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Status of the alert",
+                    "example": "pending | accepted | collected"
+                  },
+                  "fileName": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The image file(s) to upload"
+                  },
+                  "fileName2": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Optional multiple image upload"
+                  },
+                  "location.longitude": {
+                    "type": "number",
+                    "description": "Location (longitude) of the user creating the alert",
+                    "example": 121.13
+                  },
+                  "location.latitude": {
+                    "type": "number",
+                    "description": "Location (latitude) of the user creating the alert",
+                    "example": 32.1
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "Address of the user creating the alert",
+                    "example": "Ihiagwa, Imo State"
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "Role of the user creating the alert",
+                    "example": "user"
+                  },
+                  "quantity": {
+                    "type": "number",
+                    "description": "Quantity of the waste in KG",
+                    "example": 7
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "Alert created successfully!"
@@ -675,69 +796,62 @@
         "tags": ["Alerts"],
         "summary": "Route for creating a collector->organisation alert",
         "description": "Collector -> organisation alert creation",
-        "parameters": [
-          {
-            "name": "images",
-            "in": "formData",
-            "type": "file",
-            "description": "The image file(s) to upload"
-          },
-          {
-            "name": "images",
-            "in": "formData",
-            "type": "file",
-            "description": "The image file(s) to upload"
-          },
-          {
-            "name": "description",
-            "type": "string",
-            "in": "formData",
-            "description": "Description of the alert",
-            "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
-          },
-          {
-            "name": "status",
-            "in": "formData",
-            "type": "string",
-            "description": "Status of the alert",
-            "example": "pending | accepted | collected"
-          },
-          {
-            "name": "location.longitude",
-            "in": "formData",
-            "type": "Number",
-            "description": "Location (longitude) of the user creating the alert",
-            "example": 121.13
-          },
-          {
-            "name": "location.latitude",
-            "in": "formData",
-            "type": "Number",
-            "description": "Location (latitude) of the user creating the alert",
-            "example": 32.5
-          },
-          {
-            "name": "address",
-            "in": "formData",
-            "type": "string",
-            "description": "Address of the user creating the alert",
-            "example": "address"
-          },
-          {
-            "name": "role",
-            "in": "formData",
-            "type": "string",
-            "description": "Role of the user creating the alert",
-            "example": "collector"
-          },
-          {
-            "name": "quantity",
-            "in": "formData",
-            "type": "integer",
-            "description": "Quantity of the waste in KG",
-            "example": 70
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the alert",
+                    "example": "I have some waste at [location] that needs to be collected, it weighs about [weight] kg..."
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Status of the alert",
+                    "example": "pending | accepted | collected"
+                  },
+                  "fileName": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The image file(s) to upload"
+                  },
+                  "fileName2": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Optional multiple image upload"
+                  },
+                  "location.longitude": {
+                    "type": "number",
+                    "description": "Location (longitude) of the user creating the alert",
+                    "example": 121.13
+                  },
+                  "location.latitude": {
+                    "type": "number",
+                    "description": "Location (latitude) of the user creating the alert",
+                    "example": 32.1
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "Address of the user creating the alert",
+                    "example": "Ihiagwa, Imo State"
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "Role of the user creating the alert",
+                    "example": "collector"
+                  },
+                  "quantity": {
+                    "type": "number",
+                    "description": "Quantity of the waste in KG",
+                    "example": 7
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "Alert created successfully!"
