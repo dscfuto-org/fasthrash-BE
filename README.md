@@ -4,9 +4,10 @@
  GDSC FUTO Backend repository for Google Solution Challenge 2023
 ```
 
-A ready-to-use boilerplate for REST API Development with Node.js, Express, and MongoDB
+<img src="./assets/branding/branding-01.png">
+<!-- A ready-to-use boilerplate for REST API Development with Node.js, Express, and MongoDB -->
 
-## Getting started
+<!-- ## Getting started
 
 This is a basic API skeleton written in JavaScript ES2015. Very useful to building a RESTful web APIs for your front-end platforms like Android, iOS or JavaScript frameworks (Angular, Reactjs, etc).
 
@@ -20,17 +21,18 @@ I am open for a good job or work contract. You can contact me directly on my ema
 
 If you consider my project as helpful stuff, You can appreciate me or my hard work and time spent to create this helpful structure with buying me a coffee.
 
-<a href="https://www.buymeacoffee.com/36GgOoQ2f" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+<a href="https://www.buymeacoffee.com/36GgOoQ2f" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a> -->
 
 ## Features
 
 - Basic Authentication (Register/Login with hashed password)
-- Account confirmation with 4 (Changeable) digit OTP.
-- Email helper ready just import and use.
-- JWT Tokens, make requests with a token after login with `Authorization` header with value `Bearer yourToken` where `yourToken` will be returned in Login response.
-- Pre-defined response structures with proper status codes.
+<!-- - Account confirmation with 4 (Changeable) digit OTP. -->
+- Email sending with [Nodemailer](https://nodemailer.com/about/).
+- Computer vision via the Google Cloud Vision API
+- JWT Tokens, make requests with a token after login with `Authorization` header with value `yourToken` where `yourToken` will be returned in Login response.
+<!-- - Pre-defined response structures with proper status codes.
 - Included CORS.
-- **Book** example with **CRUD** operations.
+- **Book** example with **CRUD** operations. -->
 - Validations added.
 - Included API collection for Postman.
 - Light-weight project.
@@ -48,7 +50,7 @@ If you consider my project as helpful stuff, You can appreciate me or my hard wo
 
 ### Using Git (recommended)
 
-1.  Clone the project from github. Change "myproject" to your project name.
+1.  Clone the project from github.
 
 ```bash
 git clone https://github.com/dscfuto-org/fasthrash-BE.git ./fasthrash
@@ -62,7 +64,7 @@ git clone https://github.com/dscfuto-org/fasthrash-BE.git ./fasthrash
 ### Install npm dependencies after installing (Git or manual download)
 
 ```bash
-cd myproject
+cd fastrash-BE
 npm install
 ```
 
@@ -85,26 +87,46 @@ npm install
 ├── bin
 │   └── www
 ├── controllers
+│   ├── HistoryControllers
+│   │   ├── CollectionHistoryController.js
+│   │   └── DepositHistoryController.js
 │   ├── AuthController.js
-│   └── BookController.js
+|   ├── AlertController.js
+│   └── ImageUploadController.js
 ├── models
-│   ├── BookModel.js
-│   └── UserModel.js
+│   ├── HistoryModels
+│   │   ├── CollectionHistory.js
+│   │   └── DepositHistory.js
+│   ├── alertModel.js
+│   └── imgModel.js
+|   └── userModel.js
+|   └── tokenModel.js
+|   └── pointModel.js
 ├── routes
-│   ├── api.js
+│   ├── alert.js
 │   ├── auth.js
-│   └── book.js
+│   └── history.js
+│   └── imageUpload.js
+|   └── testConfig.js
 ├── middlewares
 │   ├── jwt.js
+│   └── upload.js
+│   └── verifyUser.js
+│   └── vision.js
 ├── helpers
 │   ├── apiResponse.js
 │   ├── constants.js
 │   ├── mailer.js
 │   └── utility.js
+│   └── cloudStorage.js
 ├── test
 │   ├── testConfig.js
 │   ├── auth.js
-│   └── book.js
+│   └── alert.js
+│   └── history.js
+│   └── imageUpload.js
+├── views
+│   └── resetPassword.ejs
 └── public
     ├── index.html
     └── stylesheets
@@ -130,24 +152,12 @@ Press CTRL + C to stop the process.
 
 **Note:** `YOUR_DB_CONNECTION_STRING` will be your MongoDB connection string.
 
-### Creating new models
-
-If you need to add more models to the project just create a new file in `/models/` and use them in the controllers.
-
-### Creating new routes
-
-If you need to add more routes to the project just create a new file in `/routes/` and add it in `/routes/api.js` it will be loaded dynamically.
-
-### Creating new controllers
-
-If you need to add more controllers to the project just create a new file in `/controllers/` and use them in the routes.
-
 ## Tests
 
 ### Running Test Cases
 
 ```bash
-npm test
+npm run test
 ```
 
 You can set custom command for test at `package.json` file inside `scripts` property. You can also change timeout for each assertion with `--timeout` parameter of mocha command.
