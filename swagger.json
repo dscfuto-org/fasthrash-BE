@@ -723,6 +723,32 @@
       }
     },
 
+    "/api/alerts/user/{userId}": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for fetching all alerts created by a user/collector",
+        "description": "Fetching all alerts created by a user",
+        "parameters": [
+          {
+            "name": "User ID",
+            "in": "path",
+            "description": "Fetch alerts",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alerts fetched successfully!"
+          },
+          "404": {
+            "description": "Error fetching alerts"
+          }
+        }
+      }
+    },
+
     "/api/alerts/?role=user": {
       "get": {
         "tags": ["Alerts"],
