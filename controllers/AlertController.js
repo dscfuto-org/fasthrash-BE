@@ -99,22 +99,18 @@ exports._createAlert = async (req, res) => {
 
 exports.updateAlertStatus = async (req, res) => {
   try {
-    const { status } = req.body;
+    const { status, collectorId } = req.body;
     const alert = await Alert.findById(req.params.id);
 
     if (status === 'pending') {
       alert.status = 'pending';
     } else if (status === 'accepted') {
       alert.status = 'accepted';
-    } else if (status === 'collected') {
-      alert.status = 'collected';
     } else {
-      return res.status(400).json({
-        status: 'Error updating alert',
-        message: 'Invalid status',
-      });
+      alert.status = 'collected';
     }
 
+    alert.collectorId = collectorId;
     await alert.save();
 
     return res.status(200).json({
@@ -165,9 +161,28 @@ exports.getAlert = async (req, res) => {
   }
 };
 
+// fetches all alerts created by a user/collector
 exports.getAlertsByUser = async (req, res) => {
   try {
     const alert = await Alert.find({ userId: req.params.userId }).exec();
+    return res.status(200).json({
+      status: 'Alert fetched successfully!',
+      data: {
+        alert,
+      },
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: 'Error fetching alert',
+      message: err,
+    });
+  }
+};
+
+// fetches all alerts accepted by a collector/organization
+exports.getAcceptedAlerts = async (req, res) => {
+  try {
+    const alert = await Alert.find({ userId: req.params.collectorId }).exec();
     return res.status(200).json({
       status: 'Alert fetched successfully!',
       data: {

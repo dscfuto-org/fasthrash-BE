@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 
 let alertSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    collectorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     description: {
       trim: true,
       type: String,

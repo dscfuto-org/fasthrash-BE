@@ -602,6 +602,16 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "ID of the user creating the alert (required)",
+                    "example": "5f1f9b9c9c9c9c9c9c9c9c9c"
+                  },
+                  "collectorId": {
+                    "type": "string",
+                    "description": "ID of the collector accepting the alert",
+                    "example": "5f1f9b9c9c9c9c9c9c9c9c9c"
+                  },
                   "description": {
                     "type": "string",
                     "description": "Description of the alert",
@@ -676,16 +686,29 @@
             "schema": {
               "$ref": "#/definitions/id"
             }
-          },
-          {
-            "name": "status",
-            "in": "body",
-            "description": "New status we which to set on the alert",
-            "schema": {
-              "$ref": "#/definitions/status"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "collectorId": {
+                    "type": "string",
+                    "description": "ID of the collector accepting the alert",
+                    "example": "2631723712asdhfh89"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Status of the alert",
+                    "example": "accepted"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Alert updated successfully!"
@@ -726,11 +749,11 @@
     "/api/alerts/user/{userId}": {
       "get": {
         "tags": ["Alerts"],
-        "summary": "Route for fetching all alerts created by a user/collector",
+        "summary": "Route for fetching all alerts created by a user",
         "description": "Fetching all alerts created by a user",
         "parameters": [
           {
-            "name": "User ID",
+            "name": "userID",
             "in": "path",
             "description": "Fetch alerts",
             "schema": {
@@ -742,7 +765,33 @@
           "200": {
             "description": "Alerts fetched successfully!"
           },
-          "404": {
+          "400": {
+            "description": "Error fetching alerts"
+          }
+        }
+      }
+    },
+
+    "/api/alerts/collector/{collectorId}": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for fetching all alerts created by a user/collector",
+        "description": "Fetching all alerts created by a user",
+        "parameters": [
+          {
+            "name": "collectorID",
+            "in": "path",
+            "description": "Fetch alerts accepted by a collector",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alerts fetched successfully!"
+          },
+          "400": {
             "description": "Error fetching alerts"
           }
         }
@@ -889,6 +938,58 @@
       }
     },
 
+    "api/org/alerts/collector/{collectorId}": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for fetching all alerts created by a user/collector",
+        "description": "Fetching all alerts created by a user",
+        "parameters": [
+          {
+            "name": "collectorID",
+            "in": "path",
+            "description": "Fetch alerts accepted by an organization",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alerts fetched successfully!"
+          },
+          "400": {
+            "description": "Error fetching alerts"
+          }
+        }
+      }
+    },
+
+    "/api/org/alerts/user/{userId}": {
+      "get": {
+        "tags": ["Alerts"],
+        "summary": "Route for fetching all alerts created by a collector",
+        "description": "Fetching all alerts created by a collector",
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "description": "Fetch alerts",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alerts fetched successfully!"
+          },
+          "400": {
+            "description": "Error fetching alerts"
+          }
+        }
+      }
+    },
+
     "/api/org/alerts/?role=collector": {
       "get": {
         "tags": ["Alerts"],
@@ -919,16 +1020,29 @@
             "schema": {
               "$ref": "#/definitions/id"
             }
-          },
-          {
-            "name": "status",
-            "in": "body",
-            "description": "New status we which to set on the alert",
-            "schema": {
-              "$ref": "#/definitions/status"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "collectorId": {
+                    "type": "string",
+                    "description": "ID of the organization accepting the alert",
+                    "example": "2631723712asdhfh89"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Status of the alert",
+                    "example": "accepted"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Alert updated successfully!"

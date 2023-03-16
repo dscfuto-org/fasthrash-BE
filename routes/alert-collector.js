@@ -16,6 +16,11 @@ router.post(
 router.put('/update/:id', verifyUser, alertController.updateAlertStatus);
 router.get('/:id/', verifyUser, alertController.getAlert);
 router.get('/user/:userId/', verifyUser, alertController.getAlertsByUser);
+router.get(
+  '/collector/:collectorId/',
+  verifyUser,
+  alertController.getAcceptedAlerts
+);
 router.delete('/delete/:id/', verifyUser, alertController.deleteAlert);
 
 module.exports = router;
