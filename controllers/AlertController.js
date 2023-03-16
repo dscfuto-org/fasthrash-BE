@@ -5,7 +5,6 @@ const { cloudUpload } = require('../helpers/cloudStorage');
 const { default: mongoose } = require('mongoose');
 const DepositHistory = require('../models/historyModels/depositHistory');
 
-
 /**
  * create alert and add the created alert to user deposit history
  */
@@ -22,12 +21,14 @@ exports.createAlert = async (req, res) => {
     }
 
     // const newAlert = await Alert.create([{ ...alertData, images: alertImages }], {session});
-    const newAlert = new Alert({...alertData, images: alertImages});
-    await newAlert.save({session});
-    const newHistory = new DepositHistory([{
-      userId: alertData.userId, 
-      alertId: newAlert._id, 
-    }]);
+    const newAlert = new Alert({ ...alertData, images: alertImages });
+    await newAlert.save({ session });
+    const newHistory = new DepositHistory([
+      {
+        userId: alertData.userId,
+        alertId: newAlert._id,
+      },
+    ]);
     await session.commitTransaction();
 
     return res.status(201).json({
@@ -48,7 +49,6 @@ exports.createAlert = async (req, res) => {
     await session.endSession();
   }
 };
-
 
 exports._createAlert = async (req, res) => {
   try {
@@ -165,6 +165,23 @@ exports.getAlert = async (req, res) => {
   }
 };
 
+exports.getAlertsByUser = async (req, res) => {
+  try {
+    const alert = await Alert.find({ userId: req.params.userId }).exec();
+    return res.status(200).json({
+      status: 'Alert fetched successfully!',
+      data: {
+        alert,
+      },
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: 'Error fetching alert',
+      message: err,
+    });
+  }
+};
+
 exports.getAllAlertsByRole = async (req, res) => {
   try {
     const userType = req.baseUrl.split('/')[2];
@@ -184,8 +201,9 @@ exports.getAllAlertsByRole = async (req, res) => {
       if (userType === 'org' && role === 'collector') {
         const alerts = await Alert.find({ role: 'collector' });
         return res.status(200).json({
-          status: `${alerts.length > 1 ? 'Alerts' : 'Alert'
-            } fetched successfully`,
+          status: `${
+            alerts.length > 1 ? 'Alerts' : 'Alert'
+          } fetched successfully`,
           data: {
             alert: alerts,
           },
@@ -193,8 +211,9 @@ exports.getAllAlertsByRole = async (req, res) => {
       } else if (userType !== 'org' && role === 'user') {
         const alerts = await Alert.find({ role: 'user' });
         return res.status(200).json({
-          status: `${alerts.length > 1 ? 'Alerts' : 'Alert'
-            } fetched successfully`,
+          status: `${
+            alerts.length > 1 ? 'Alerts' : 'Alert'
+          } fetched successfully`,
           data: {
             alert: alerts,
           },
@@ -217,8 +236,11 @@ exports.deleteAlert = async (req, res) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    await Alert.findByIdAndDelete(req.params.id, req.body, {session});
-    await DepositHistory.findOneAndDelete({alertId: req.params.id}, {session});
+    await Alert.findByIdAndDelete(req.params.id, req.body, { session });
+    await DepositHistory.findOneAndDelete(
+      { alertId: req.params.id },
+      { session }
+    );
     await session.commitTransaction();
     return res.status(204).json({
       status: 'Alert (with history) deleted successfully',
