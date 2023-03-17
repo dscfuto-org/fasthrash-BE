@@ -720,6 +720,53 @@
       }
     },
 
+    "/api/alerts/user/update/{id}": {
+      "put": {
+        "tags": ["Alerts"],
+        "summary": "Route to enable a user mark an alert as collected",
+        "description": "Mark user's alert as collected",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the alert whose status we want to update",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "ID of user that created the alert",
+                    "example": "2631723712asdhfh89"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Status of the alert",
+                    "example": "collected"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert updated successfully!"
+          },
+          "400": {
+            "description": "Error updating alert"
+          }
+        }
+      }
+    },
+
     "/api/alerts/": {
       "get": {
         "tags": ["Alerts"],
@@ -1037,6 +1084,53 @@
                     "type": "string",
                     "description": "Status of the alert",
                     "example": "accepted"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Alert updated successfully!"
+          },
+          "400": {
+            "description": "Error updating alert"
+          }
+        }
+      }
+    },
+
+    "/api/org/alerts/collector/update/{id}": {
+      "put": {
+        "tags": ["Alerts"],
+        "summary": "Route to enable a collector make an alert as collected",
+        "description": "Mark collector's alert as collected",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the alert whose status we want to update",
+            "schema": {
+              "$ref": "#/definitions/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "ID of user(collector) that created the alert",
+                    "example": "2631723712asdhfh89"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Status of the alert",
+                    "example": "collected"
                   }
                 }
               }

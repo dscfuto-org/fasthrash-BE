@@ -127,6 +127,35 @@ exports.updateAlertStatus = async (req, res) => {
   }
 };
 
+exports.updateUserAlertStatus = async (req, res) => {
+  try {
+    const { status, userId } = req.body;
+    const alert = await Alert.findById(req.params.id);
+
+    if (userId !== alert.userId) {
+      return res.status(400).json({
+        status: `Sorry, you can't mark this alert as completed!`,
+      });
+    } else {
+      alert.status = status;
+    }
+
+    await alert.save();
+
+    return res.status(200).json({
+      status: 'Alert updated successfully!',
+      data: {
+        alert,
+      },
+    });
+  } catch (err) {
+    return res.status(400).json({
+      status: 'Error updating alert',
+      message: err,
+    });
+  }
+};
+
 exports.fetchAlerts = async (req, res) => {
   try {
     const alerts = await Alert.find();

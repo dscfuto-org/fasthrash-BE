@@ -14,6 +14,11 @@ router.post(
   alertController.createAlert
 );
 router.put('/update/:id', verifyUser, alertController.updateAlertStatus);
+router.put(
+  '/user/update/:id',
+  verifyUser,
+  alertController.updateUserAlertStatus
+);
 router.get('/:id/', verifyUser, alertController.getAlert);
 router.get('/user/:userId/', verifyUser, alertController.getAlertsByUser);
 router.get(
