@@ -8,6 +8,8 @@ let alertSchema = new mongoose.Schema(
       required: true,
     },
     collectorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    costPerKg: { type: Number },
+    deliveryTime: { type: Number },
     description: {
       trim: true,
       type: String,

@@ -4,6 +4,9 @@ const FormData = require('form-data');
 const { cloudUpload } = require('../helpers/cloudStorage');
 const { default: mongoose } = require('mongoose');
 const DepositHistory = require('../models/historyModels/depositHistory');
+const sendEmail = require('../helpers/mailer');
+const UserModel = require('../models/UserModel');
+const OrgModel = require('../models/OrgModel');
 
 /**
  * create alert and add the created alert to user deposit history
@@ -106,19 +109,59 @@ exports.updateAlertStatus = async (req, res) => {
         message: 'Collector ID is required',
       });
     }
-    const alert = await Alert.findById(req.params.id);
-
-    if (status === 'pending') {
-      alert.status = 'pending';
-    } else if (status === 'accepted') {
-      alert.status = 'accepted';
-    } else {
-      alert.status = 'collected';
+    if (status !== 'accepted') {
+      return res.status(400).json({
+        status: "Error updating alert, status can only be 'accepted'",
+        message: 'Invalid request',
+      });
     }
-
+    const alert = await Alert.findById(req.params.id);
+    alert.status = status;
     alert.collectorId = collectorId;
     await alert.save();
 
+    let user = await UserModel.findById(alert.userId);
+    let collector;
+
+    if (await UserModel.findById(collectorId)) {
+      collector = await UserModel.findById(collectorId);
+    } else {
+      collector = await OrgModel.findById(collectorId);
+    }
+
+    sendEmail.send(
+      process.env.EMAIL_USER,
+      user.email,
+      'Yaay! Your alert has been accepted 🎊',
+      'Congratulations, you have a new collector for your trash!',
+      `<html lang='en'>
+          <head>
+            <meta charset='UTF-8' />
+            <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <title>Congratulations, you've got a new collector! 🎉</title>
+          </head>
+          <body>
+            <p><b>Hi ${user.firstName},</b></p>
+            <p>Congratulations, a collector has accepted to pick up your trash</p>
+            <br/>
+            <p><b>Here are the transaction details:</b></p>
+            <p>Alert creator: ${user.firstName + ' ' + user.lastName}</p>
+            <p>Alert collector: ${
+              collector.firstName
+                ? collector.firstName + collector.lastName
+                : collector.businessName
+            }</p>
+            <p>Collector's email: ${collector.email}</p>
+            <br/>
+            <p>You are expected to deliver within ${
+              alert.deliveryTime
+            } days at the rate of #${alert.costPerKg} per KG.</p>
+            <p>Kindly contact support if you need any help!/p>
+          </body>
+        </html>
+        `
+    );
     return res.status(200).json({
       status: 'Alert updated successfully!',
       data: {
@@ -245,7 +288,7 @@ exports.getAllAlertsByRoleAndStatus = async (req, res) => {
     // const userType = req.baseUrl.split('/')[2];
     const role = req.query.role;
     const status = req.query.status;
-    console.log(role, status);
+
     if (!role || !status) {
       return res.status(400).json({
         status: 'Error fetching alerts',
