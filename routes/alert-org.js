@@ -8,7 +8,7 @@ const { visionAIFilter } = require('../middlewares/vision');
 router.get('/', alertController.getAllAlertsByRole);
 router.post(
   '/create/',
-  verifyOrg,
+  verifyUser,
   processFileMiddleware,
   visionAIFilter,
   alertController.createAlert
@@ -26,6 +26,6 @@ router.get(
   verifyOrg,
   alertController.getAcceptedAlerts
 );
-router.delete('/delete/:id/', verifyOrg, alertController.deleteAlert);
+router.delete('/delete/:id/', verifyUser, alertController.deleteAlert);
 
 module.exports = router;

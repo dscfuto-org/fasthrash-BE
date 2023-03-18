@@ -100,6 +100,12 @@ exports._createAlert = async (req, res) => {
 exports.updateAlertStatus = async (req, res) => {
   try {
     const { status, collectorId } = req.body;
+    if (!collectorId) {
+      return res.status(400).json({
+        status: 'Error updating alert',
+        message: 'Collector ID is required',
+      });
+    }
     const alert = await Alert.findById(req.params.id);
 
     if (status === 'pending') {
@@ -130,6 +136,12 @@ exports.updateAlertStatus = async (req, res) => {
 exports.updateUserAlertStatus = async (req, res) => {
   try {
     const { status, userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({
+        status: 'Error updating alert',
+        message: 'User ID is required',
+      });
+    }
     const alert = await Alert.findById(req.params.id);
 
     if (userId !== alert.userId) {
