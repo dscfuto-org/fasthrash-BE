@@ -187,7 +187,7 @@ exports.updateUserAlertStatus = async (req, res) => {
     }
     const alert = await Alert.findById(req.params.id);
 
-    if (userId !== alert.userId) {
+    if (userId !== alert.userId.toString()) {
       return res.status(400).json({
         status: `Sorry, you can't mark this alert as completed!`,
       });
