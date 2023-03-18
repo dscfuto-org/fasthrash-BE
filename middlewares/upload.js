@@ -1,7 +1,7 @@
 const util = require('util');
 const Multer = require('multer');
 const path = require('path');
-const maxSize = 24 * 1024 * 1024;
+const maxSize = 10 * 1024 * 1024;
 
 let processFile = Multer({
   storage: Multer.memoryStorage(),
@@ -19,7 +19,7 @@ let processFile = Multer({
     }
     cb(null, true);
   },
-}).array('images', 12);
+}).array('images', 2);
 
 let processFileMiddleware = util.promisify(processFile);
 module.exports = processFileMiddleware;

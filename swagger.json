@@ -774,12 +774,18 @@
         "description": "Fetching all created alerts",
         "parameters": [
           {
-            "name": "Alerts",
-            "in": "body",
-            "description": "Fetch alerts",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
+            "name": "role",
+            "in": "query",
+            "description": "Role of the user that created the alert",
+            "type": "string",
+            "example": "user"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "The status of alerts you want to obtain",
+            "type": "string",
+            "example": "pending"
           }
         ],
         "responses": {
@@ -822,8 +828,8 @@
     "/api/alerts/collector/{collectorId}": {
       "get": {
         "tags": ["Alerts"],
-        "summary": "Route for fetching all alerts created by a user/collector",
-        "description": "Fetching all alerts created by a user",
+        "summary": "Route for fetching all alerts accepted by a collector/organization",
+        "description": "Fetching all alerts collected by a collector/organization",
         "parameters": [
           {
             "name": "collectorID",
@@ -840,23 +846,6 @@
           },
           "400": {
             "description": "Error fetching alerts"
-          }
-        }
-      }
-    },
-
-    "/api/alerts/?role=user": {
-      "get": {
-        "tags": ["Alerts"],
-        "summary": "Route for fetching all alerts created by users",
-        "description": "Fetching all user created alerts",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "User alerts fetched successfully!"
-          },
-          "404": {
-            "description": "Error fetching user alerts"
           }
         }
       }
@@ -890,13 +879,13 @@
     "/api/alerts/delete/{id}": {
       "delete": {
         "tags": ["Alerts"],
-        "summary": "Route for deleting a user->collector alert",
-        "description": "User -> collector alert delete",
+        "summary": "Route for deleting a user/collector alert",
+        "description": "User/collector alert delete",
         "parameters": [
           {
-            "name": "Alerts",
-            "in": "body",
-            "description": "User -> collector alert deletion",
+            "name": "id",
+            "in": "path",
+            "description": "User/collector alert deletion",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -904,10 +893,10 @@
         ],
         "responses": {
           "201": {
-            "description": "User -> collector Alert deleted successfully!"
+            "description": "User/collector alert deleted successfully!"
           },
           "400": {
-            "description": "Error deleting User -> collector alert"
+            "description": "Error deleting user/collector alert"
           }
         }
       }
@@ -1037,23 +1026,6 @@
       }
     },
 
-    "/api/org/alerts/?role=collector": {
-      "get": {
-        "tags": ["Alerts"],
-        "summary": "Route for fetching all alerts created by collectors",
-        "description": "Fetching all collector created alerts",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Collector alerts fetched successfully!"
-          },
-          "404": {
-            "description": "Error fetching collector alerts"
-          }
-        }
-      }
-    },
-
     "/api/org/alerts/update/{id}": {
       "put": {
         "tags": ["Alerts"],
@@ -1169,31 +1141,6 @@
           },
           "400": {
             "description": "Error fetching Collector -> Organisation Alert"
-          }
-        }
-      }
-    },
-    "/api/org/alerts/delete/{id}": {
-      "delete": {
-        "tags": ["Alerts"],
-        "summary": "Route for deleting a collector->organisation alert",
-        "description": "Collector -> Organisation alert delete",
-        "parameters": [
-          {
-            "name": "Alerts",
-            "in": "body",
-            "description": "Collector -> Organisation alert deletion",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Alert deleted successfully!"
-          },
-          "400": {
-            "description": "Error deleting alert"
           }
         }
       }

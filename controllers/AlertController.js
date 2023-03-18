@@ -207,13 +207,13 @@ exports.getAlertsByUser = async (req, res) => {
   try {
     const alert = await Alert.find({ userId: req.params.userId }).exec();
     return res.status(200).json({
-      status: 'Alert fetched successfully!',
+      status: 'Alerts fetched successfully!',
       data: {
         alert,
       },
     });
   } catch (err) {
-    return res.status(404).json({
+    return res.status(400).json({
       status: 'Error fetching alert',
       message: err,
     });
@@ -223,60 +223,53 @@ exports.getAlertsByUser = async (req, res) => {
 // fetches all alerts accepted by a collector/organization
 exports.getAcceptedAlerts = async (req, res) => {
   try {
-    const alert = await Alert.find({ userId: req.params.collectorId }).exec();
+    const alert = await Alert.find({
+      collectorId: req.params.collectorId,
+    }).exec();
     return res.status(200).json({
-      status: 'Alert fetched successfully!',
+      status: 'Alerts fetched successfully!',
       data: {
         alert,
       },
     });
   } catch (err) {
-    return res.status(404).json({
+    return res.status(400).json({
       status: 'Error fetching alert',
       message: err,
     });
   }
 };
 
-exports.getAllAlertsByRole = async (req, res) => {
+exports.getAllAlertsByRoleAndStatus = async (req, res) => {
   try {
-    const userType = req.baseUrl.split('/')[2];
+    // const userType = req.baseUrl.split('/')[2];
     const role = req.query.role;
-    if (!role) {
-      const alerts = await Alert.find();
-      return res.status(200).json({
-        status: 'Alerts fetched successfully',
-        data: {
-          alert: alerts,
-        },
+    const status = req.query.status;
+    console.log(role, status);
+    if (!role || !status) {
+      return res.status(400).json({
+        status: 'Error fetching alerts',
+        message: 'Role and status are required',
       });
     } else {
       if (role !== 'user' && role !== 'collector') {
         return res.status(400).json({ message: 'Invalid role provided!' });
       }
-      if (userType === 'org' && role === 'collector') {
-        const alerts = await Alert.find({ role: 'collector' });
-        return res.status(200).json({
-          status: `${
-            alerts.length > 1 ? 'Alerts' : 'Alert'
-          } fetched successfully`,
-          data: {
-            alert: alerts,
-          },
-        });
-      } else if (userType !== 'org' && role === 'user') {
-        const alerts = await Alert.find({ role: 'user' });
-        return res.status(200).json({
-          status: `${
-            alerts.length > 1 ? 'Alerts' : 'Alert'
-          } fetched successfully`,
-          data: {
-            alert: alerts,
-          },
-        });
+      if (
+        status !== 'pending' &&
+        status !== 'accepted' &&
+        status !== 'collected'
+      ) {
+        return res.status(400).json({ message: 'Invalid status provided!' });
       } else {
-        return res.status(400).json({
-          message: `You cannot fetch ${role} alerts`,
+        const alerts = await Alert.find({ role: role, status: status });
+        return res.status(200).json({
+          status: `${
+            alerts.length > 1 ? 'Alerts' : 'Alert'
+          } fetched successfully`,
+          data: {
+            alert: alerts,
+          },
         });
       }
     }
@@ -289,6 +282,21 @@ exports.getAllAlertsByRole = async (req, res) => {
 };
 
 exports.deleteAlert = async (req, res) => {
+  try {
+    await Alert.findByIdAndDelete(req.params.id, req.body);
+    return res.status(204).json({
+      status: 'Alert deleted successfully',
+      data: null,
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: 'Error deleting alert',
+      message: err,
+    });
+  }
+};
+
+exports._deleteAlert = async (req, res) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
