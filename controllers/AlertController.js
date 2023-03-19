@@ -116,6 +116,12 @@ exports.updateAlertStatus = async (req, res) => {
       });
     }
     const alert = await Alert.findById(req.params.id);
+    if (alert.userId.toString() === collectorId) {
+      return res.status(400).json({
+        status: 'Error accepting alert',
+        message: `You can't accept your own alert`,
+      });
+    }
     alert.status = status;
     alert.collectorId = collectorId;
 
@@ -152,22 +158,29 @@ exports.updateAlertStatus = async (req, res) => {
             <title>Congratulations, you've got a new collector! 🎉</title>
           </head>
           <body>
+          <center>
             <p><b>Hi ${user.firstName},</b></p>
             <p>Congratulations, a collector has accepted to pick up your trash</p>
             <br/>
             <p><b>Here are the transaction details:</b></p>
+            <p>Alert ID: ${alert.id}</p>
             <p>Alert creator: ${user.firstName + ' ' + user.lastName}</p>
             <p>Alert collector: ${
-              collector.firstName
-                ? collector.firstName + collector.lastName
-                : collector.businessName
+              collector.firstName + ' ' + collector.lastName ||
+              collector.businessName
             }</p>
             <p>Collector's email: ${collector.email}</p>
+            <p>Collector's phone number: ${collector.phoneNumber}</p>
             <br/>
-            <p>You are expected to deliver within ${
+            ${
               alert.deliveryTime
-            } days at the rate of #${alert.costPerKg} per KG.</p>
-            <p>Kindly contact support if you need any help!/p>
+                ? `<p>You are expected to deliver within ${alert.deliveryTime} days at the rate of #${alert.costPerKg} per KG.</p>`
+                : ''
+            }
+            <br/>
+            <p>Do get in touch to finalize the transaction</p>
+            <p><i>Need help? contact dscfuto@gmail.com</i></p>
+            </center>
           </body>
         </html>
         `
@@ -206,6 +219,33 @@ exports.updateUserAlertStatus = async (req, res) => {
     }
 
     await alert.save();
+
+    sendEmail.send(
+      process.env.EMAIL_USER,
+      [alert.userEmail, alert.collectorEmail],
+      'Congratulations! You both made our planet a better place 🎉',
+      'Cheers to more successful transactions!',
+      `<html lang='en'>
+          <head>
+            <meta charset='UTF-8' />
+            <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+            <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <title>Cheers to more successful transactions!</title>
+          </head>
+          <body>
+          <center>
+          <p>Dear ${alert.userName} and ${alert.collectorName}</p>
+          <p>I am writing to extend my heartfelt congratulations on the successful completion of your recent transaction. It is truly inspiring to see two entities come together to make our planet a better place.</p>
+          <p>Your commitment to creating a more sustainable and eco-friendly future is commendable. It is refreshing to see organizations like yours taking bold steps towards positive change.</p>
+          <p>We at Fastrash are proud to have had the opportunity to facilitate this transaction and be a part of this important journey towards a greener planet. We hope that this is just the beginning of a long and fruitful partnership that will continue to make a difference in the world.</p>
+          <p>Once again, congratulations on your success, and we look forward to the many more achievements to come!</p>
+          <p>Best regards,</p>
+          <p>Team Fastrash</p>
+            </center>
+          </body>
+        </html>
+        `
+    );
 
     return res.status(200).json({
       status: 'Alert updated successfully!',
