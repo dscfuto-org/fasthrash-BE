@@ -5,6 +5,7 @@ const { verifyOrg, verifyUser } = require('../middlewares/verifyUser');
 const processFileMiddleware = require('../middlewares/upload');
 const { visionAIFilter } = require('../middlewares/vision');
 
+router.get('/role', alertController.getAllAlertsByRole);
 router.get('/', alertController.getAllAlertsByRoleAndStatus);
 router.post(
   '/create/',
