@@ -158,7 +158,6 @@ exports.updateAlertStatus = async (req, res) => {
             <title>Congratulations, you've got a new collector! 🎉</title>
           </head>
           <body>
-          <center>
             <p><b>Hi ${user.firstName},</b></p>
             <p>Congratulations, a collector has accepted to pick up your trash</p>
             <br/>
@@ -180,7 +179,6 @@ exports.updateAlertStatus = async (req, res) => {
             <br/>
             <p>Do get in touch to finalize the transaction</p>
             <p><i>Need help? contact dscfuto@gmail.com</i></p>
-            </center>
           </body>
         </html>
         `
@@ -220,9 +218,9 @@ exports.updateUserAlertStatus = async (req, res) => {
 
     await alert.save();
 
-    sendEmail.send(
+    sendEmail.sendMulti(
       process.env.EMAIL_USER,
-      [alert.userEmail, alert.collectorEmail],
+      `${alert.userEmail}, ${alert.collectorEmail}`,
       'Congratulations! You both made our planet a better place 🎉',
       'Cheers to more successful transactions!',
       `<html lang='en'>
@@ -233,15 +231,14 @@ exports.updateUserAlertStatus = async (req, res) => {
             <title>Cheers to more successful transactions!</title>
           </head>
           <body>
-          <center>
-          <p>Dear ${alert.userName} and ${alert.collectorName}</p>
+          <p><b>Dear ${alert.userName} and ${alert.collectorName},</b></p>
           <p>I am writing to extend my heartfelt congratulations on the successful completion of your recent transaction. It is truly inspiring to see two entities come together to make our planet a better place.</p>
           <p>Your commitment to creating a more sustainable and eco-friendly future is commendable. It is refreshing to see organizations like yours taking bold steps towards positive change.</p>
           <p>We at Fastrash are proud to have had the opportunity to facilitate this transaction and be a part of this important journey towards a greener planet. We hope that this is just the beginning of a long and fruitful partnership that will continue to make a difference in the world.</p>
           <p>Once again, congratulations on your success, and we look forward to the many more achievements to come!</p>
-          <p>Best regards,</p>
-          <p>Team Fastrash</p>
-            </center>
+          <br/>
+          <p><b>Best regards,</b></p>
+          <p><i>Team Fastrash</i></p>
           </body>
         </html>
         `
