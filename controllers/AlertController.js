@@ -118,7 +118,6 @@ exports.updateAlertStatus = async (req, res) => {
     const alert = await Alert.findById(req.params.id);
     alert.status = status;
     alert.collectorId = collectorId;
-    await alert.save();
 
     let user = await UserModel.findById(alert.userId);
     let collector;
@@ -128,6 +127,17 @@ exports.updateAlertStatus = async (req, res) => {
     } else {
       collector = await OrgModel.findById(collectorId);
     }
+
+    // Marshall making me do this
+    alert.userName = user.firstName + ' ' + user.lastName;
+    alert.userEmail = user.email;
+    alert.userPhone = user.phone;
+    alert.collectorName =
+      collector.firstName + ' ' + collector.lastName || collector.businessName;
+    alert.collectorEmail = collector.email;
+    alert.collectorPhone = collector.phone;
+
+    await alert.save();
 
     sendEmail.send(
       process.env.EMAIL_USER,

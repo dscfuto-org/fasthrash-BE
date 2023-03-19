@@ -27,6 +27,12 @@ let alertSchema = new mongoose.Schema(
     },
     role: { type: String, enum: ['user', 'collector'], required: true },
     quantity: { type: Number },
+    userName: { type: String },
+    userEmail: { type: String },
+    userPhone: { type: String },
+    collectorName: { type: String },
+    collectorEmail: { type: String },
+    collectorPhone: { type: String },
   },
   { timestamps: true }
 );
