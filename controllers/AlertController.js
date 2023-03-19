@@ -12,8 +12,15 @@ const OrgModel = require('../models/OrgModel');
  * create alert and add the created alert to user deposit history
  */
 exports.createAlert = async (req, res) => {
-  const alertData = req.body;
+  const { status, ...alertData } = req.body;
   const session = await mongoose.startSession();
+
+  if (status !== 'pending') {
+    return res.status(400).json({
+      status: 'Error creating alert',
+      message: `Alert's initial status must be pending`,
+    });
+  }
 
   try {
     session.startTransaction();
