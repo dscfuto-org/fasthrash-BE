@@ -283,6 +283,56 @@ exports.getAcceptedAlerts = async (req, res) => {
   }
 };
 
+exports.getAllAlertsByRole = async (req, res) => {
+  try {
+    const userType = req.baseUrl.split('/')[2];
+    const role = req.query.role;
+    if (!role) {
+      const alerts = await Alert.find();
+      return res.status(200).json({
+        status: 'Alerts fetched successfully',
+        data: {
+          alert: alerts,
+        },
+      });
+    } else {
+      if (role !== 'user' && role !== 'collector') {
+        return res.status(400).json({ message: 'Invalid role provided!' });
+      }
+      if (userType === 'org' && role === 'collector') {
+        const alerts = await Alert.find({ role: 'collector' });
+        return res.status(200).json({
+          status: `${
+            alerts.length > 1 ? 'Alerts' : 'Alert'
+          } fetched successfully`,
+          data: {
+            alert: alerts,
+          },
+        });
+      } else if (userType !== 'org' && role === 'user') {
+        const alerts = await Alert.find({ role: 'user' });
+        return res.status(200).json({
+          status: `${
+            alerts.length > 1 ? 'Alerts' : 'Alert'
+          } fetched successfully`,
+          data: {
+            alert: alerts,
+          },
+        });
+      } else {
+        return res.status(400).json({
+          message: `You cannot fetch ${role} alerts`,
+        });
+      }
+    }
+  } catch (err) {
+    return res.status(404).json({
+      status: 'Error fetching alerts',
+      message: err,
+    });
+  }
+};
+
 exports.getAllAlertsByRoleAndStatus = async (req, res) => {
   try {
     // const userType = req.baseUrl.split('/')[2];
