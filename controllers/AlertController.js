@@ -144,11 +144,11 @@ exports.updateAlertStatus = async (req, res) => {
     // Marshall making me do this
     alert.userName = user.firstName + ' ' + user.lastName;
     alert.userEmail = user.email;
-    alert.userPhone = user.phone;
+    alert.userPhone = user.phoneNumber;
     alert.collectorName =
       collector.firstName + ' ' + collector.lastName || collector.businessName;
     alert.collectorEmail = collector.email;
-    alert.collectorPhone = collector.phone;
+    alert.collectorPhone = collector.phoneNumber;
 
     await alert.save();
 
