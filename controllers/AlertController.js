@@ -25,6 +25,7 @@ exports.createAlert = async (req, res) => {
   try {
     session.startTransaction();
     const { alertImages, uploadErrors } = await cloudUpload(req);
+    let user = await UserModel.findById(alertData.userId);
     if (alertImages < 1) {
       console.log(uploadErrors);
       throw new Error('Error uploading images');
@@ -32,13 +33,10 @@ exports.createAlert = async (req, res) => {
 
     // const newAlert = await Alert.create([{ ...alertData, images: alertImages }], {session});
     const newAlert = new Alert({ ...alertData, images: alertImages });
+    newAlert.userName = user.firstName + ' ' + user.lastName;
+    newAlert.userEmail = user.email;
+    newAlert.userPhone = user.phoneNumber;
     await newAlert.save({ session });
-    const newHistory = new DepositHistory([
-      {
-        userId: alertData.userId,
-        alertId: newAlert._id,
-      },
-    ]);
     await session.commitTransaction();
 
     return res.status(201).json({
@@ -46,7 +44,6 @@ exports.createAlert = async (req, res) => {
       message: `${alertImages.length} images uploaded, ${uploadErrors.length} failed.`,
       data: {
         alert: newAlert.toJSON(),
-        deposit: newHistory.toJSON(),
       },
     });
   } catch (error) {
@@ -142,9 +139,6 @@ exports.updateAlertStatus = async (req, res) => {
     }
 
     // Marshall making me do this
-    alert.userName = user.firstName + ' ' + user.lastName;
-    alert.userEmail = user.email;
-    alert.userPhone = user.phoneNumber;
     alert.collectorName =
       collector.firstName + ' ' + collector.lastName || collector.businessName;
     alert.collectorEmail = collector.email;
