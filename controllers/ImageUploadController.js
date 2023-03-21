@@ -80,10 +80,9 @@ const getFiles = async (req, res) => {
 
     return res.status(200).send(fileInfos);
   } catch (err) {
-    console.log(err);
-
     return res.status(401).send({
       message: 'Unable to read list of files!',
+      err,
     });
   }
 };
