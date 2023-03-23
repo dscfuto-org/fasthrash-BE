@@ -30,7 +30,6 @@ exports.createAlert = async (req, res) => {
       throw new Error('Error uploading images');
     }
 
-    // const newAlert = await Alert.create([{ ...alertData, images: alertImages }], {session});
     const newAlert = new Alert({ ...alertData, images: alertImages });
     newAlert.userName = user.firstName + ' ' + user.lastName;
     newAlert.userEmail = user.email;
