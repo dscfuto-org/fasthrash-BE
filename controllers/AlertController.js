@@ -154,30 +154,99 @@ exports.updateAlertStatus = async (req, res) => {
             <meta charset='UTF-8' />
             <meta http-equiv='X-UA-Compatible' content='IE=edge' />
             <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+              <style>
+        /* Typography */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+            color: #444444;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #111111;
+            font-weight: bold;
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 1.5em;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Colors */
+        .primary-color {
+            color: #00ff26;
+        }
+
+        .secondary-color {
+            color: #6c757d;
+        }
+
+        .bg-primary-color {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .button {
+            padding: 2rem;
+            background-color: #00ff26;
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .button a {
+            text-decoration: none;
+            color: #111111;
+        }
+    </style>
             <title>Congratulations, you've got a new collector! 🎉</title>
           </head>
           <body>
-            <p><b>Hi ${user.firstName},</b></p>
+          <div class='container'>
+            <img src="https://raw.githubusercontent.com/dscfuto-org/fasthrash-FE/d514286a7e216d231b0472b60e6af133f7be8620/html%20tempelate/Branding-11.png" alt='Collector's Logo' class='logo' />
+            <h1><b>Hi ${user.firstName},</b></h1>
             <p>Congratulations, a collector has accepted to pick up your trash</p>
             <br/>
             <p><b>Here are the transaction details:</b></p>
-            <p>Alert ID: ${alert.id}</p>
-            <p>Alert creator: ${user.firstName + ' ' + user.lastName}</p>
-            <p>Alert collector: ${
-              collector.firstName + ' ' + collector.lastName ||
-              collector.businessName
-            }</p>
-            <p>Collector's email: ${collector.email}</p>
-            <p>Collector's phone number: ${collector.phoneNumber}</p>
+            <ul>
+              <li>Alert ID: ${alert.id}</li>
+              <li>Alert creator: ${user.firstName + ' ' + user.lastName}</li>
+              <li>Alert collector: ${
+                collector.firstName + ' ' + collector.lastName ||
+                collector.businessName
+              }</li>
+              <li>Collector's email: ${collector.email}</li>
+              <li>Collector's phone number: ${collector.phoneNumber}</li>
+            </ul>
             <br/>
-            ${
+            <p>${
               alert.deliveryTime
-                ? `<p>You are expected to deliver within ${alert.deliveryTime} days at the rate of #${alert.costPerKg} per KG.</p>`
+                ? `<span class="primary-color"><i>You are expected to deliver within ${alert.deliveryTime} days at the rate of #${alert.costPerKg} per KG.</i></span>`
                 : ''
-            }
+            }</p>
             <br/>
             <p>Do get in touch to finalize the transaction</p>
-            <p><i>Need help? contact dscfuto@gmail.com</i></p>
+            <p class="secondary-color button">Need help? <a href="mailto:dscfuto@gmail.com">contact us!</a></p>
+            </div>
           </body>
         </html>
         `
