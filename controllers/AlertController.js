@@ -227,9 +227,48 @@ exports.updateUserAlertStatus = async (req, res) => {
             <meta charset='UTF-8' />
             <meta http-equiv='X-UA-Compatible' content='IE=edge' />
             <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <style>
+        /* Typography */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+            color: #444444;
+        }
+
+        h1,
+        h2
+        {
+        color: #111111;
+        font-weight: bold;
+        margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 1.5em;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Colors */
+    </style>
             <title>Cheers to more successful transactions!</title>
           </head>
           <body>
+          <div class='container'>
+          <img src="https://raw.githubusercontent.com/dscfuto-org/fasthrash-FE/d514286a7e216d231b0472b60e6af133f7be8620/html%20tempelate/Branding-01.png" alt="Fastrash branding" class="logo"/>
           <p><b>Dear ${alert.userName} and ${alert.collectorName},</b></p>
           <p>I am writing to extend my heartfelt congratulations on the successful completion of your recent transaction. It is truly inspiring to see two entities come together to make our planet a better place.</p>
           <p>Your commitment to creating a more sustainable and eco-friendly future is commendable. It is refreshing to see organizations like yours taking bold steps towards positive change.</p>
@@ -238,6 +277,7 @@ exports.updateUserAlertStatus = async (req, res) => {
           <br/>
           <p><b>Best regards,</b></p>
           <p><i>Team Fastrash</i></p>
+          </div>
           </body>
         </html>
         `
