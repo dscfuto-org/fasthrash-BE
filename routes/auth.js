@@ -14,7 +14,7 @@ router.post(
 );
 router.patch('/update/:id', verifyUser, AuthController.updateUserData);
 router.delete('/delete/:userID', verifyUser, AuthController.userDelete);
-router.get('/profile/:userID', AuthController.profile);
+router.get('/profile/:userID', verifyUser, AuthController.profile);
 
 // organization auth routes
 router.post('/org/register', AuthController.registerOrg);

@@ -533,6 +533,12 @@ exports.getAllAlertsByRoleAndStatus = async (req, res) => {
 
 exports.deleteAlert = async (req, res) => {
   try {
+    const alert = Alert.findById(req.params.id);
+    if (alert.status !== 'pending') {
+      return res.status(400).json({
+        status: `You can only delete pending alerts`,
+      });
+    }
     await Alert.findByIdAndDelete(req.params.id, req.body);
     return res.status(204).json({
       status: 'Alert deleted successfully',
