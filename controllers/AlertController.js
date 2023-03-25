@@ -27,7 +27,6 @@ exports.createAlert = async (req, res) => {
     const { alertImages, uploadErrors } = await cloudUpload(req);
     let user = await UserModel.findById(alertData.userId);
     if (alertImages < 1) {
-      console.log(uploadErrors);
       throw new Error('Error uploading images');
     }
 
