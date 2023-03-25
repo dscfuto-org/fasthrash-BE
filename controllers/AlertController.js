@@ -223,6 +223,7 @@ exports.updateAlertStatus = async (req, res) => {
           <body>
           <div class='container'>
             <img src="https://raw.githubusercontent.com/dscfuto-org/fasthrash-FE/d514286a7e216d231b0472b60e6af133f7be8620/html%20tempelate/Branding-11.png" alt='Collector's Logo' class='logo' />
+            <br/>
             <h1><b>Hi ${user.firstName},</b></h1>
             <p>Congratulations, a collector has accepted to pick up your trash</p>
             <br/>
@@ -338,6 +339,7 @@ exports.updateUserAlertStatus = async (req, res) => {
           <body>
           <div class='container'>
           <img src="https://raw.githubusercontent.com/dscfuto-org/fasthrash-FE/d514286a7e216d231b0472b60e6af133f7be8620/html%20tempelate/Branding-01.png" alt="Fastrash branding" class="logo"/>
+          <br/>
           <p><b>Dear ${alert.userName} and ${alert.collectorName},</b></p>
           <p>I am writing to extend my heartfelt congratulations on the successful completion of your recent transaction. It is truly inspiring to see two entities come together to make our planet a better place.</p>
           <p>Your commitment to creating a more sustainable and eco-friendly future is commendable. It is refreshing to see organizations like yours taking bold steps towards positive change.</p>

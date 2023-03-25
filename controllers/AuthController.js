@@ -446,17 +446,67 @@ exports.requestPasswordReset = [
             <meta charset='UTF-8' />
             <meta http-equiv='X-UA-Compatible' content='IE=edge' />
             <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            <style>
+        /* Typography */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+            color: #444444;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #111111;
+            font-weight: bold;
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 1.5em;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Colors */
+        .secondary-color {
+            color: #6c757d;
+        }
+
+        .button {
+            padding: 2rem;
+            background-color: #00ff26;
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .button a {
+            text-decoration: none;
+            color: #111111;
+        }
+    </style>
             <title>Fastrash password reset</title>
           </head>
           <body>
+          <div class="container">
             <p><b>Hi ${user.firstName},</b></p>
             <p>You requested to reset your password.</p>
             <p>Please, click the link below to reset your password:</p>
-            <a href='${link}'>Reset Password</a>
+            <p class="secondary-color button"><a href='${link}'>Reset Password</a></p>
             <br/>
             <p>If the button above does not work, please copy and paste the link below into your browser: ${link}</p>
             <br/>
-            <p>If you did not request a password reset, please ignore this email and contact support.</p>
+            <p>If you did not request a password reset, please ignore this email and <a href="mailto:dscfuto@gmail.com">contact support.</a></p>
+            </div>
           </body>
         </html>
         `
@@ -521,17 +571,67 @@ exports.requestPasswordResetOrg = [
             <meta charset='UTF-8' />
             <meta http-equiv='X-UA-Compatible' content='IE=edge' />
             <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+                        <style>
+        /* Typography */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+            color: #444444;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #111111;
+            font-weight: bold;
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 1.5em;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Colors */
+        .secondary-color {
+            color: #6c757d;
+        }
+
+        .button {
+            padding: 2rem;
+            background-color: #00ff26;
+            border-radius: 1rem;
+            text-align: center;
+        }
+
+        .button a {
+            text-decoration: none;
+            color: #111111;
+        }
+    </style>
             <title>Fastrash password reset</title>
           </head>
           <body>
+          <div class="container">
             <p><b>Dear ${user.businessName},</b></p>
             <p>Someone at your organization requested to reset your password.</p>
             <p>Please, click the link below to reset your password:</p>
-            <a href='${link}'>Reset Password</a>
+            <p class="secondary-color button"><a href='${link}'>Reset Password</a></p>
             <br/>
             <p>If the button above does not work, please copy and paste the link below into your browser: ${link}</p>
             <br/>
-            <p>If you did not request a password reset, please ignore this email and contact support</p>
+            <p>If you did not request a password reset, please ignore this email and <a href="mailto:dscfuto@gmail.com">contact support.</a></p>
+            </div>
           </body>
         </html>`
       );
@@ -642,12 +742,45 @@ exports.resetPasswordOrg = [
             <meta charset='UTF-8' />
             <meta http-equiv='X-UA-Compatible' content='IE=edge' />
             <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+               <style>
+        /* Typography */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+            color: #444444;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #111111;
+            font-weight: bold;
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 1.5em;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
             <title>Your fastrash password has changed!</title>
           </head>
           <body>
+          <div class="container">
             <p><b>Hello ${user.businessName},</b></p>
             <p>You have successfully reset your password</p>
-            <p>If you did not request a password reset, please contact support</p>
+            <p>If you did not request a password reset, please <a href="mailto:dscfuto@gmail.com">contact support.</a></p>
+            </div>
           </body>
         </html>`
       );
