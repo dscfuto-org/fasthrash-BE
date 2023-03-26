@@ -116,7 +116,7 @@ exports.updateUserData = async (req, res) => {
 exports.profile = async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.userID).select(
-      '-password'
+      'firstName lastName'
     );
 
     return res.status(200).json({
