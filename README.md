@@ -53,7 +53,7 @@ If you consider my project as helpful stuff, You can appreciate me or my hard wo
 1.  Clone the project from github.
 
 ```bash
-git clone https://github.com/dscfuto-org/fasthrash-BE.git ./fasthrash
+git clone https://github.com/dscfuto-org/fasthrash-BE.git fastrash-BE
 ```
 
 ### Using manual download ZIP
