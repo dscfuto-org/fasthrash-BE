@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
       .then((users) => {
         if (users.length >= 1) {
           return res.status(409).json({
-            message: 'Email is already taken!',
+            message: 'Email is already taken',
           });
         } else {
           if (req.body.password !== req.body.passwordConfirm) {
