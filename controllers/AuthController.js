@@ -431,7 +431,7 @@ exports.requestPasswordReset = [
           tokenId = newtoken._id;
         });
 
-      const clientURL = 'https://fastrash-1337.ew.r.appspot.com';
+      const clientURL = 'https://fastrash.vercel.app';
       const link = `${clientURL}/resetpassword/${
         user._id
       }/${resetToken}/${tokenId.toString().substring(0, 24)}`;
@@ -556,7 +556,7 @@ exports.requestPasswordResetOrg = [
           tokenId = newtoken._id;
         });
 
-      const clientURL = 'https://fastrash-1337.ew.r.appspot.com';
+      const clientURL = 'https://fastrash.vercel.app';
       const link = `${clientURL}/org/resetpassword/${
         user._id
       }/${resetToken}/${tokenId.toString().substring(0, 24)}`;
